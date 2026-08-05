@@ -7,9 +7,18 @@
   <meta name="description" content="Dashboard de mortalidade por faixa etária, gripe e dengue no Brasil. SIM/DATASUS, Registro Civil e vigilância SVS.">
   <meta name="theme-color" content="#0f1c2e">
   <link rel="canonical" href="https://serie-demografica.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://serie-demografica.vercel.app/">
   <meta property="og:title" content="Observatório Demográfico — Mortalidade Brasil (2014–2025)">
-  <meta property="og:description" content="Série histórica de óbitos por idade, gripe e dengue. Dados SIM, ARPEN e SVS.">
-  <meta property="og:image" content="https://serie-demografica.vercel.app/serie_temporal_faixas_etarias.png">
+  <meta property="og:description" content="Série 2014–2025: mortalidade por idade, dengue, gripe, câncer e miocardite. Dados SIM, ARPEN e SVS.">
+  <meta property="og:image" content="https://serie-demografica.vercel.app/artigos/serie-demografica-mortalidade-hero.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Observatório Demográfico — Mortalidade Brasil (2014–2025)">
+  <meta name="twitter:description" content="Série 2014–2025: mortalidade por idade, dengue, gripe, câncer e miocardite.">
+  <meta name="twitter:image" content="https://serie-demografica.vercel.app/artigos/serie-demografica-mortalidade-hero.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
@@ -24,7 +33,9 @@
       --muted: #6b7c8c;
       --line: #d5dee7;
       --teal: #0f766e;
+      --teal-deep: #0b5f59;
       --teal-soft: rgba(15, 118, 110, 0.12);
+      --ok: #0f766e;
       --steel: #1e4d7b;
       --steel-soft: rgba(30, 77, 123, 0.12);
       --crimson: #b42318;
@@ -309,13 +320,102 @@
     .insight p { margin: 0; color: var(--ink-soft); font-size: 0.92rem; }
 
     footer {
-      padding: 2rem 0 3rem;
+      padding: 2rem 0 3.5rem;
       color: var(--muted);
       font-size: 0.85rem;
       border-top: 1px solid var(--line);
       margin-top: 1rem;
     }
-    footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    footer .wrap {
+      display: flex;
+      justify-content: space-between;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    footer a {
+      color: var(--teal-deep);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    footer a:hover { border-bottom-color: var(--teal); color: var(--ink); }
+    footer .credit {
+      font-family: ui-monospace, "Cascadia Code", "Segoe UI Mono", monospace;
+      font-size: 0.82rem;
+      letter-spacing: 0.02em;
+    }
+    footer .credit a { font-weight: 600; }
+    footer .links { display: flex; flex-direction: column; gap: 0.35rem; align-items: flex-end; text-align: right; }
+    footer .sources { margin-top: 0.35rem; font-size: 0.78rem; opacity: 0.85; }
+
+    .share-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.55rem;
+      margin-top: 1.35rem;
+    }
+    .share-bar span {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 1px 0 rgba(16,24,32,0.04);
+      transition: transform 0.15s, border-color 0.15s, background 0.15s;
+    }
+    .share-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(14,124,123,0.35);
+      background: #f4fbfb;
+    }
+    .share-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .share-btn.copied { border-color: var(--ok); color: var(--ok); }
+
+    .gotop {
+      position: fixed;
+      right: 1.25rem;
+      bottom: 1.25rem;
+      z-index: 50;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid rgba(14,124,123,0.35);
+      background: linear-gradient(160deg, var(--teal), var(--teal-deep));
+      color: #fff;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      box-shadow: 0 10px 28px rgba(14,124,123,0.35);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: opacity 0.25s, visibility 0.25s, transform 0.25s;
+    }
+    .gotop.is-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+    }
+    .gotop:hover { filter: brightness(1.06); }
+    .gotop:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+    .gotop svg { width: 20px; height: 20px; }
 
     @keyframes rise {
       from { opacity: 0; transform: translateY(14px); }
@@ -330,6 +430,8 @@
       .nav { display: none; }
       .chart-box, .chart-box.tall { height: 280px; }
       .hero h1 { max-width: none; }
+      footer .links { align-items: flex-start; text-align: left; }
+      .gotop { right: 1rem; bottom: 1rem; width: 42px; height: 42px; }
     }
   </style>
 </head>
@@ -360,6 +462,29 @@
         <span class="chip">RC/ARPEN 2025 · ev-inference</span>
         <span class="chip warn">Dengue 2024: epidemia histórica</span>
         <span class="chip">Atualizado 05/08/2026</span>
+      </div>
+      <div class="share-bar" aria-label="Compartilhar">
+        <span>Compartilhar</span>
+        <a class="share-btn" id="share-x" href="#" target="_blank" rel="noopener noreferrer" title="Compartilhar no X">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.727-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+          X
+        </a>
+        <a class="share-btn" id="share-wa" href="#" target="_blank" rel="noopener noreferrer" title="Compartilhar no WhatsApp">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </a>
+        <a class="share-btn" id="share-li" href="#" target="_blank" rel="noopener noreferrer" title="Compartilhar no LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+        <a class="share-btn" id="share-fb" href="#" target="_blank" rel="noopener noreferrer" title="Compartilhar no Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 .678.093 2.541.093v2.797h-1.43c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Facebook
+        </a>
+        <button type="button" class="share-btn" id="share-copy" title="Copiar link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copiar link
+        </button>
       </div>
     </section>
 
@@ -554,12 +679,72 @@
       <div>
         Observatório Demográfico · Brasil 2014–2025<br>
         Pipeline: <code>brazil_deaths_by_age_2014_2025.py</code> · dados em <code>data/</code>
+        <div class="sources">Fontes: DATASUS/SIM · ARPEN · Ministério da Saúde/SVS · IBGE</div>
       </div>
-      <div>Fontes: DATASUS/SIM · ARPEN · Ministério da Saúde/SVS · IBGE</div>
+      <div class="links">
+        <div class="credit">
+          Desenvolvido por
+          <a href="https://www.artesdosul.com/" target="_blank" rel="noopener noreferrer">@artesdosul</a>
+        </div>
+        <a href="https://observatorio-civil-br.vercel.app/" target="_blank" rel="noopener noreferrer">Observatório Civil</a>
+      </div>
     </div>
   </footer>
 
+  <button type="button" class="gotop" id="gotop" aria-label="Voltar ao topo" title="Voltar ao topo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+  </button>
+
   <script>
+    (function initShareAndGotop() {
+      const SITE_URL = "https://serie-demografica.vercel.app/";
+      const SHARE_TEXT = "Observatório Demográfico — Mortalidade Brasil 2014–2025: idade, dengue, gripe, câncer e miocardite.";
+      const enc = encodeURIComponent;
+
+      const x = document.getElementById("share-x");
+      const wa = document.getElementById("share-wa");
+      const li = document.getElementById("share-li");
+      const fb = document.getElementById("share-fb");
+      const copyBtn = document.getElementById("share-copy");
+      const gotop = document.getElementById("gotop");
+
+      if (x) x.href = `https://twitter.com/intent/tweet?url=${enc(SITE_URL)}&text=${enc(SHARE_TEXT)}`;
+      if (wa) wa.href = `https://wa.me/?text=${enc(SHARE_TEXT + " " + SITE_URL)}`;
+      if (li) li.href = `https://www.linkedin.com/sharing/share-offsite/?url=${enc(SITE_URL)}`;
+      if (fb) fb.href = `https://www.facebook.com/sharer/sharer.php?u=${enc(SITE_URL)}`;
+
+      if (copyBtn) {
+        const labelNode = [...copyBtn.childNodes].find((n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim());
+        const original = (labelNode && labelNode.textContent.trim()) || "Copiar link";
+        copyBtn.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(SITE_URL);
+            copyBtn.classList.add("copied");
+            if (labelNode) labelNode.textContent = " Copiado!";
+            setTimeout(() => {
+              copyBtn.classList.remove("copied");
+              if (labelNode) labelNode.textContent = " " + original;
+            }, 1800);
+          } catch (_) {
+            window.prompt("Copie o link:", SITE_URL);
+          }
+        });
+      }
+
+      if (gotop) {
+        const onScroll = () => {
+          gotop.classList.toggle("is-visible", window.scrollY > 420);
+        };
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+        gotop.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
+    })();
+
     const DATA = {
       rates: {
         faixas: ["0-4","5-14","15-19","20-29","30-39","40-59","60-79","80+"],
