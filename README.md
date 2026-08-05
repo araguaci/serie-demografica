@@ -15,6 +15,7 @@
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [Instalação](#instalação)
 - [Uso](#uso)
+- [Download e extração](#download-e-extração)
 - [Fontes de Dados](#fontes-de-dados)
 - [Principais Achados](#principais-achados)
 - [Gráficos e Visualizações](#gráficos-e-visualizações)
@@ -65,19 +66,26 @@ serie-demografica/
 ├── 📁 data/                              # JSON gripe/dengue e metadados
 │
 ├── 🐍 Scripts Python
-│   ├── brazil_deaths_by_age_2014_2025.py    # Pipeline SIM + RC/ARPEN (série atual)
-│   ├── brazil_deaths_by_age_2015_2024.py    # Extração legada DATASUS
-│   └── gerar_graficos_analise.py            # Geração de gráficos
+│   ├── brazil_deaths_by_age_2014_2025.py    # Download SIM + RC + série etária
+│   ├── extract_gripe_dengue_sim.py          # Causas J09–J11 / A90–A97 no cache
+│   ├── extract_cancer_miocardite_sim.py     # Causas C00–C97 / I40 no cache
+│   ├── brazil_deaths_by_age_2015_2024.py    # Pipeline legado
+│   └── gerar_graficos_analise.py            # PNGs opcionais
+│
+├── 📁 data/                              # JSON agregados (versionados)
+├── 📁 data_cache/                        # Microdados SIM (local, gitignored)
+├── 📁 docs/
+│   └── EXTRACAO-DADOS.md                 # Guia de download e extração
+├── 📁 artigos/                           # X Articles + hero images
 │
 ├── 📈 Gráficos Gerados
-│   ├── analise_mortalidade_graficos_completos.png    # Painel com 8 gráficos
-│   └── serie_temporal_faixas_etarias.png             # Série temporal detalhada
+│   ├── analise_mortalidade_graficos_completos.png
+│   └── serie_temporal_faixas_etarias.png
 │
 └── 📚 Documentos de Referência
-    ├── ChatGPT.md                        # Análise alternativa (ChatGPT)
-    ├── ChatGPT-tabela.md                 # Tabelas detalhadas
-    ├── Grok.md                           # Análise alternativa (Grok)
-    └── perplexity.md                     # Análise alternativa (Perplexity)
+    ├── ChatGPT.md / ChatGPT-tabela.md
+    ├── Grok.md
+    └── perplexity.md
 ```
 
 ---
@@ -111,54 +119,36 @@ pip install -r requirements.txt
 
 ## 💻 Uso
 
-### 1. Extrair / Atualizar Série 2014-2025
+Fluxo rápido (do zero):
 
 ```bash
-python brazil_deaths_by_age_2014_2025.py
+pip install -r requirements.txt
+python brazil_deaths_by_age_2014_2025.py   # baixa SIM + RC, gera série etária
+python extract_gripe_dengue_sim.py         # gripe + dengue no cache
+python extract_cancer_miocardite_sim.py    # câncer + miocardite no cache
+python gerar_graficos_analise.py           # PNGs opcionais
 ```
 
-Este script:
-- Baixa microdados SIM do OpenDataSUS (anos disponíveis no S3, tipicamente 2022-2024)
-- Consulta totais do Registro Civil/ARPEN
-- Estima 2025 com fator SIM/RC do ano de correção (2023)
-- Gera `brazil_deaths_by_age_2014_2025.csv`, `brazil_death_rates_by_age_2014_2025.csv` e `proveniencia_2014_2025.json`
+Abra `index.html` no navegador para o dashboard (idade, dengue/gripe, câncer/miocardite).
 
-**Nota**: Anos SIM antigos podem estar indisponíveis no S3; as taxas históricas do site são mantidas via seed e recalculadas para 2024-2025.
+---
 
-### 2. Gerar Gráficos
+## 📥 Download e extração
 
-Para gerar visualizações da análise:
+Instruções completas (URLs S3, API ARPEN, CIDs, cache, tags de evidência, troubleshooting):
 
-```bash
-python gerar_graficos_analise.py
-```
+**→ [docs/EXTRACAO-DADOS.md](docs/EXTRACAO-DADOS.md)**
 
-Este script gera:
-- `analise_mortalidade_graficos_completos.png` - Painel com 8 gráficos:
-  1. Evolução de óbitos totais
-  2. Distribuição por faixa etária (stacked area)
-  3. Comparação 2015 vs 2024
-  4. Taxa de mortalidade por faixa
-  5. Correlação desemprego vs mortalidade
-  6. Indicadores socioeconômicos normalizados
-  7. Matriz de correlação
-  8. Distribuição percentual 2024
+Resumo:
 
-- `serie_temporal_faixas_etarias.png` - Série temporal detalhada
+| Script | Função |
+|--------|--------|
+| `brazil_deaths_by_age_2014_2025.py` | Download `DO##OPEN.csv` → `data_cache/`; faixas etárias; fator SIM/RC; estimativa 2025 |
+| `extract_gripe_dengue_sim.py` | Conta J09–J11 e A90/A91/A97 no cache |
+| `extract_cancer_miocardite_sim.py` | Conta C00–C97 e I40; atualiza série 2014–2025 |
+| `gerar_graficos_analise.py` | PNGs a partir dos CSV etários |
 
-### 3. Visualizar Análises
-
-#### Markdown
-Abra `Cursor.md` em qualquer visualizador Markdown ou editor de texto.
-
-#### HTML (dashboard)
-Abra `index.html` no navegador — dashboard premium com KPIs, taxas por idade e série 2016–2025 de **dengue (SVS)** e **gripe/influenza (SIM J09–J11)**.
-
-Para atualizar contagens SIM de gripe/dengue a partir do cache:
-
-```bash
-python extract_gripe_dengue_sim.py
-```
+`data_cache/` não vai para o git (~1,5 GB). Agregados versionados ficam em `data/` e nos CSV da raiz.
 
 ---
 

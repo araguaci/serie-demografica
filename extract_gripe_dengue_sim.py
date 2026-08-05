@@ -15,7 +15,7 @@ OUT = Path("data/sim_gripe_dengue_por_ano.json")
 def classify(cid: str | None) -> str | None:
     if not cid:
         return None
-    c = str(cid).strip().upper()
+    c = str(cid).strip().upper().replace(".", "")
     if c.startswith(("J09", "J10", "J11")):
         return "gripe"
     if c.startswith(("A90", "A91", "A97")):

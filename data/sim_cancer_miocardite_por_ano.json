@@ -1,0 +1,35 @@
+{
+  "2022": {
+    "cancer_C00_C97": 238623,
+    "miocardite_I40": 163,
+    "miocardite_I41": 0,
+    "miocardite_I514": 201,
+    "miocardite_I40_I41_I514": 364,
+    "total_registros": 1544266,
+    "fonte": "SIM/DATASUS CAUSABAS",
+    "evidencia": "ev-confirmed",
+    "arquivo": "DO22OPEN.csv"
+  },
+  "2023": {
+    "cancer_C00_C97": 249942,
+    "miocardite_I40": 161,
+    "miocardite_I41": 0,
+    "miocardite_I514": 196,
+    "miocardite_I40_I41_I514": 357,
+    "total_registros": 1465610,
+    "fonte": "SIM/DATASUS CAUSABAS",
+    "evidencia": "ev-confirmed",
+    "arquivo": "DO23OPEN.csv"
+  },
+  "2024": {
+    "cancer_C00_C97": 238511,
+    "miocardite_I40": 201,
+    "miocardite_I41": 1,
+    "miocardite_I514": 181,
+    "miocardite_I40_I41_I514": 383,
+    "total_registros": 1426346,
+    "fonte": "SIM/DATASUS CAUSABAS",
+    "evidencia": "ev-confirmed",
+    "arquivo": "DO24OPEN.csv"
+  }
+}

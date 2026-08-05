@@ -1,0 +1,187 @@
+{
+  "periodo": "2014-2025",
+  "atualizado_em": "2026-08-05",
+  "notas": [
+    "Câncer (C00–C97): anos com DO##OPEN.csv = SIM confirmado; 2014–2021 = neoplasias Cap. II × 0,98 (Monteiro et al. 2025).",
+    "Miocardite aguda (I40): 2014–2021 série DATASUS publicada; anos com microdado = SIM I40. Não inclui I51.4 por padrão.",
+    "Rode: python extract_cancer_miocardite_sim.py"
+  ],
+  "anos": [
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "cancer": [
+    197929,
+    205584,
+    210913,
+    217385,
+    223362,
+    230595,
+    224714,
+    231089,
+    238623,
+    249942,
+    238511,
+    255727
+  ],
+  "cancer_meta": [
+    {
+      "ano": 2014,
+      "evidencia": "ev-surveillance",
+      "fonte": "TabNet Cap.II ×0,98 (Monteiro et al. 2025)"
+    },
+    {
+      "ano": 2015,
+      "evidencia": "ev-surveillance",
+      "fonte": "TabNet Cap.II ×0,98 (Monteiro et al. 2025)"
+    },
+    {
+      "ano": 2016,
+      "evidencia": "ev-surveillance",
+      "fonte": "TabNet Cap.II ×0,98 (Monteiro et al. 2025)"
+    },
+    {
+      "ano": 2017,
+      "evidencia": "ev-surveillance",
+      "fonte": "TabNet Cap.II ×0,98 (Monteiro et al. 2025)"
+    },
+    {
+      "ano": 2018,
+      "evidencia": "ev-surveillance",
+      "fonte": "TabNet Cap.II ×0,98 (Monteiro et al. 2025)"
+    },
+    {
+      "ano": 2019,
+      "evidencia": "ev-surveillance",
+      "fonte": "TabNet Cap.II ×0,98 (Monteiro et al. 2025)"
+    },
+    {
+      "ano": 2020,
+      "evidencia": "ev-surveillance",
+      "fonte": "TabNet Cap.II ×0,98 (Monteiro et al. 2025)"
+    },
+    {
+      "ano": 2021,
+      "evidencia": "ev-surveillance",
+      "fonte": "TabNet Cap.II ×0,98 (Monteiro et al. 2025)"
+    },
+    {
+      "ano": 2022,
+      "evidencia": "ev-confirmed",
+      "fonte": "SIM/DATASUS CAUSABAS C00–C97"
+    },
+    {
+      "ano": 2023,
+      "evidencia": "ev-confirmed",
+      "fonte": "SIM/DATASUS CAUSABAS C00–C97"
+    },
+    {
+      "ano": 2024,
+      "evidencia": "ev-confirmed",
+      "fonte": "SIM/DATASUS CAUSABAS C00–C97"
+    },
+    {
+      "ano": 2025,
+      "evidencia": "ev-inference",
+      "fonte": "Câncer 2024 × razão totais RC corrigido / SIM 2024"
+    }
+  ],
+  "miocardite": [
+    119,
+    130,
+    127,
+    127,
+    118,
+    100,
+    120,
+    158,
+    163,
+    161,
+    201,
+    216
+  ],
+  "miocardite_meta": [
+    {
+      "ano": 2014,
+      "evidencia": "ev-surveillance",
+      "fonte": "DATASUS I40 (série publicada 2014–2023)"
+    },
+    {
+      "ano": 2015,
+      "evidencia": "ev-surveillance",
+      "fonte": "DATASUS I40 (série publicada 2014–2023)"
+    },
+    {
+      "ano": 2016,
+      "evidencia": "ev-surveillance",
+      "fonte": "DATASUS I40 (série publicada 2014–2023)"
+    },
+    {
+      "ano": 2017,
+      "evidencia": "ev-surveillance",
+      "fonte": "DATASUS I40 (série publicada 2014–2023)"
+    },
+    {
+      "ano": 2018,
+      "evidencia": "ev-surveillance",
+      "fonte": "DATASUS I40 (série publicada 2014–2023)"
+    },
+    {
+      "ano": 2019,
+      "evidencia": "ev-surveillance",
+      "fonte": "DATASUS I40 (série publicada 2014–2023)"
+    },
+    {
+      "ano": 2020,
+      "evidencia": "ev-surveillance",
+      "fonte": "DATASUS I40 (série publicada 2014–2023)"
+    },
+    {
+      "ano": 2021,
+      "evidencia": "ev-surveillance",
+      "fonte": "DATASUS I40 (série publicada 2014–2023)"
+    },
+    {
+      "ano": 2022,
+      "evidencia": "ev-confirmed",
+      "fonte": "SIM/DATASUS CAUSABAS I40"
+    },
+    {
+      "ano": 2023,
+      "evidencia": "ev-confirmed",
+      "fonte": "SIM/DATASUS CAUSABAS I40"
+    },
+    {
+      "ano": 2024,
+      "evidencia": "ev-confirmed",
+      "fonte": "SIM/DATASUS CAUSABAS I40"
+    },
+    {
+      "ano": 2025,
+      "evidencia": "ev-inference",
+      "fonte": "I40 2024 × razão totais RC corrigido / SIM 2024"
+    }
+  ],
+  "neoplasias_cap2_tabnet": {
+    "2014": 201968,
+    "2015": 209780,
+    "2016": 215217,
+    "2017": 221821,
+    "2018": 227920,
+    "2019": 235301,
+    "2020": 229300,
+    "2021": 235805,
+    "2022": 244009,
+    "2023": 255037
+  }
+}

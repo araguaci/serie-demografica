@@ -289,7 +289,7 @@
     }
     .note strong { color: var(--ink); }
 
-    .insights {
+      .insights {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1rem;
@@ -341,6 +341,7 @@
         <a href="#visao">Visão geral</a>
         <a href="#idade">Faixa etária</a>
         <a href="#arboviroses">Gripe &amp; Dengue</a>
+        <a href="#cancer-mio">Câncer &amp; Miocardite</a>
         <a href="#metodo">Método</a>
       </nav>
     </div>
@@ -473,6 +474,49 @@
       </article>
     </section>
 
+    <section id="cancer-mio">
+      <div class="section-head">
+        <div>
+          <h2>Câncer e miocardite — 2014 a 2025</h2>
+          <p>Dois eixos de mortalidade por causa: neoplasias malignas (C00–C97) e miocardite aguda (I40), lado a lado.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <h3>Óbitos por câncer (C00–C97)</h3>
+          <p class="hint">SIM confirmado 2022–2024 · 2014–2021 via Cap. II ×0,98 · 2025 estimado</p>
+          <div class="chart-box tall"><canvas id="chartCancer"></canvas></div>
+        </article>
+        <article class="card">
+          <h3>Óbitos por miocardite aguda (I40)</h3>
+          <p class="hint">DATASUS 2014–2023 · SIM I40 2022–2024 · 2025 estimado</p>
+          <div class="chart-box tall"><canvas id="chartMio"></canvas></div>
+        </article>
+      </div>
+      <article class="card" style="margin-top:1rem;">
+        <h3>Tabela 2014–2025</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Ano</th>
+                <th class="num">Câncer</th>
+                <th>Fonte câncer</th>
+                <th class="num">Miocardite</th>
+                <th>Fonte miocardite</th>
+              </tr>
+            </thead>
+            <tbody id="tblCancerMio"></tbody>
+          </table>
+        </div>
+        <div class="note">
+          <strong>Como ler:</strong> câncer sobe de forma quase contínua (exceto 2020 e a queda de 2024 vs 2023).
+          Miocardite aguda é rara em números absolutos, mas sobe de 100 óbitos em 2019 para 201 em 2024 (SIM I40).
+          Escalas dos gráficos são independentes — não compare altura visual entre os dois painéis.
+        </div>
+      </article>
+    </section>
+
     <section id="metodo">
       <div class="section-head">
         <div>
@@ -492,6 +536,14 @@
         <article class="insight">
           <h3>Vigilância dengue</h3>
           <p>Óbitos confirmados SVS/SINAN (não confundir com causa básica SIM). 2025 ainda sujeito a revisão.</p>
+        </article>
+        <article class="insight">
+          <h3>Câncer C00–C97</h3>
+          <p>SIM 2022–2024; anos anteriores a partir de neoplasias Cap. II (TabNet) × 0,98. Pico recente em 2023 (~250 mil).</p>
+        </article>
+        <article class="insight">
+          <h3>Miocardite I40</h3>
+          <p>Série DATASUS 2014–2023 alinhada ao SIM I40 em 2022–2024 (163 → 161 → 201). Não inclui I51.4.</p>
         </article>
       </div>
     </section>
@@ -571,6 +623,25 @@
         gripeTag: [
           "gap","gap","gap","gap","gap","gap","ok","ok","ok","gap"
         ]
+      },
+      cancerMio: {
+        years: [2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
+        cancer: [197929,205584,210913,217385,223362,230595,224714,231089,238623,249942,238511,255693],
+        cancerFonte: [
+          "Cap.II×0,98","Cap.II×0,98","Cap.II×0,98","Cap.II×0,98","Cap.II×0,98","Cap.II×0,98",
+          "Cap.II×0,98","Cap.II×0,98","SIM C00–C97","SIM C00–C97","SIM C00–C97","estimativa 2025"
+        ],
+        cancerTag: [
+          "gap","gap","gap","gap","gap","gap","gap","gap","ok","ok","ok","inf"
+        ],
+        miocardite: [119,130,127,127,118,100,120,158,163,161,201,215],
+        mioFonte: [
+          "DATASUS I40","DATASUS I40","DATASUS I40","DATASUS I40","DATASUS I40","DATASUS I40",
+          "DATASUS I40","DATASUS I40","SIM I40","SIM I40","SIM I40","estimativa 2025"
+        ],
+        mioTag: [
+          "gap","gap","gap","gap","gap","gap","gap","gap","ok","ok","ok","inf"
+        ]
       }
     };
 
@@ -616,6 +687,20 @@
           <td><span class="tag ${dTag === "inf" ? "inf" : ""}">${DATA.disease.dengueFonte[i]}</span></td>
           <td class="num">${fmt(DATA.disease.gripe[i])}</td>
           <td><span class="tag ${gTag}">${DATA.disease.gripeFonte[i]}</span></td>
+        </tr>`);
+    });
+
+    const tblCancerMio = document.getElementById("tblCancerMio");
+    DATA.cancerMio.years.forEach((y, i) => {
+      const cTag = DATA.cancerMio.cancerTag[i];
+      const mTag = DATA.cancerMio.mioTag[i];
+      tblCancerMio.insertAdjacentHTML("beforeend", `
+        <tr>
+          <td><strong>${y}${y === 2025 ? "*" : ""}</strong></td>
+          <td class="num">${fmt(DATA.cancerMio.cancer[i])}</td>
+          <td><span class="tag ${cTag === "inf" ? "inf" : cTag === "ok" ? "" : "gap"}">${DATA.cancerMio.cancerFonte[i]}</span></td>
+          <td class="num">${fmt(DATA.cancerMio.miocardite[i])}</td>
+          <td><span class="tag ${mTag === "inf" ? "inf" : mTag === "ok" ? "" : "gap"}">${DATA.cancerMio.mioFonte[i]}</span></td>
         </tr>`);
     });
 
@@ -754,6 +839,89 @@
           y: {
             beginAtZero: true,
             title: { display: true, text: "Óbitos" },
+            grid: { color: "rgba(16,24,32,0.06)" }
+          },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    // Chart: cancer 2014-2025
+    new Chart(document.getElementById("chartCancer"), {
+      type: "line",
+      data: {
+        labels: DATA.cancerMio.years.map((y) => y === 2025 ? "2025*" : String(y)),
+        datasets: [{
+          label: "Câncer (C00–C97)",
+          data: DATA.cancerMio.cancer,
+          borderColor: "#9f1239",
+          backgroundColor: "rgba(159, 18, 57, 0.12)",
+          fill: true,
+          tension: 0.28,
+          borderWidth: 2.8,
+          pointRadius: 3.5,
+          pointBackgroundColor: "#9f1239",
+          segment: {
+            borderDash: (ctx) => DATA.cancerMio.years[ctx.p1DataIndex] >= 2025 ? [6, 4] : undefined
+          }
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ` ${fmt(ctx.parsed.y)} óbitos`
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            ticks: { callback: (v) => (v / 1000) + "k" },
+            grid: { color: "rgba(16,24,32,0.06)" }
+          },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    // Chart: myocarditis 2014-2025
+    new Chart(document.getElementById("chartMio"), {
+      type: "line",
+      data: {
+        labels: DATA.cancerMio.years.map((y) => y === 2025 ? "2025*" : String(y)),
+        datasets: [{
+          label: "Miocardite aguda (I40)",
+          data: DATA.cancerMio.miocardite,
+          borderColor: "#0e7490",
+          backgroundColor: "rgba(14, 116, 144, 0.12)",
+          fill: true,
+          tension: 0.28,
+          borderWidth: 2.8,
+          pointRadius: 3.5,
+          pointBackgroundColor: "#0e7490",
+          segment: {
+            borderDash: (ctx) => DATA.cancerMio.years[ctx.p1DataIndex] >= 2025 ? [6, 4] : undefined
+          }
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ` ${fmt(ctx.parsed.y)} óbitos`
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
             grid: { color: "rgba(16,24,32,0.06)" }
           },
           x: { grid: { display: false } }
