@@ -1,0 +1,23 @@
+{
+  "2022": {
+    "gripe": 3249,
+    "dengue": 1279,
+    "fonte": "SIM/DATASUS CAUSABAS",
+    "evidencia": "ev-confirmed",
+    "arquivo": "DO22OPEN.csv"
+  },
+  "2023": {
+    "gripe": 1334,
+    "dengue": 1322,
+    "fonte": "SIM/DATASUS CAUSABAS",
+    "evidencia": "ev-confirmed",
+    "arquivo": "DO23OPEN.csv"
+  },
+  "2024": {
+    "gripe": 2269,
+    "dengue": 6620,
+    "fonte": "SIM/DATASUS CAUSABAS",
+    "evidencia": "ev-confirmed",
+    "arquivo": "DO24OPEN.csv"
+  }
+}

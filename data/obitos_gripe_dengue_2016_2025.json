@@ -1,0 +1,38 @@
+{
+  "periodo": "2016-2025",
+  "atualizado_em": "2026-08-05",
+  "notas": [
+    "Dengue: óbitos confirmados da vigilância (SVS/Ministério da Saúde). Série 2016–2022 via boletim MS (CNN); 2023–2024 consolidados MS; 2025 ainda com investigações em aberto.",
+    "Gripe/influenza: causa básica CID-10 J09–J11 no SIM/DATASUS (OpenDataSUS) para 2022–2024. Anos anteriores sem microdado S3 disponível neste pipeline ficam sem valor (null) — não inventamos números.",
+    "Referência SRAG 2019 (hospitalizações): 1.176 óbitos com classificação influenza (CLASSI_FIN=1, EVOLUCAO=2) — métrica diferente do SIM."
+  ],
+  "anos": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
+  "dengue": [701, 185, 201, 840, 574, 246, 1016, 1179, 6264, 1008],
+  "dengue_meta": [
+    {"ano": 2016, "evidencia": "ev-confirmed", "fonte": "MS/SVS"},
+    {"ano": 2017, "evidencia": "ev-confirmed", "fonte": "MS/SVS"},
+    {"ano": 2018, "evidencia": "ev-confirmed", "fonte": "MS/SVS"},
+    {"ano": 2019, "evidencia": "ev-confirmed", "fonte": "MS/SVS"},
+    {"ano": 2020, "evidencia": "ev-confirmed", "fonte": "MS/SVS"},
+    {"ano": 2021, "evidencia": "ev-confirmed", "fonte": "MS/SVS"},
+    {"ano": 2022, "evidencia": "ev-confirmed", "fonte": "MS/SVS"},
+    {"ano": 2023, "evidencia": "ev-confirmed", "fonte": "MS/SVS"},
+    {"ano": 2024, "evidencia": "ev-confirmed", "fonte": "MS/SVS (fechamento)"},
+    {"ano": 2025, "evidencia": "ev-inference", "fonte": "Painel MS (~1.008 confirmados; óbitos em investigação)"}
+  ],
+  "gripe": [null, null, null, null, null, null, 3249, 1334, 2269, null],
+  "gripe_meta": [
+    {"ano": 2016, "evidencia": "ev-gap", "fonte": "SIM OpenDataSUS indisponível neste pipeline"},
+    {"ano": 2017, "evidencia": "ev-gap", "fonte": "SIM OpenDataSUS indisponível neste pipeline"},
+    {"ano": 2018, "evidencia": "ev-gap", "fonte": "SIM OpenDataSUS indisponível neste pipeline"},
+    {"ano": 2019, "evidencia": "ev-gap", "fonte": "SIM OpenDataSUS indisponível; SRAG influenza óbitos=1176 (outra métrica)"},
+    {"ano": 2020, "evidencia": "ev-gap", "fonte": "SIM OpenDataSUS indisponível neste pipeline"},
+    {"ano": 2021, "evidencia": "ev-gap", "fonte": "SIM OpenDataSUS indisponível neste pipeline"},
+    {"ano": 2022, "evidencia": "ev-confirmed", "fonte": "SIM/DATASUS CAUSABAS J09–J11"},
+    {"ano": 2023, "evidencia": "ev-confirmed", "fonte": "SIM/DATASUS CAUSABAS J09–J11"},
+    {"ano": 2024, "evidencia": "ev-confirmed", "fonte": "SIM/DATASUS CAUSABAS J09–J11"},
+    {"ano": 2025, "evidencia": "ev-gap", "fonte": "SIM 2025 ainda não publicado"}
+  ],
+  "dengue_sim": {"2022": 1279, "2023": 1322, "2024": 6620},
+  "srag_influenza_obitos": {"2019": 1176}
+}

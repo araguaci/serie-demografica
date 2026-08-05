@@ -1,0 +1,86 @@
+[
+  {
+    "ano": 2014,
+    "fonte": "SIM/DATASUS",
+    "evidencia": "ev-inference",
+    "observacao": "Arquivo https://s3.sa-east-1.amazonaws.com/ckan.saude.gov.br/SIM/DO14OPEN.csv indisponível no S3 neste momento. Ano omitido do CSV absoluto; taxas históricas do seed mantidas no site.",
+    "data_ingestao": "2026-08-05T00:43:06.681086"
+  },
+  {
+    "ano": 2015,
+    "fonte": "SIM/DATASUS",
+    "evidencia": "ev-inference",
+    "observacao": "Arquivo https://s3.sa-east-1.amazonaws.com/ckan.saude.gov.br/SIM/DO15OPEN.csv indisponível no S3 neste momento. Ano omitido do CSV absoluto; taxas históricas do seed mantidas no site.",
+    "data_ingestao": "2026-08-05T00:43:07.161003"
+  },
+  {
+    "ano": 2016,
+    "fonte": "SIM/DATASUS",
+    "evidencia": "ev-inference",
+    "observacao": "Arquivo https://s3.sa-east-1.amazonaws.com/ckan.saude.gov.br/SIM/DO16OPEN.csv indisponível no S3 neste momento. Ano omitido do CSV absoluto; taxas históricas do seed mantidas no site.",
+    "data_ingestao": "2026-08-05T00:43:07.376670"
+  },
+  {
+    "ano": 2017,
+    "fonte": "SIM/DATASUS",
+    "evidencia": "ev-inference",
+    "observacao": "Arquivo https://s3.sa-east-1.amazonaws.com/ckan.saude.gov.br/SIM/DO17OPEN.csv indisponível no S3 neste momento. Ano omitido do CSV absoluto; taxas históricas do seed mantidas no site.",
+    "data_ingestao": "2026-08-05T00:43:07.527466"
+  },
+  {
+    "ano": 2018,
+    "fonte": "SIM/DATASUS",
+    "evidencia": "ev-inference",
+    "observacao": "Arquivo https://s3.sa-east-1.amazonaws.com/ckan.saude.gov.br/SIM/DO18OPEN.csv indisponível no S3 neste momento. Ano omitido do CSV absoluto; taxas históricas do seed mantidas no site.",
+    "data_ingestao": "2026-08-05T00:43:07.676109"
+  },
+  {
+    "ano": 2019,
+    "fonte": "SIM/DATASUS",
+    "evidencia": "ev-inference",
+    "observacao": "Arquivo https://s3.sa-east-1.amazonaws.com/ckan.saude.gov.br/SIM/DO19OPEN.csv indisponível no S3 neste momento. Ano omitido do CSV absoluto; taxas históricas do seed mantidas no site.",
+    "data_ingestao": "2026-08-05T00:43:07.930862"
+  },
+  {
+    "ano": 2020,
+    "fonte": "SIM/DATASUS",
+    "evidencia": "ev-inference",
+    "observacao": "Arquivo https://s3.sa-east-1.amazonaws.com/ckan.saude.gov.br/SIM/DO20OPEN.csv indisponível no S3 neste momento. Ano omitido do CSV absoluto; taxas históricas do seed mantidas no site.",
+    "data_ingestao": "2026-08-05T00:43:08.174622"
+  },
+  {
+    "ano": 2021,
+    "fonte": "SIM/DATASUS",
+    "evidencia": "ev-inference",
+    "observacao": "Arquivo https://s3.sa-east-1.amazonaws.com/ckan.saude.gov.br/SIM/DO21OPEN.csv indisponível no S3 neste momento. Ano omitido do CSV absoluto; taxas históricas do seed mantidas no site.",
+    "data_ingestao": "2026-08-05T00:43:08.340804"
+  },
+  {
+    "ano": 2022,
+    "fonte": "SIM/DATASUS",
+    "evidencia": "ev-confirmed",
+    "observacao": "Dado oficial (OpenDataSUS DO##OPEN.csv) quando disponível.",
+    "data_ingestao": "2026-08-05T00:43:08.472942"
+  },
+  {
+    "ano": 2023,
+    "fonte": "SIM/DATASUS",
+    "evidencia": "ev-confirmed",
+    "observacao": "Dado oficial (OpenDataSUS DO##OPEN.csv) quando disponível.",
+    "data_ingestao": "2026-08-05T00:43:32.550435"
+  },
+  {
+    "ano": 2024,
+    "fonte": "SIM/DATASUS",
+    "evidencia": "ev-confirmed",
+    "observacao": "Dado oficial (OpenDataSUS DO##OPEN.csv) quando disponível.",
+    "data_ingestao": "2026-08-05T00:43:56.648266"
+  },
+  {
+    "ano": 2025,
+    "fonte": "RC/ARPEN (corrigido)",
+    "evidencia": "ev-inference",
+    "observacao": "SIM 2025 ainda não publicado (nem versão preliminar). Estimado via Registro Civil, corrigido pelo fator SIM/RC calculado em 2023. Revisar quando o SIM preliminar de 2025 sair. RC bruto=1,511,682; fator=1.011655; total corrigido=1,529,301.",
+    "data_ingestao": "2026-08-05T00:44:14.410845"
+  }
+]

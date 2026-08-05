@@ -1,623 +1,808 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Primary Meta Tags -->
-    <title>Análise Demográfica: Mortalidade por Faixa Etária - Brasil (2014-2023)</title>
-    <meta name="title" content="Análise Demográfica: Mortalidade por Faixa Etária - Brasil (2014-2023)">
-    <meta name="description" content="Investigação profunda sobre a evolução da mortalidade no Brasil nos últimos 10 anos, segmentada por faixas etárias e correlacionada com indicadores socioeconômicos. Dados oficiais do IBGE, DATASUS e Ministério da Saúde.">
-    <meta name="keywords" content="demografia, mortalidade, Brasil, faixa etária, IBGE, DATASUS, saúde pública, análise demográfica, expectativa de vida, mortalidade infantil">
-    <meta name="author" content="Análise Demográfica Profissional">
-    <meta name="robots" content="index, follow">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://serie-demografica.vercel.app/">
-    <meta property="og:title" content="Análise Demográfica: Mortalidade por Faixa Etária - Brasil (2014-2023)">
-    <meta property="og:description" content="Investigação profunda sobre a evolução da mortalidade no Brasil nos últimos 10 anos, segmentada por faixas etárias e correlacionada com indicadores socioeconômicos. Dados oficiais do IBGE, DATASUS e Ministério da Saúde.">
-    <meta property="og:image" content="https://serie-demografica.vercel.app/serie_temporal_faixas_etarias.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Gráfico de evolução temporal de óbitos por faixa etária no Brasil (2015-2024)">
-    <meta property="og:locale" content="pt_BR">
-    <meta property="og:site_name" content="Análise Demográfica - Brasil">
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://serie-demografica.vercel.app/">
-    <meta name="twitter:title" content="Análise Demográfica: Mortalidade por Faixa Etária - Brasil (2014-2023)">
-    <meta name="twitter:description" content="Investigação profunda sobre a evolução da mortalidade no Brasil nos últimos 10 anos, segmentada por faixas etárias e correlacionada com indicadores socioeconômicos.">
-    <meta name="twitter:image" content="https://serie-demografica.vercel.app/serie_temporal_faixas_etarias.png">
-    <meta name="twitter:image:alt" content="Gráfico de evolução temporal de óbitos por faixa etária no Brasil (2015-2024)">
-    
-    <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#1e3c72">
-    <link rel="canonical" href="https://serie-demografica.vercel.app/">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .header h1 {
-            margin: 0 0 10px 0;
-            font-size: 2.5em;
-        }
-        .header p {
-            margin: 5px 0;
-            font-size: 1.1em;
-        }
-        .section {
-            background: white;
-            padding: 30px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .section h2 {
-            color: #1e3c72;
-            border-bottom: 3px solid #2a5298;
-            padding-bottom: 10px;
-            margin-top: 0;
-        }
-        .section h3 {
-            color: #2a5298;
-            margin-top: 25px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 0.95em;
-        }
-        th {
-            background-color: #1e3c72;
-            color: white;
-            padding: 12px;
-            text-align: left;
-            font-weight: bold;
-        }
-        td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #ddd;
-        }
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        .highlight {
-            background-color: #fff3cd;
-            padding: 15px;
-            border-left: 4px solid #ffc107;
-            margin: 15px 0;
-        }
-        .alert {
-            background-color: #f8d7da;
-            padding: 15px;
-            border-left: 4px solid #dc3545;
-            margin: 15px 0;
-        }
-        .success {
-            background-color: #d4edda;
-            padding: 15px;
-            border-left: 4px solid #28a745;
-            margin: 15px 0;
-        }
-        .info {
-            background-color: #d1ecf1;
-            padding: 15px;
-            border-left: 4px solid #17a2b8;
-            margin: 15px 0;
-        }
-        ul, ol {
-            margin: 10px 0;
-            padding-left: 30px;
-        }
-        li {
-            margin: 8px 0;
-        }
-        .metric {
-            display: inline-block;
-            background: #f0f0f0;
-            padding: 8px 15px;
-            border-radius: 5px;
-            margin: 5px;
-            font-weight: bold;
-        }
-        .metric.positive {
-            background: #d4edda;
-            color: #155724;
-        }
-        .metric.negative {
-            background: #f8d7da;
-            color: #721c24;
-        }
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-            font-size: 0.9em;
-        }
-        .chart-image {
-            width: 100%;
-            max-width: 1200px;
-            height: auto;
-            margin: 20px auto;
-            display: block;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border: 1px solid #ddd;
-        }
-        .chart-container {
-            text-align: center;
-            margin: 30px 0;
-        }
-        .chart-caption {
-            font-style: italic;
-            color: #666;
-            margin-top: 10px;
-            font-size: 0.9em;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Observatório Demográfico — Mortalidade Brasil (2014–2025)</title>
+  <meta name="description" content="Dashboard de mortalidade por faixa etária, gripe e dengue no Brasil. SIM/DATASUS, Registro Civil e vigilância SVS.">
+  <meta name="theme-color" content="#0f1c2e">
+  <link rel="canonical" href="https://serie-demografica.vercel.app/">
+  <meta property="og:title" content="Observatório Demográfico — Mortalidade Brasil (2014–2025)">
+  <meta property="og:description" content="Série histórica de óbitos por idade, gripe e dengue. Dados SIM, ARPEN e SVS.">
+  <meta property="og:image" content="https://serie-demografica.vercel.app/serie_temporal_faixas_etarias.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #eef2f5;
+      --bg-accent: #e4ebf1;
+      --surface: #ffffff;
+      --ink: #101820;
+      --ink-soft: #3d4d5c;
+      --muted: #6b7c8c;
+      --line: #d5dee7;
+      --teal: #0f766e;
+      --teal-soft: rgba(15, 118, 110, 0.12);
+      --steel: #1e4d7b;
+      --steel-soft: rgba(30, 77, 123, 0.12);
+      --crimson: #b42318;
+      --crimson-soft: rgba(180, 35, 24, 0.1);
+      --amber: #b45309;
+      --radius: 18px;
+      --shadow: 0 1px 2px rgba(16, 24, 32, 0.04), 0 12px 32px rgba(16, 24, 32, 0.06);
+      --font: "Figtree", system-ui, sans-serif;
+      --display: "Fraunces", Georgia, serif;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 10% -10%, rgba(15, 118, 110, 0.09), transparent 55%),
+        radial-gradient(900px 420px at 90% 0%, rgba(30, 77, 123, 0.08), transparent 50%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-accent) 100%);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      z-index: 0;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(var(--max), calc(100% - 2rem)); margin: 0 auto; position: relative; z-index: 1; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(238, 242, 245, 0.82);
+      border-bottom: 1px solid rgba(213, 222, 231, 0.8);
+    }
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 0;
+    }
+    .brand {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+    }
+    .brand span { color: var(--teal); }
+    .nav {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+    .nav a {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+      padding: 0.45rem 0.75rem;
+      border-radius: 999px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav a:hover { background: var(--surface); color: var(--ink); }
+
+    .hero {
+      padding: 2.75rem 0 1.5rem;
+      animation: rise 0.7s ease both;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.85rem;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 0 4px var(--teal-soft);
+    }
+    .hero h1 {
+      font-family: var(--display);
+      font-size: clamp(2.1rem, 4.5vw, 3.4rem);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin: 0 0 0.85rem;
+      max-width: 14ch;
+    }
+    .hero-lead {
+      max-width: 52ch;
+      color: var(--ink-soft);
+      font-size: 1.05rem;
+      margin: 0 0 1.4rem;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+    .chip {
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.7);
+      color: var(--ink-soft);
+    }
+    .chip.ok { border-color: transparent; background: var(--teal-soft); color: var(--teal); }
+    .chip.warn { border-color: transparent; background: var(--crimson-soft); color: var(--crimson); }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin: 1.5rem 0 2rem;
+    }
+    .kpi {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.15rem 1.2rem;
+      box-shadow: var(--shadow);
+      animation: rise 0.7s ease both;
+    }
+    .kpi:nth-child(1) { animation-delay: 0.05s; }
+    .kpi:nth-child(2) { animation-delay: 0.12s; }
+    .kpi:nth-child(3) { animation-delay: 0.18s; }
+    .kpi:nth-child(4) { animation-delay: 0.24s; }
+    .kpi-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.45rem;
+    }
+    .kpi-value {
+      font-family: var(--display);
+      font-size: 1.85rem;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .kpi-sub { margin-top: 0.35rem; font-size: 0.82rem; color: var(--muted); }
+    .kpi-value.teal { color: var(--teal); }
+    .kpi-value.steel { color: var(--steel); }
+    .kpi-value.crimson { color: var(--crimson); }
+
+    section { margin-bottom: 2rem; scroll-margin-top: 5rem; }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .section-head h2 {
+      font-family: var(--display);
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+    .section-head p {
+      margin: 0.35rem 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 48ch;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 1rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      animation: rise 0.65s ease both;
+    }
+    .card h3 {
+      margin: 0 0 0.25rem;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .card .hint {
+      margin: 0 0 1rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .chart-box { position: relative; height: 320px; }
+    .chart-box.tall { height: 380px; }
+
+    .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--line); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      min-width: 640px;
+    }
+    th {
+      text-align: left;
+      background: #0f1c2e;
+      color: #f5f7fa;
+      padding: 0.75rem 0.85rem;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+    }
+    td {
+      padding: 0.7rem 0.85rem;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink-soft);
+    }
+    tr:last-child td { border-bottom: 0; }
+    tbody tr:hover td { background: #f7fafc; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .up { color: var(--crimson); font-weight: 700; }
+    .down { color: var(--teal); font-weight: 700; }
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.18rem 0.45rem;
+      border-radius: 999px;
+      background: var(--teal-soft);
+      color: var(--teal);
+    }
+    .tag.gap { background: #eef1f4; color: var(--muted); }
+    .tag.inf { background: #fff4e5; color: var(--amber); }
+
+    .note {
+      margin-top: 1rem;
+      padding: 0.9rem 1rem;
+      border-radius: 12px;
+      background: #f8fafb;
+      border: 1px solid var(--line);
+      font-size: 0.84rem;
+      color: var(--ink-soft);
+    }
+    .note strong { color: var(--ink); }
+
+    .insights {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .insight {
+      padding: 1.2rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .insight h3 {
+      margin: 0 0 0.5rem;
+      font-family: var(--display);
+      font-size: 1.15rem;
+    }
+    .insight p { margin: 0; color: var(--ink-soft); font-size: 0.92rem; }
+
+    footer {
+      padding: 2rem 0 3rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--line);
+      margin-top: 1rem;
+    }
+    footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    @media (max-width: 960px) {
+      .kpis, .insights, .grid-2 { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .kpis, .insights, .grid-2 { grid-template-columns: 1fr; }
+      .nav { display: none; }
+      .chart-box, .chart-box.tall { height: 280px; }
+      .hero h1 { max-width: none; }
+    }
+  </style>
 </head>
 <body>
-
-<div class="header">
-    <h1>📊 Análise Demográfica Profunda</h1>
-    <h2>Mortalidade por Faixa Etária no Brasil (2014-2023)</h2>
-    <p><strong>Data da Análise:</strong> 24 de Novembro de 2025</p>
-    <p><strong>Fontes:</strong> IBGE, DataSUS/SIM, Ministério da Saúde, IPEA, Atlas da Violência (Ipea/FBSP)</p>
-    <p><strong>Investigador Demográfico:</strong> Análise Baseada em Dados Oficiais</p>
-</div>
-
-<div class="section">
-    <h2>📋 Sumário Executivo</h2>
-    <p>Esta análise apresenta uma investigação profunda sobre a evolução da mortalidade no Brasil nos últimos 10 anos, segmentada por faixas etárias e correlacionada com indicadores socioeconômicos. Os dados revelam progressos significativos em algumas áreas, mas também alertam para crises críticas, especialmente na mortalidade de jovens por causas externas.</p>
-    
-    <div class="highlight">
-        <h3>🎯 Principais Destaques:</h3>
-        <ul>
-            <li><strong>Expectativa de Vida:</strong> Recuperação pós-COVID para 76,4 anos em 2023</li>
-            <li><strong>Mortalidade Infantil:</strong> Redução de 16,1% no período (14,9 para 12,5 por mil)</li>
-            <li><strong>Crise de Violência Juvenil:</strong> Homens 20-24 anos têm 4,1x mais chance de morrer</li>
-            <li><strong>Impacto COVID-19:</strong> 660.270 óbitos entre 2020-2022, com pico em 2021</li>
-            <li><strong>Envelhecimento Acelerado:</strong> Pressão crescente no sistema previdenciário</li>
-        </ul>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#">Série <span>Demográfica</span></a>
+      <nav class="nav">
+        <a href="#visao">Visão geral</a>
+        <a href="#idade">Faixa etária</a>
+        <a href="#arboviroses">Gripe &amp; Dengue</a>
+        <a href="#metodo">Método</a>
+      </nav>
     </div>
-</div>
+  </header>
 
-<div class="section">
-    <h2>📈 Tabela 1: Indicadores Gerais de Mortalidade (2014-2023)</h2>
-    <table>
-        <thead>
-            <tr>
+  <main class="wrap">
+    <section class="hero" id="visao">
+      <div class="eyebrow">Observatório de mortalidade</div>
+      <h1>Brasil em números de vida e perda</h1>
+      <p class="hero-lead">
+        Leitura premium da série 2014–2025: mortalidade por idade (SIM + estimativa RC 2025)
+        e a década recente de óbitos por dengue e influenza.
+      </p>
+      <div class="hero-meta">
+        <span class="chip ok">SIM oficial até 2024</span>
+        <span class="chip">RC/ARPEN 2025 · ev-inference</span>
+        <span class="chip warn">Dengue 2024: epidemia histórica</span>
+        <span class="chip">Atualizado 05/08/2026</span>
+      </div>
+    </section>
+
+    <section class="kpis" aria-label="Indicadores-chave">
+      <article class="kpi">
+        <div class="kpi-label">Óbitos totais 2024</div>
+        <div class="kpi-value">1,43 mi</div>
+        <div class="kpi-sub">SIM/DATASUS · 1.426.346</div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-label">Óbitos totais 2025*</div>
+        <div class="kpi-value teal">1,53 mi</div>
+        <div class="kpi-sub">RC corrigido · fator SIM/RC 1,0117</div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-label">Dengue 2024</div>
+        <div class="kpi-value crimson">6.264</div>
+        <div class="kpi-sub">Óbitos confirmados SVS · pico da década</div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-label">Gripe SIM 2024</div>
+        <div class="kpi-value steel">2.269</div>
+        <div class="kpi-sub">CID J09–J11 · causa básica</div>
+      </article>
+    </section>
+
+    <section id="idade">
+      <div class="section-head">
+        <div>
+          <h2>Mortalidade por faixa etária</h2>
+          <p>Taxas por 100 mil e óbitos absolutos na janela 2019–2025 (pivô de variação mantido em 2014).</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <h3>Taxas selecionadas — 2019 a 2025</h3>
+          <p class="hint">Quedas em crianças/jovens; pressão crescente em 60+.</p>
+          <div class="chart-box tall"><canvas id="chartRates"></canvas></div>
+        </article>
+        <article class="card">
+          <h3>Óbitos absolutos — 2019 a 2025</h3>
+          <p class="hint">2019–2021 estimados via taxas; 2022–2024 SIM; 2025 RC corrigido.</p>
+          <div class="chart-box tall"><canvas id="chartAbs"></canvas></div>
+        </article>
+      </div>
+
+      <article class="card" style="margin-top:1rem;">
+        <h3>Tabela de taxas (por 100.000) · Variação 14–25</h3>
+        <p class="hint">*2025: ev-inference (RC/ARPEN × fator SIM/RC 2023).</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Faixa</th>
+                <th class="num">2014</th>
+                <th class="num">2021</th>
+                <th class="num">2023</th>
+                <th class="num">2024</th>
+                <th class="num">2025*</th>
+                <th class="num">Δ 14–25</th>
+              </tr>
+            </thead>
+            <tbody id="tblRates"></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section id="arboviroses">
+      <div class="section-head">
+        <div>
+          <h2>Gripe e dengue — últimos 10 anos</h2>
+          <p>Dengue (SVS) cobre 2016–2025. Influenza (SIM J09–J11) confirmada em 2022–2024; anos sem microdado ficam em aberto.</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <article class="card">
+          <h3>Série histórica de óbitos</h3>
+          <p class="hint">Dengue em carmesim · Gripe em azul-aço (somente anos com SIM).</p>
+          <div class="chart-box tall"><canvas id="chartDisease"></canvas></div>
+        </article>
+        <article class="card">
+          <h3>Comparativo dengue × gripe — 2019 a 2025</h3>
+          <p class="hint">Dengue SVS completa; gripe SIM só onde há microdado (2022–2024).</p>
+          <div class="chart-box tall"><canvas id="chartCompare"></canvas></div>
+        </article>
+      </div>
+
+      <article class="card" style="margin-top:1rem;">
+        <h3>Tabela 2016–2025</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
                 <th>Ano</th>
-                <th>Expectativa Vida</th>
-                <th>Exp. Homens</th>
-                <th>Exp. Mulheres</th>
-                <th>Mort. Infantil (‰)</th>
-                <th>Mort. Infância (‰)</th>
-                <th>Exp. Vida 60 anos</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>2014</td><td>75,2</td><td>71,6</td><td>78,8</td><td>14,9</td><td>17,8</td><td>20,2</td></tr>
-            <tr><td>2015</td><td>75,5</td><td>71,9</td><td>79,1</td><td>14,5</td><td>17,2</td><td>20,5</td></tr>
-            <tr><td>2016</td><td>75,8</td><td>72,2</td><td>79,3</td><td>14,0</td><td>16,8</td><td>20,8</td></tr>
-            <tr><td>2017</td><td>76,0</td><td>72,5</td><td>79,5</td><td>13,5</td><td>16,2</td><td>21,0</td></tr>
-            <tr><td>2018</td><td>76,3</td><td>72,8</td><td>79,8</td><td>13,0</td><td>15,8</td><td>21,3</td></tr>
-            <tr><td>2019</td><td>76,6</td><td>73,1</td><td>80,1</td><td>12,8</td><td>15,5</td><td>21,5</td></tr>
-            <tr style="background-color: #ffe6e6;"><td>2020</td><td>75,9</td><td>72,4</td><td>79,5</td><td>13,0</td><td>15,7</td><td>21,2</td></tr>
-            <tr style="background-color: #ffcccc;"><td>2021</td><td>72,8</td><td>69,3</td><td>76,4</td><td>13,5</td><td>16,0</td><td>20,8</td></tr>
-            <tr style="background-color: #ffe6e6;"><td>2022</td><td>75,5</td><td>72,1</td><td>78,8</td><td>13,0</td><td>14,7</td><td>21,8</td></tr>
-            <tr><td>2023</td><td>76,4</td><td>73,1</td><td>79,7</td><td>12,5</td><td>14,7</td><td>22,5</td></tr>
-        </tbody>
-    </table>
-    
-    <div class="success">
-        <h3>📊 Análise de Tendências 2014-2023:</h3>
-        <span class="metric positive">Expectativa de Vida: +1,2 anos (+1,6%)</span>
-        <span class="metric positive">Mortalidade Infantil: -2,4‰ (-16,1%)</span>
-        <span class="metric positive">Exp. Vida aos 60: +2,3 anos</span>
-        <span class="metric negative">Impacto COVID-19 (2021): -3,8 anos perdidos</span>
-    </div>
-</div>
+                <th class="num">Dengue (SVS)</th>
+                <th>Fonte dengue</th>
+                <th class="num">Gripe (SIM)</th>
+                <th>Fonte gripe</th>
+              </tr>
+            </thead>
+            <tbody id="tblDisease"></tbody>
+          </table>
+        </div>
+        <div class="note">
+          <strong>Como ler:</strong> o pico de dengue em 2024 (6.264 óbitos) é o marco da década.
+          Em 2025 há ~1.008 óbitos confirmados no painel MS, com investigações ainda abertas.
+          Gripe SIM em 2022 (3.249) reflete retorno da circulação influenza pós-pandemia.
+          SRAG 2019 registrou 1.176 óbitos hospitalares classificados como influenza — métrica distinta do SIM.
+        </div>
+      </article>
+    </section>
 
-<div class="section">
-    <h2>👶👦👨 Tabela 2: Mortalidade por Faixa Etária (Taxa por 100.000 habitantes)</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Faixa Etária</th>
-                <th>2014</th>
-                <th>2019</th>
-                <th>2020</th>
-                <th>2021</th>
-                <th>2023</th>
-                <th>Variação 14-23</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>0-4 anos</td><td>520,5</td><td>485,8</td><td>490,3</td><td>495,2</td><td>445,5</td><td style="color: green;"><strong>-14,4%</strong></td></tr>
-            <tr><td>5-14 anos</td><td>18,5</td><td>15,2</td><td>16,8</td><td>17,2</td><td>14,8</td><td style="color: green;"><strong>-20,0%</strong></td></tr>
-            <tr><td>15-19 anos</td><td>120,5</td><td>115,2</td><td>118,5</td><td>120,8</td><td>110,3</td><td style="color: green;"><strong>-8,5%</strong></td></tr>
-            <tr><td>20-29 anos</td><td>165,8</td><td>158,3</td><td>162,5</td><td>168,5</td><td>148,5</td><td style="color: green;"><strong>-10,4%</strong></td></tr>
-            <tr><td>30-39 anos</td><td>95,3</td><td>92,1</td><td>98,5</td><td>105,2</td><td>88,4</td><td style="color: green;"><strong>-7,2%</strong></td></tr>
-            <tr><td>40-59 anos</td><td>385,4</td><td>388,7</td><td>425,8</td><td>485,3</td><td>390,2</td><td style="color: orange;"><strong>+1,2%</strong></td></tr>
-            <tr><td>60-79 anos</td><td>2.420,5</td><td>2.445,3</td><td>2.850,2</td><td>3.250,5</td><td>2.470,8</td><td style="color: orange;"><strong>+2,1%</strong></td></tr>
-            <tr><td>80+ anos</td><td>11.850,2</td><td>11.920,5</td><td>13.250,8</td><td>14.850,3</td><td>12.050,3</td><td style="color: orange;"><strong>+1,7%</strong></td></tr>
-        </tbody>
-    </table>
-    
-    <div class="info">
-        <h3>💡 Destaques por Faixa Etária:</h3>
-        <ul>
-            <li><strong>Maior queda:</strong> Faixa 5-14 anos (-20,0%) - reflexo de melhorias em saúde infantil e prevenção</li>
-            <li><strong>Pico COVID:</strong> Faixa 60+ teve aumento de 33% em 2021 comparado a 2019</li>
-            <li><strong>Jovens 20-29:</strong> Principal grupo afetado por causas externas (violência e acidentes)</li>
-            <li><strong>Tendência idosos:</strong> Leve aumento reflete envelhecimento populacional</li>
-        </ul>
-    </div>
-    
-    <div class="chart-container">
-        <h3>📊 Gráfico: Evolução Temporal de Óbitos por Faixa Etária (2015-2024)</h3>
-        <img src="serie_temporal_faixas_etarias.png" alt="Série Temporal de Óbitos por Faixa Etária no Brasil (2015-2024)" class="chart-image">
-        <p class="chart-caption">Evolução detalhada do número de óbitos por faixa etária ao longo dos últimos 10 anos. Observe o pico em 2021 devido à pandemia de COVID-19, especialmente nas faixas de adultos e idosos.</p>
-    </div>
-</div>
+    <section id="metodo">
+      <div class="section-head">
+        <div>
+          <h2>Método e proveniência</h2>
+          <p>Transparência de fontes para cada número exibido.</p>
+        </div>
+      </div>
+      <div class="insights">
+        <article class="insight">
+          <h3>SIM / OpenDataSUS</h3>
+          <p>Microdados DO22–DO24 para totais etários e causas J09–J11 / A90–A91–A97. Evidência <strong>ev-confirmed</strong>.</p>
+        </article>
+        <article class="insight">
+          <h3>Registro Civil 2025</h3>
+          <p>Totais ARPEN × fator SIM/RC 2023 (1,011655) → 1.529.301 óbitos estimados. Evidência <strong>ev-inference</strong>.</p>
+        </article>
+        <article class="insight">
+          <h3>Vigilância dengue</h3>
+          <p>Óbitos confirmados SVS/SINAN (não confundir com causa básica SIM). 2025 ainda sujeito a revisão.</p>
+        </article>
+      </div>
+    </section>
+  </main>
 
-<div class="section">
-    <h2>⚠️ Tabela 3: Mortalidade por Causas Externas (2014-2023)</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Ano</th>
-                <th>Homicídios</th>
-                <th>Taxa (por 100 mil)</th>
-                <th>Acid. Trânsito</th>
-                <th>Suicídios</th>
-                <th>Total Causas Ext.</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>2014</td><td>59.627</td><td>29,8</td><td>42.850</td><td>11.821</td><td>158.203</td></tr>
-            <tr><td>2015</td><td>58.383</td><td>28,9</td><td>38.651</td><td>11.736</td><td>156.942</td></tr>
-            <tr><td>2016</td><td>62.517</td><td>30,3</td><td>37.305</td><td>11.433</td><td>163.175</td></tr>
-            <tr><td>2017</td><td>65.602</td><td>31,6</td><td>35.375</td><td>11.467</td><td>169.248</td></tr>
-            <tr><td>2018</td><td>57.358</td><td>28,5</td><td>32.214</td><td>12.745</td><td>157.265</td></tr>
-            <tr><td>2019</td><td>45.503</td><td>27,8</td><td>31.763</td><td>14.540</td><td>151.780</td></tr>
-            <tr><td>2020</td><td>45.847</td><td>23,4</td><td>31.864</td><td>13.493</td><td>143.380</td></tr>
-            <tr><td>2021</td><td>47.508</td><td>22,3</td><td>33.894</td><td>14.194</td><td>149.582</td></tr>
-            <tr><td>2022</td><td>46.980</td><td>21,5</td><td>33.894</td><td>14.590</td><td>152.850</td></tr>
-            <tr><td>2023</td><td>45.747</td><td>21,3</td><td>34.881</td><td>15.200</td><td>156.890</td></tr>
-        </tbody>
-    </table>
-    
-    <div class="highlight">
-        <h3>📈 Análise de Tendências (2014-2023):</h3>
-        <div class="metric positive">Homicídios: -23,3% (59.627 → 45.747)</div>
-        <div class="metric positive">Taxa de Homicídios: -28,5% (29,8 → 21,3 por 100 mil)</div>
-        <div class="metric positive">Acidentes de Trânsito: -18,6% (42.850 → 34.881)</div>
-        <div class="metric negative">Suicídios: +28,6% (11.821 → 15.200)</div>
+  <footer>
+    <div class="wrap">
+      <div>
+        Observatório Demográfico · Brasil 2014–2025<br>
+        Pipeline: <code>brazil_deaths_by_age_2014_2025.py</code> · dados em <code>data/</code>
+      </div>
+      <div>Fontes: DATASUS/SIM · ARPEN · Ministério da Saúde/SVS · IBGE</div>
     </div>
-    
-    <div class="alert">
-        <h3>⚠️ Alertas Críticos:</h3>
-        <ul>
-            <li><strong>Suicídios em crescimento:</strong> Problema de saúde mental requer atenção urgente</li>
-            <li><strong>Interiorização da violência:</strong> Homicídios se espalham para cidades médias</li>
-            <li><strong>Motocicletas:</strong> Principal causa de mortes no trânsito (>50% dos óbitos)</li>
-            <li><strong>Armas de fogo:</strong> Presentes em 71% dos homicídios</li>
-        </ul>
-    </div>
-</div>
+  </footer>
 
-<div class="section">
-    <h2>🦠 Tabela 4: Óbitos por COVID-19 por Faixa Etária (2020-2022)</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Faixa Etária</th>
-                <th>2020 - Óbitos</th>
-                <th>2020 - %</th>
-                <th>2021 - Óbitos</th>
-                <th>2021 - %</th>
-                <th>2022 - Óbitos</th>
-                <th>2022 - %</th>
-                <th>Total 2020-22</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>0-17 anos</td><td>850</td><td>0,4%</td><td>1.200</td><td>0,3%</td><td>620</td><td>0,4%</td><td>2.670</td></tr>
-            <tr><td>18-39 anos</td><td>12.500</td><td>6,0%</td><td>18.700</td><td>4,6%</td><td>8.900</td><td>6,2%</td><td>40.100</td></tr>
-            <tr><td>40-59 anos</td><td>52.300</td><td>25,1%</td><td>78.500</td><td>19,2%</td><td>35.200</td><td>24,6%</td><td>166.000</td></tr>
-            <tr><td>60 anos ou +</td><td>142.500</td><td>68,5%</td><td>210.500</td><td>75,9%</td><td>98.500</td><td>68,8%</td><td>451.500</td></tr>
-            <tr style="font-weight: bold;"><td>TOTAL</td><td>208.150</td><td>100,0%</td><td>408.900</td><td>100,0%</td><td>143.220</td><td>100,0%</td><td>660.270</td></tr>
-        </tbody>
-    </table>
-    
-    <div class="info">
-        <h3>🔍 Análise do Impacto COVID-19:</h3>
-        <ul>
-            <li><strong>Concentração:</strong> 68-76% dos óbitos em pessoas com 60+ anos</li>
-            <li><strong>Crianças:</strong> Brasil respondeu por 1 em cada 5 mortes infantis por COVID-19 no mundo</li>
-            <li><strong>Pico:</strong> 2021 com 408.900 óbitos - dois terços de todas as mortes do período</li>
-            <li><strong>Jovens:</strong> Aumento em 2022 por variante Ômicron antes da vacinação infantil completa</li>
-            <li><strong>Desigualdade:</strong> Regiões Norte e Nordeste proporcionalmente mais afetadas</li>
-        </ul>
-    </div>
-</div>
+  <script>
+    const DATA = {
+      rates: {
+        faixas: ["0-4","5-14","15-19","20-29","30-39","40-59","60-79","80+"],
+        // janela dos gráficos; 2014 permanece só na tabela de variação
+        years: [2019,2020,2021,2022,2023,2024,2025],
+        values: {
+          "0-4":   [485.8,490.3,495.2,463.9,445.5,405.3,465.5],
+          "5-14":  [15.2,16.8,17.2,15.0,14.8,13.9,15.5],
+          "15-19": [115.2,118.5,120.8,118.4,110.3,102.2,115.2],
+          "20-29": [158.3,162.5,168.5,154.6,148.5,136.2,155.2],
+          "30-39": [92.1,98.5,105.2,91.4,88.4,84.6,92.4],
+          "40-59": [388.7,425.8,485.3,403.7,390.2,373.7,407.7],
+          "60-79": [2445.3,2850.2,3250.5,2573.6,2470.8,2429.0,2581.5],
+          "80+":   [11920.5,13250.8,14850.3,13081.4,12050.3,11899.6,12590.0]
+        },
+        // para a tabela (mantém 2014)
+        tableYears: [2014,2021,2023,2024,2025],
+        tableValues: {
+          "0-4":   [520.5,495.2,445.5,405.3,465.5],
+          "5-14":  [18.5,17.2,14.8,13.9,15.5],
+          "15-19": [120.5,120.8,110.3,102.2,115.2],
+          "20-29": [165.8,168.5,148.5,136.2,155.2],
+          "30-39": [95.3,105.2,88.4,84.6,92.4],
+          "40-59": [385.4,485.3,390.2,373.7,407.7],
+          "60-79": [2420.5,3250.5,2470.8,2429.0,2581.5],
+          "80+":   [11850.2,14850.3,12050.3,11899.6,12590.0]
+        },
+        delta: {"0-4":-10.6,"5-14":-16.2,"15-19":-4.4,"20-29":-6.4,"30-39":-3.0,"40-59":5.8,"60-79":6.7,"80+":6.2}
+      },
+      abs: {
+        years: [2019,2020,2021,2022,2023,2024,2025],
+        faixas: ["0-4","5-14","15-19","20-29","30-39","40-59","60-79","80+"],
+        // 2019–2021: estimados por razão de taxas vs SIM 2023; 2022–2024 SIM; 2025 RC
+        series: {
+          "0-4":   [49580,50039,50539,47341,45467,41366,47504],
+          "5-14":  [10394,11488,11761,10251,10120,9519,10573],
+          "15-19": [14334,14744,15030,14737,13724,12718,14339],
+          "20-29": [53441,54859,56885,52207,50133,45968,52379],
+          "30-39": [64732,69230,73939,64206,62131,59479,64914],
+          "40-59": [259187,283925,323600,269177,260187,249159,271841],
+          "60-79": [572327,667094,760785,602365,578295,568505,604198],
+          "80+":   [438901,487881,546773,481645,443680,438132,463553]
+        },
+        totals: [1462896,1639260,1839312,1544266,1465610,1426346,1529301]
+      },
+      disease: {
+        years: [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
+        dengue: [701,185,201,840,574,246,1016,1179,6264,1008],
+        dengueFonte: [
+          "MS/SVS","MS/SVS","MS/SVS","MS/SVS","MS/SVS",
+          "MS/SVS","MS/SVS","MS/SVS","MS/SVS fechamento","Painel MS (parcial)"
+        ],
+        dengueTag: [
+          "ok","ok","ok","ok","ok","ok","ok","ok","ok","inf"
+        ],
+        gripe: [null,null,null,null,null,null,3249,1334,2269,null],
+        gripeFonte: [
+          "—","—","—","SRAG ref. 1.176 (outra métrica)","—","—",
+          "SIM J09–J11","SIM J09–J11","SIM J09–J11","SIM 2025 pendente"
+        ],
+        gripeTag: [
+          "gap","gap","gap","gap","gap","gap","ok","ok","ok","gap"
+        ]
+      }
+    };
 
-<div class="section">
-    <h2>♂️♀️ Tabela 5: Sobremortalidade Masculina por Faixa Etária (2023)</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Faixa Etária</th>
-                <th>Taxa Homens</th>
-                <th>Taxa Mulheres</th>
-                <th>Razão H/M</th>
-                <th>Principal Causa</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>0-4 anos</td><td>485,2</td><td>405,8</td><td>1,2</td><td>Perinatais</td></tr>
-            <tr><td>5-14 anos</td><td>16,8</td><td>12,8</td><td>1,3</td><td>Acidentes</td></tr>
-            <tr style="background-color: #ffe6e6;"><td>15-19 anos</td><td>158,5</td><td>46,5</td><td>3,4</td><td>Violência</td></tr>
-            <tr style="background-color: #ffcccc;"><td>20-24 anos</td><td>215,8</td><td>52,6</td><td>4,1</td><td>Violência</td></tr>
-            <tr style="background-color: #ffe6e6;"><td>25-29 anos</td><td>180,4</td><td>51,5</td><td>3,5</td><td>Violência</td></tr>
-            <tr><td>30-39 anos</td><td>125,8</td><td>45,2</td><td>2,8</td><td>Causas Externas</td></tr>
-            <tr><td>40-59 anos</td><td>495,3</td><td>285,1</td><td>1,7</td><td>Doenças Crônicas</td></tr>
-            <tr><td>60-79 anos</td><td>2.850,5</td><td>2.090,4</td><td>1,4</td><td>Cardio/Câncer</td></tr>
-            <tr><td>80+ anos</td><td>13.250,8</td><td>10.850,3</td><td>1,2</td><td>Degenerativas</td></tr>
-        </tbody>
-    </table>
-    
-    <div class="alert">
-        <h3>⚠️ Destaques Críticos:</h3>
-        <ul>
-            <li><strong>Pico crítico:</strong> Homens de 20-24 anos têm <strong>4,1x mais chance de morrer</strong> que mulheres</li>
-            <li><strong>Faixa 15-29:</strong> Sobremortalidade de 3,4 a 4,1 vezes devido a causas externas/violência</li>
-            <li><strong>Principais fatores:</strong> Homicídios com arma de fogo e acidentes de motocicleta</li>
-            <li><strong>Impacto econômico:</strong> Perda de capital humano em idade produtiva compromete crescimento</li>
-            <li><strong>Impacto previdenciário:</strong> Redução de contribuintes ativos no sistema</li>
-        </ul>
-    </div>
-</div>
+    const palette = {
+      ink: "#101820",
+      teal: "#0f766e",
+      steel: "#1e4d7b",
+      crimson: "#b42318",
+      ages: ["#ef4444","#14b8a6","#0ea5e9","#f97316","#84cc16","#eab308","#8b5cf6","#64748b"]
+    };
 
-<div class="section">
-    <h2>💼 Tabela 6: Impactos Socioeconômicos da Mortalidade</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Setor</th>
-                <th>Impacto Principal</th>
-                <th>Indicador Chave</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>Previdência Social</strong></td>
-                <td>Aumento da expectativa de vida aos 60 anos (+2,3 anos) pressiona gastos previdenciários</td>
-                <td>Fator previdenciário é calculado com base na tábua de mortalidade do IBGE</td>
-            </tr>
-            <tr>
-                <td><strong>Saúde Pública</strong></td>
-                <td>Crescimento de 18% em gastos 2014-2023 devido ao envelhecimento e doenças crônicas</td>
-                <td>Causas externas representam 9% da mortalidade global no Brasil</td>
-            </tr>
-            <tr>
-                <td><strong>Economia - PIB</strong></td>
-                <td>Mortalidade jovem: perda estimada de R$ 88 bilhões/ano em capital humano</td>
-                <td>Anos potenciais de vida perdidos: 2,8 milhões/ano</td>
-            </tr>
-            <tr>
-                <td><strong>Educação</strong></td>
-                <td>Redução da mortalidade infantil libera recursos para investimento em educação básica</td>
-                <td>Mortalidade infantil: de 14,9 para 12,5 por mil nascidos vivos</td>
-            </tr>
-            <tr>
-                <td><strong>Mercado de Trabalho</strong></td>
-                <td>Causas externas: 65% das mortes de jovens, reduzindo força de trabalho ativa</td>
-                <td>Taxa de desemprego: 5,6% (2025) - menor da série histórica</td>
-            </tr>
-        </tbody>
-    </table>
-    
-    <div class="highlight">
-        <h3>💡 Observações Importantes:</h3>
-        <ul>
-            <li><strong>Déficit Previdenciário:</strong> 2,5% do PIB em 2024, podendo chegar a 8% em 2080 sem reformas</li>
-            <li><strong>Bônus Demográfico:</strong> Acabou em 2018; Brasil agora enfrenta envelhecimento acelerado</li>
-            <li><strong>Produtividade:</strong> Crescimento futuro dependerá quase exclusivamente de ganhos de produtividade</li>
-            <li><strong>Sistema de Saúde:</strong> Necessita transição para foco em doenças crônicas e geriatria</li>
-        </ul>
-    </div>
-</div>
+    const fmt = (n) => n == null ? "—" : n.toLocaleString("pt-BR");
+    const fmt1 = (n) => n.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
-<div class="section">
-    <h2>🗺️ Tabela 7: Disparidades Regionais - Brasil (2023)</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Região</th>
-                <th>Exp. Vida</th>
-                <th>Mort. Infantil</th>
-                <th>Taxa Homicídios</th>
-                <th>Taxa Mort. Jovens</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td><strong>Norte</strong></td><td>73,2</td><td>16,0</td><td>32,5</td><td>245,3</td></tr>
-            <tr><td><strong>Nordeste</strong></td><td>73,8</td><td>15,2</td><td>28,7</td><td>228,7</td></tr>
-            <tr><td><strong>Sudeste</strong></td><td>77,8</td><td>10,8</td><td>16,5</td><td>165,4</td></tr>
-            <tr><td><strong>Sul</strong></td><td>78,5</td><td>9,5</td><td>14,8</td><td>148,2</td></tr>
-            <tr><td><strong>Centro-Oeste</strong></td><td>76,2</td><td>12,3</td><td>24,8</td><td>195,8</td></tr>
-            <tr style="font-weight: bold;"><td><strong>BRASIL</strong></td><td>76,4</td><td>12,5</td><td>21,3</td><td>185,5</td></tr>
-        </tbody>
-    </table>
-    
-    <div class="alert">
-        <h3>🗺️ Análise Regional:</h3>
-        <ul>
-            <li><strong>Maior Desigualdade:</strong> Mortalidade infantil no Norte é 68% maior que no Sul</li>
-            <li><strong>Violência:</strong> Taxa de homicídios no Norte é 2,2x maior que no Sul</li>
-            <li><strong>Expectativa de Vida:</strong> Diferença de 5,3 anos entre Sul (78,5) e Norte (73,2)</li>
-            <li><strong>Tendência:</strong> Desconcentração da violência - interior cresce mais que capitais</li>
-        </ul>
-        
-        <h4>Desafios Regionais Principais:</h4>
-        <ul>
-            <li><strong>NORTE:</strong> Infraestrutura de saúde limitada, alta violência urbana</li>
-            <li><strong>NORDESTE:</strong> Mortalidade infantil acima da média, altas taxas de homicídios</li>
-            <li><strong>SUDESTE:</strong> Envelhecimento acelerado, acidentes de trânsito em grandes centros</li>
-            <li><strong>SUL:</strong> Menor taxa geral, mas desafios crescentes em saúde mental (suicídios)</li>
-            <li><strong>CENTRO-OESTE:</strong> Acidentes de trânsito com motocicletas, violência em expansão urbana</li>
-        </ul>
-    </div>
-</div>
+    // Rates table
+    const tblRates = document.getElementById("tblRates");
+    DATA.rates.faixas.forEach((f) => {
+      const v = DATA.rates.tableValues[f];
+      const d = DATA.rates.delta[f];
+      const cls = d < 0 ? "down" : "up";
+      const sign = d > 0 ? "+" : "";
+      tblRates.insertAdjacentHTML("beforeend", `
+        <tr>
+          <td>${f}</td>
+          <td class="num">${fmt1(v[0])}</td>
+          <td class="num">${fmt1(v[1])}</td>
+          <td class="num">${fmt1(v[2])}</td>
+          <td class="num">${fmt1(v[3])}</td>
+          <td class="num">${fmt1(v[4])}</td>
+          <td class="num ${cls}">${sign}${fmt1(d)}%</td>
+        </tr>`);
+    });
 
-<div class="section">
-    <h2>🎯 Conclusões e Recomendações</h2>
-    
-    <h3>📌 Principais Achados:</h3>
-    
-    <div class="success">
-        <h4>1. Expectativa de Vida</h4>
-        <ul>
-            <li>Recuperação pós-COVID: Brasil voltou a patamares pré-pandêmicos em 2023 (76,4 anos)</li>
-            <li>Impacto permanente: 3,8 anos perdidos no pico da pandemia (2021)</li>
-            <li>Tendência: Crescimento sustentado, mas desacelerando comparado a décadas anteriores</li>
-        </ul>
-    </div>
-    
-    <div class="success">
-        <h4>2. Mortalidade Infantil e Infância</h4>
-        <ul>
-            <li>Progresso consistente: Redução de 16,1% entre 2014-2023</li>
-            <li>Desafio: Disparidades regionais persistem (Norte 68% acima do Sul)</li>
-            <li>Meta: Brasil ainda precisa reduzir para < 10‰ (padrão países desenvolvidos)</li>
-        </ul>
-    </div>
-    
-    <div class="alert">
-        <h4>3. Jovens e Causas Externas - CRISE CRÍTICA</h4>
-        <ul>
-            <li><strong>Homens jovens (20-24): 4,1x mais chance de morrer que mulheres da mesma idade</strong></li>
-            <li>65% das mortes de jovens: Causas externas (violência, acidentes, suicídios)</li>
-            <li>Homicídios: Embora em queda (-23%), Brasil ainda tem taxas alarmantes</li>
-            <li>Suicídios: Crescimento de 28,6% - problema crescente de saúde mental</li>
-            <li>Perda econômica: Estimada em R$ 88 bilhões/ano em capital humano</li>
-        </ul>
-    </div>
-    
-    <div class="info">
-        <h4>4. Pandemia COVID-19</h4>
-        <ul>
-            <li>Total: 660.270 óbitos (2020-2022)</li>
-            <li>Concentração: 68-76% em idosos 60+</li>
-            <li>Crianças: Brasil teve proporção mundial significativa (1 em 5 mortes infantis globais)</li>
-            <li>Desigualdade: Regiões Norte e Nordeste mais afetadas</li>
-        </ul>
-    </div>
-    
-    <div class="highlight">
-        <h4>5. Envelhecimento e Previdência</h4>
-        <ul>
-            <li>Expectativa aos 60 anos: Aumentou 2,3 anos (20,2 → 22,5 anos)</li>
-            <li>Pressão fiscal: Déficit previdenciário de 2,5% do PIB em 2024</li>
-            <li>Projeção: Pode chegar a 8% em 2080 sem reformas adicionais</li>
-            <li>Demografia: Bônus demográfico acabou em 2018, Brasil agora envelhece rapidamente</li>
-        </ul>
-    </div>
-    
-    <h3>💡 Recomendações para Políticas Públicas:</h3>
-    
-    <div class="info">
-        <h4>CURTO PRAZO (1-3 anos):</h4>
-        <ul>
-            <li>Intensificar programas de prevenção à violência juvenil em áreas de risco</li>
-            <li>Expandir campanhas de saúde mental e prevenção ao suicídio</li>
-            <li>Reforçar segurança no trânsito, especialmente para motociclistas</li>
-            <li>Melhorar infraestrutura de saúde nas regiões Norte e Nordeste</li>
-        </ul>
-    </div>
-    
-    <div class="highlight">
-        <h4>MÉDIO PRAZO (3-7 anos):</h4>
-        <ul>
-            <li>Reformas previdenciárias ajustadas ao novo perfil demográfico</li>
-            <li>Investimento em educação de qualidade (aproveitando redução de crianças)</li>
-            <li>Programas de capacitação para aumento de produtividade</li>
-            <li>Sistema de saúde preparado para população envelhecida</li>
-        </ul>
-    </div>
-    
-    <div class="success">
-        <h4>LONGO PRAZO (7-15 anos):</h4>
-        <ul>
-            <li>Políticas de imigração qualificada para mitigar envelhecimento</li>
-            <li>Transição do sistema de saúde para doenças crônicas e geriatria</li>
-            <li>Cultura de paz e redução sistemática da violência urbana</li>
-            <li>Equalização de oportunidades entre regiões</li>
-        </ul>
-    </div>
-    
-    <div class="alert">
-        <h3>⚠️ ALERTAS PRIORITÁRIOS:</h3>
-        <ol>
-            <li><strong>Crise de mortalidade masculina jovem por violência</strong></li>
-            <li><strong>Crescimento preocupante de suicídios (+28,6%)</strong></li>
-            <li><strong>Envelhecimento mais rápido do mundo sem preparação adequada</strong></li>
-            <li><strong>Desigualdades regionais comprometem coesão nacional</strong></li>
-            <li><strong>Sistema de saúde precisa se adaptar ao perfil de doenças crônicas</strong></li>
-        </ol>
-    </div>
-</div>
+    // Disease table
+    const tblDisease = document.getElementById("tblDisease");
+    DATA.disease.years.forEach((y, i) => {
+      const dTag = DATA.disease.dengueTag[i];
+      const gTag = DATA.disease.gripeTag[i];
+      tblDisease.insertAdjacentHTML("beforeend", `
+        <tr>
+          <td><strong>${y}</strong></td>
+          <td class="num">${fmt(DATA.disease.dengue[i])}</td>
+          <td><span class="tag ${dTag === "inf" ? "inf" : ""}">${DATA.disease.dengueFonte[i]}</span></td>
+          <td class="num">${fmt(DATA.disease.gripe[i])}</td>
+          <td><span class="tag ${gTag}">${DATA.disease.gripeFonte[i]}</span></td>
+        </tr>`);
+    });
 
-<div class="section">
-    <h2>📚 Fontes e Referências</h2>
-    <ul>
-        <li><strong>IBGE:</strong> Tábuas Completas de Mortalidade, Projeções da População, Censo Demográfico 2022</li>
-        <li><strong>Ministério da Saúde:</strong> Sistema de Informação sobre Mortalidade (SIM/DataSUS)</li>
-        <li><strong>SIVEP-Gripe:</strong> Sistema de Informação da Vigilância Epidemiológica da Gripe</li>
-        <li><strong>IPEA:</strong> Instituto de Pesquisa Econômica Aplicada - Atlas da Violência</li>
-        <li><strong>Fórum Brasileiro de Segurança Pública:</strong> Anuário Brasileiro de Segurança Pública</li>
-        <li><strong>Observatório Nacional de Segurança Viária (ONSV):</strong> Dados de acidentes de trânsito</li>
-        <li><strong>Fiocruz:</strong> Observa Infância, estudos epidemiológicos sobre COVID-19</li>
-    </ul>
-</div>
+    Chart.defaults.font.family = "Figtree, system-ui, sans-serif";
+    Chart.defaults.color = "#5c6b7a";
 
-<div class="section">
-    <h2>📊 Painel Completo de Gráficos e Análises</h2>
-    <div class="chart-container">
-        <img src="analise_mortalidade_graficos_completos.png" alt="Painel completo com 8 gráficos analíticos de mortalidade por faixa etária no Brasil (2015-2024)" class="chart-image">
-        <p class="chart-caption">Painel completo com 8 análises gráficas: (1) Evolução de óbitos totais, (2) Distribuição por faixa etária (stacked area), (3) Comparação 2015 vs 2024, (4) Taxa de mortalidade por faixa, (5) Correlação desemprego vs mortalidade, (6) Indicadores socioeconômicos normalizados, (7) Matriz de correlação, (8) Distribuição percentual 2024.</p>
-    </div>
-</div>
+    // Chart: rates (focus adult/elderly + young)
+    new Chart(document.getElementById("chartRates"), {
+      type: "line",
+      data: {
+        labels: DATA.rates.years,
+        datasets: ["5-14","20-29","40-59","60-79","80+"].map((f, idx) => ({
+          label: f,
+          data: DATA.rates.values[f],
+          borderColor: palette.ages[[1,3,5,6,7][idx]],
+          backgroundColor: "transparent",
+          tension: 0.3,
+          borderWidth: 2.5,
+          pointRadius: 3,
+          pointHoverRadius: 5
+        }))
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 12, usePointStyle: true } },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ` ${ctx.dataset.label}: ${fmt1(ctx.parsed.y)} / 100 mil`
+            }
+          }
+        },
+        scales: {
+          y: {
+            type: "logarithmic",
+            title: { display: true, text: "Taxa (escala log)" },
+            grid: { color: "rgba(16,24,32,0.06)" }
+          },
+          x: { grid: { display: false } }
+        }
+      }
+    });
 
-<div class="footer">
-    <p><strong>Relatório gerado em:</strong> 24 de Novembro de 2025</p>
-    <p><strong>Análise Demográfica Profunda</strong> | Brasil (2014-2023)</p>
-    <p>Este relatório é baseado em dados oficiais de fontes governamentais e instituições de pesquisa reconhecidas.</p>
-    <p>© 2025 - Análise Demográfica Investigativa</p>
-</div>
+    // Chart: absolute stacked
+    new Chart(document.getElementById("chartAbs"), {
+      type: "bar",
+      data: {
+        labels: DATA.abs.years.map((y) => {
+          if (y <= 2021) return `${y}†`;
+          if (y === 2025) return "2025*";
+          return String(y);
+        }),
+        datasets: DATA.abs.faixas.map((f, i) => ({
+          label: f,
+          data: DATA.abs.series[f],
+          backgroundColor: palette.ages[i],
+          stack: "s",
+          borderWidth: 0
+        }))
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 10, usePointStyle: true, font: { size: 10 } } },
+          tooltip: {
+            callbacks: {
+              footer: (items) => {
+                const i = items[0].dataIndex;
+                const y = DATA.abs.years[i];
+                const note = y <= 2021 ? " · estimado (taxas)" : y === 2025 ? " · RC corrigido" : " · SIM";
+                return `Total: ${fmt(DATA.abs.totals[i])}${note}`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: { stacked: true, grid: { display: false } },
+          y: {
+            stacked: true,
+            ticks: { callback: (v) => (v / 1000) + "k" },
+            grid: { color: "rgba(16,24,32,0.06)" }
+          }
+        }
+      }
+    });
 
+    // Chart: disease lines
+    new Chart(document.getElementById("chartDisease"), {
+      type: "line",
+      data: {
+        labels: DATA.disease.years,
+        datasets: [
+          {
+            label: "Dengue (SVS)",
+            data: DATA.disease.dengue,
+            borderColor: palette.crimson,
+            backgroundColor: "rgba(180,35,24,0.12)",
+            fill: true,
+            tension: 0.28,
+            borderWidth: 2.8,
+            pointRadius: 4,
+            pointBackgroundColor: palette.crimson
+          },
+          {
+            label: "Gripe / influenza (SIM)",
+            data: DATA.disease.gripe,
+            borderColor: palette.steel,
+            backgroundColor: "transparent",
+            tension: 0.28,
+            borderWidth: 2.8,
+            borderDash: [6, 4],
+            pointRadius: 5,
+            pointBackgroundColor: palette.steel,
+            spanGaps: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { usePointStyle: true } },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ctx.parsed.y == null
+                ? ` ${ctx.dataset.label}: sem dado SIM`
+                : ` ${ctx.dataset.label}: ${fmt(ctx.parsed.y)}`
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: "Óbitos" },
+            grid: { color: "rgba(16,24,32,0.06)" }
+          },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    // Chart: compare 2019-2025
+    new Chart(document.getElementById("chartCompare"), {
+      type: "bar",
+      data: {
+        labels: ["2019","2020","2021","2022","2023","2024","2025"],
+        datasets: [
+          {
+            label: "Dengue SVS",
+            data: [840, 574, 246, 1016, 1179, 6264, 1008],
+            backgroundColor: palette.crimson,
+            borderRadius: 6
+          },
+          {
+            label: "Gripe SIM",
+            data: [null, null, null, 3249, 1334, 2269, null],
+            backgroundColor: palette.steel,
+            borderRadius: 6
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: "bottom", labels: { usePointStyle: true } },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ctx.parsed.y == null
+                ? ` ${ctx.dataset.label}: sem dado`
+                : ` ${ctx.dataset.label}: ${fmt(ctx.parsed.y)}`
+            }
+          }
+        },
+        scales: {
+          x: { grid: { display: false } },
+          y: {
+            beginAtZero: true,
+            grid: { color: "rgba(16,24,32,0.06)" }
+          }
+        }
+      }
+    });
+  </script>
 </body>
 </html>

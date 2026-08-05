@@ -1,6 +1,6 @@
 # 📊 Análise Demográfica: Mortalidade por Faixa Etária no Brasil
 
-> Investigação demográfica profunda sobre a série histórica de mortes por categoria de idade no Brasil (2015-2024), com análise multissetorial correlacionando economia, emprego, saúde, educação e previdência.
+> Investigação demográfica profunda sobre a série histórica de mortes por categoria de idade no Brasil (2014-2025), com análise multissetorial. SIM/DATASUS oficial até 2024; 2025 estimado via Registro Civil (ARPEN) com fator SIM/RC.
 
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -25,7 +25,7 @@
 
 ## 🎯 Sobre o Projeto
 
-Este projeto realiza uma análise demográfica abrangente da mortalidade no Brasil, segmentada por faixas etárias, cobrindo o período de 2015 a 2024. A análise integra dados de múltiplas fontes oficiais e correlaciona padrões de mortalidade com indicadores socioeconômicos, incluindo:
+Este projeto realiza uma análise demográfica abrangente da mortalidade no Brasil, segmentada por faixas etárias, cobrindo o período de 2014 a 2025. A análise integra dados de múltiplas fontes oficiais e correlaciona padrões de mortalidade com indicadores socioeconômicos, incluindo:
 
 - **Economia**: PIB per capita, inflação, renda média
 - **Emprego**: Taxa de desemprego, taxa de emprego
@@ -46,7 +46,7 @@ Este projeto realiza uma análise demográfica abrangente da mortalidade no Bras
 ## ✨ Características
 
 - ✅ **Análise Multissetorial**: Integra dados de economia, emprego, saúde, educação e previdência
-- ✅ **Série Histórica Completa**: 10 anos de dados (2015-2024)
+- ✅ **Série Histórica Completa**: 2014-2025 (pivô 2014; 2025 com proveniência ev-inference)
 - ✅ **Visualizações Interativas**: Gráficos e tabelas comparativas
 - ✅ **Fontes Confiáveis**: Dados oficiais de IBGE, DATASUS, World Bank, UNDP
 - ✅ **Scripts Automatizados**: Extração e processamento de dados
@@ -61,10 +61,12 @@ serie-demografica/
 │
 ├── 📄 README.md                          # Este arquivo
 ├── 📊 Cursor.md                          # Análise completa principal (Markdown)
-├── 🌐 index.html                         # Relatório interativo em HTML
+├── 🌐 index.html                         # Dashboard premium (Chart.js)
+├── 📁 data/                              # JSON gripe/dengue e metadados
 │
 ├── 🐍 Scripts Python
-│   ├── brazil_deaths_by_age_2015_2024.py    # Extração de dados do DATASUS
+│   ├── brazil_deaths_by_age_2014_2025.py    # Pipeline SIM + RC/ARPEN (série atual)
+│   ├── brazil_deaths_by_age_2015_2024.py    # Extração legada DATASUS
 │   └── gerar_graficos_analise.py            # Geração de gráficos
 │
 ├── 📈 Gráficos Gerados
@@ -109,20 +111,19 @@ pip install -r requirements.txt
 
 ## 💻 Uso
 
-### 1. Extrair Dados do DATASUS
-
-Para extrair dados oficiais de mortalidade do DATASUS/SIM:
+### 1. Extrair / Atualizar Série 2014-2025
 
 ```bash
-python brazil_deaths_by_age_2015_2024.py
+python brazil_deaths_by_age_2014_2025.py
 ```
 
 Este script:
-- Baixa dados do OpenDataSUS (S3 público)
-- Processa e padroniza faixas etárias
-- Gera arquivo CSV: `brazil_deaths_by_age_2015_2024.csv`
+- Baixa microdados SIM do OpenDataSUS (anos disponíveis no S3, tipicamente 2022-2024)
+- Consulta totais do Registro Civil/ARPEN
+- Estima 2025 com fator SIM/RC do ano de correção (2023)
+- Gera `brazil_deaths_by_age_2014_2025.csv`, `brazil_death_rates_by_age_2014_2025.csv` e `proveniencia_2014_2025.json`
 
-**Nota**: Alguns anos podem não estar disponíveis ou terem URLs diferentes. Ajuste o script conforme necessário.
+**Nota**: Anos SIM antigos podem estar indisponíveis no S3; as taxas históricas do site são mantidas via seed e recalculadas para 2024-2025.
 
 ### 2. Gerar Gráficos
 
@@ -150,8 +151,14 @@ Este script gera:
 #### Markdown
 Abra `Cursor.md` em qualquer visualizador Markdown ou editor de texto.
 
-#### HTML
-Abra `index.html` em um navegador web para visualizar o relatório interativo.
+#### HTML (dashboard)
+Abra `index.html` no navegador — dashboard premium com KPIs, taxas por idade e série 2016–2025 de **dengue (SVS)** e **gripe/influenza (SIM J09–J11)**.
+
+Para atualizar contagens SIM de gripe/dengue a partir do cache:
+
+```bash
+python extract_gripe_dengue_sim.py
+```
 
 ---
 
@@ -161,7 +168,8 @@ Abra `index.html` em um navegador web para visualizar o relatório interativo.
 
 | Fonte | Dados Fornecidos | Período | Qualidade |
 |-------|------------------|---------|-----------|
-| **DATASUS/SIM** | Óbitos por faixa etária, causas, localização | 2015-2024 | Final até 2023, preliminar 2024 |
+| **DATASUS/SIM** | Óbitos por faixa etária, causas, localização | 2014-2024 | Oficial até 2024 (OpenDataSUS) |
+| **RC/ARPEN** | Óbitos totais (tempo quase real) | 2025 | Estimativa corrigida (ev-inference) |
 | **IBGE** | Tábuas completas de mortalidade, população | 2015-2024 | Final até 2022, estimativas 2023-2024 |
 | **Ministério da Saúde** | Mortalidade infantil, causas evitáveis | 2015-2024 | Final até 2023 |
 | **World Bank (WDI)** | PIB per capita, gasto em saúde, educação | 2015-2024 | Anual |
@@ -365,9 +373,9 @@ Para questões, sugestões ou problemas:
 
 ### Versão Atual
 
-- **Versão**: 1.0
-- **Última atualização**: 2024
-- **Período coberto**: 2015-2024
+- **Versão**: 1.1
+- **Última atualização**: 2026-08
+- **Período coberto**: 2014-2025
 
 ---
 
