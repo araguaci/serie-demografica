@@ -1,10 +1,23 @@
-# 📊 Análise Demográfica: Mortalidade por Faixa Etária no Brasil
+# 📊 Série Demográfica — Mortalidade por Faixa Etária no Brasil
 
-> Investigação demográfica profunda sobre a série histórica de mortes por categoria de idade no Brasil (2014-2025), com análise multissetorial. SIM/DATASUS oficial até 2024; 2025 estimado via Registro Civil (ARPEN) com fator SIM/RC.
+## 🛡️ Sentinel Status
+- **Status:** 🟢 Produção
+- **Tier:** A
+- **Health:** 82%
+- **Stack:** Python, HTML/Chart.js, JSON versionado (`data/`), Vercel
+- **ROI Potencial:** Impacto editorial / SELVA — série demográfica com fonte auditável (SIM/DATASUS + Registro Civil)
+
+---
+
+Observatório demográfico com série histórica de óbitos por faixa etária no Brasil (2014–2025) e causas selecionadas (gripe, dengue, câncer, miocardite). SIM/DATASUS oficial até 2024; 2025 estimado via Registro Civil (ARPEN) com fator SIM/RC e etiqueta de evidência — hipótese ≠ fato.
+
+**Site:** [serie-demografica.vercel.app](https://serie-demografica.vercel.app) · **Repo:** [github.com/araguaci/serie-demografica](https://github.com/araguaci/serie-demografica)
+
+**Eixo SELVA:** mesma disciplina dos hubs investigativos ([Sabor Brazil](https://sabor-brazil.vercel.app), [República Sequestrada](https://republica-sequestrada-hub.vercel.app), [Lawfare Timeline](https://lawfare-timeline.vercel.app)) — fonte primária, proveniência e deploy rastreável. Estratégia estável no monorepo: `docs/estrategia/SENTINEL-EIXO-SELVA.md`.
 
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Active-success.svg)]()
+[![Status](https://img.shields.io/badge/Status-Produção-success.svg)]()
 
 ---
 

@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Observatório Demográfico — Mortalidade Brasil (2014–2025)</title>
+  <meta name="description" content="Dashboard de mortalidade por faixa etária, gripe e dengue no Brasil. SIM/DATASUS, Registro Civil e vigilância SVS.">
+  <meta name="theme-color" content="#0f1c2e">
+  <link rel="canonical" href="https://serie-demografica.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://serie-demografica.vercel.app/">
+  <meta property="og:title" content="Observatório Demográfico — Mortalidade Brasil (2014–2025)">
+  <meta property="og:description" content="Série 2014–2025: mortalidade por idade, dengue, gripe, câncer e miocardite. Dados SIM, ARPEN e SVS.">
+  <meta property="og:image" content="https://serie-demografica.vercel.app/serie-demografica-mortalidade-hero.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="480">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Observatório Demográfico — Mortalidade Brasil (2014–2025)">
+  <meta name="twitter:description" content="Série 2014–2025: mortalidade por idade, dengue, gripe, câncer e miocardite.">
+  <meta name="twitter:image" content="https://serie-demografica.vercel.app/artigos/serie-demografica-mortalidade-hero.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #eef2f5;
+      --bg-accent: #e4ebf1;
+      --surface: #ffffff;
+      --ink: #101820;
+      --ink-soft: #3d4d5c;
+      --muted: #6b7c8c;
+      --line: #d5dee7;
+      --teal: #0f766e;
+      --teal-deep: #0b5f59;
+      --teal-soft: rgba(15, 118, 110, 0.12);
+      --ok: #0f766e;
+      --steel: #1e4d7b;
+      --steel-soft: rgba(30, 77, 123, 0.12);
+      --crimson: #b42318;
+      --crimson-soft: rgba(180, 35, 24, 0.1);
+      --amber: #b45309;
+      --radius: 18px;
+      --shadow: 0 1px 2px rgba(16, 24, 32, 0.04), 0 12px 32px rgba(16, 24, 32, 0.06);
+      --font: "Figtree", system-ui, sans-serif;
+      --display: "Fraunces", Georgia, serif;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 10% -10%, rgba(15, 118, 110, 0.09), transparent 55%),
+        radial-gradient(900px 420px at 90% 0%, rgba(30, 77, 123, 0.08), transparent 50%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-accent) 100%);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      z-index: 0;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(var(--max), calc(100% - 2rem)); margin: 0 auto; position: relative; z-index: 1; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(238, 242, 245, 0.82);
+      border-bottom: 1px solid rgba(213, 222, 231, 0.8);
+    }
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 0;
+    }
+    .brand {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+    }
+    .brand span { color: var(--teal); }
+    .nav {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+    .nav a {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+      padding: 0.45rem 0.75rem;
+      border-radius: 999px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav a:hover { background: var(--surface); color: var(--ink); }
+
+    .hero {
+      padding: 2.75rem 0 1.5rem;
+      animation: rise 0.7s ease both;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.85rem;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 0 4px var(--teal-soft);
+    }
+    .hero h1 {
+      font-family: var(--display);
+      font-size: clamp(2.1rem, 4.5vw, 3.4rem);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin: 0 0 0.85rem;
+      max-width: 14ch;
+    }
+    .hero-lead {
+      max-width: 52ch;
+      color: var(--ink-soft);
+      font-size: 1.05rem;
+      margin: 0 0 1.4rem;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+    .chip {
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.7);
+      color: var(--ink-soft);
+    }
+    .chip.ok { border-color: transparent; background: var(--teal-soft); color: var(--teal); }
+    .chip.warn { border-color: transparent; background: var(--crimson-soft); color: var(--crimson); }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin: 1.5rem 0 2rem;
+    }
+    .kpi {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.15rem 1.2rem;
+      box-shadow: var(--shadow);
+      animation: rise 0.7s ease both;
+    }
+    .kpi:nth-child(1) { animation-delay: 0.05s; }
+    .kpi:nth-child(2) { animation-delay: 0.12s; }
+    .kpi:nth-child(3) { animation-delay: 0.18s; }
+    .kpi:nth-child(4) { animation-delay: 0.24s; }
+    .kpi-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.45rem;
+    }
+    .kpi-value {
+      font-family: var(--display);
+      font-size: 1.85rem;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .kpi-sub { margin-top: 0.35rem; font-size: 0.82rem; color: var(--muted); }
+    .kpi-value.teal { color: var(--teal); }
+    .kpi-value.steel { color: var(--steel); }
+    .kpi-value.crimson { color: var(--crimson); }
+
+    section { margin-bottom: 2rem; scroll-margin-top: 5rem; }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .section-head h2 {
+      font-family: var(--display);
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+    .section-head p {
+      margin: 0.35rem 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 48ch;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 1rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      animation: rise 0.65s ease both;
+    }
+    .card h3 {
+      margin: 0 0 0.25rem;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .card .hint {
+      margin: 0 0 1rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .chart-box { position: relative; height: 320px; }
+    .chart-box.tall { height: 380px; }
+
+    .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--line); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      min-width: 640px;
+    }
+    th {
+      text-align: left;
+      background: #0f1c2e;
+      color: #f5f7fa;
+      padding: 0.75rem 0.85rem;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+    }
+    td {
+      padding: 0.7rem 0.85rem;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink-soft);
+    }
+    tr:last-child td { border-bottom: 0; }
+    tbody tr:hover td { background: #f7fafc; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .up { color: var(--crimson); font-weight: 700; }
+    .down { color: var(--teal); font-weight: 700; }
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.18rem 0.45rem;
+      border-radius: 999px;
+      background: var(--teal-soft);
+      color: var(--teal);
+    }
+    .tag.gap { background: #eef1f4; color: var(--muted); }
+    .tag.inf { background: #fff4e5; color: var(--amber); }
+
+    .note {
+      margin-top: 1rem;
+      padding: 0.9rem 1rem;
+      border-radius: 12px;
+      background: #f8fafb;
+      border: 1px solid var(--line);
+      font-size: 0.84rem;
+      color: var(--ink-soft);
+    }
+    .note strong { color: var(--ink); }
+
+      .insights {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .insight {
+      padding: 1.2rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .insight h3 {
+      margin: 0 0 0.5rem;
+      font-family: var(--display);
+      font-size: 1.15rem;
+    }
+    .insight p { margin: 0; color: var(--ink-soft); font-size: 0.92rem; }
+
+    footer {
+      padding: 2rem 0 3.5rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--line);
+      margin-top: 1rem;
+    }
+    footer .wrap {
+      display: flex;
+      justify-content: space-between;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    footer a {
+      color: var(--teal-deep);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    footer a:hover { border-bottom-color: var(--teal); color: var(--ink); }
+    footer .credit {
+      font-family: ui-monospace, "Cascadia Code", "Segoe UI Mono", monospace;
+      font-size: 0.82rem;
+      letter-spacing: 0.02em;
+    }
+    footer .credit a { font-weight: 600; }
+    footer .links { display: flex; flex-direction: column; gap: 0.35rem; align-items: flex-end; text-align: right; }
+    footer .sources { margin-top: 0.35rem; font-size: 0.78rem; opacity: 0.85; }
+
+    .share-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.55rem;
+      margin-top: 1.35rem;
+    }
+    .share-bar span {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 1px 0 rgba(16,24,32,0.04);
+      transition: transform 0.15s, border-color 0.15s, background 0.15s;
+    }
+    .share-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(14,124,123,0.35);
+      background: #f4fbfb;
+    }
+    .share-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .share-btn.copied { border-color: var(--ok); color: var(--ok); }
+
+    .gotop {
+      position: fixed;
+      right: 1.25rem;
+      bottom: 1.25rem;
+      z-index: 50;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid rgba(14,124,123,0.35);
+      background: linear-gradient(160deg, var(--teal), var(--teal-deep));
+      color: #fff;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      box-shadow: 0 10px 28px rgba(14,124,123,0.35);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: opacity 0.25s, visibility 0.25s, transform 0.25s;
+    }
+    .gotop.is-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+    }
+    .gotop:hover { filter: brightness(1.06); }
+    .gotop:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+    .gotop svg { width: 20px; height: 20px; }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    @media (max-width: 960px) {
+      .kpis, .insights, .grid-2 { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .kpis, .insights, .grid-2 { grid-template-columns: 1fr; }
+      .nav { display: none; }
+      .chart-box, .chart-box.tall { height: 280px; }
+      .hero h1 { max-width: none; }
+      footer .links { align-items: flex-start; text-align: left; }
+      .gotop { right: 1rem; bottom: 1rem; width: 42px; height: 42px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#">Série <span>Demográfica</span></a>
+      <nav class="nav">
+        <a href="#visao">Visão geral</a>
+        <a href="#idade">Faixa etária</a>
+        <a href="#arboviroses">Gripe &amp; Dengue</a>
+        <a href="#cancer-mio">Câncer &amp; Miocardite</a>
+        <a href="#metodo">Método</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" id="visao">
+      <div class="eyebrow">Observatório de mortalidade</div>
+      <h1>Brasil em números de vida e perda</h1>
+      <p class="hero-lead">
+        Leitura premium da série 2014–2025: mortalidade por idade (SIM + estimativa RC 2025)
+        e a década recente de óbitos por dengue e influenza.
+      </p>
+      <div class="hero-meta">
+        <span class="chip ok">SIM oficial até 2024</span>
+        <span class="chip">RC/ARPEN 2025 · ev-inference</span>
+        <span class="chip warn">Dengue 2024: epidemia histórica</span>
+        <span class="chip">Atualizado 05/08/2026</span>
+      </div>
+      <div class="share-bar" aria-label="Compartilhar">
+        <span>Compartilhar</span>
+        <a class="share-btn" id="share-x" href="#" target="_blank" rel="noopener noreferrer" title="Compartilhar no X">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.727-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+          X
+        </a>
+        <a class="share-btn" id="share-wa" href="#" target="_blank" rel="noopener noreferrer" title="Compartilhar no WhatsApp">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </a>
+        <a class="share-btn" id="share-li" href="#" target="_blank" rel="noopener noreferrer" title="Compartilhar no LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+        <a class="share-btn" id="share-fb" href="#" target="_blank" rel="noopener noreferrer" title="Compartilhar no Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 .678.093 2.541.093v2.797h-1.43c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Facebook
+        </a>
+        <button type="button" class="share-btn" id="share-copy" title="Copiar link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copiar link
+        </button>
+      </div>
+    </section>
+
+    <section class="kpis" aria-label="Indicadores-chave">
+      <article class="kpi">
+        <div class="kpi-label">Óbitos totais 2024</div>
+        <div class="kpi-value">1,43 mi</div>
+        <div class="kpi-sub">SIM/DATASUS · 1.426.346</div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-label">Óbitos totais 2025*</div>
+        <div class="kpi-value teal">1,53 mi</div>
+        <div class="kpi-sub">RC corrigido · fator SIM/RC 1,0117</div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-label">Dengue 2024</div>
+        <div class="kpi-value crimson">6.264</div>
+        <div class="kpi-sub">Óbitos confirmados SVS · pico da década</div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-label">Gripe SIM 2024</div>
+        <div class="kpi-value steel">2.269</div>
+        <div class="kpi-sub">CID J09–J11 · causa básica</div>
+      </article>
+    </section>
+
+    <section id="idade">
+      <div class="section-head">
+        <div>
+          <h2>Mortalidade por faixa etária</h2>
+          <p>Taxas por 100 mil e óbitos absolutos na janela 2019–2025 (pivô de variação mantido em 2014).</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <h3>Taxas selecionadas — 2019 a 2025</h3>
+          <p class="hint">Quedas em crianças/jovens; pressão crescente em 60+.</p>
+          <div class="chart-box tall"><canvas id="chartRates"></canvas></div>
+        </article>
+        <article class="card">
+          <h3>Óbitos absolutos — 2019 a 2025</h3>
+          <p class="hint">2019–2021 estimados via taxas; 2022–2024 SIM; 2025 RC corrigido.</p>
+          <div class="chart-box tall"><canvas id="chartAbs"></canvas></div>
+        </article>
+      </div>
+
+      <article class="card" style="margin-top:1rem;">
+        <h3>Tabela de taxas (por 100.000) · Variação 14–25</h3>
+        <p class="hint">*2025: ev-inference (RC/ARPEN × fator SIM/RC 2023).</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Faixa</th>
+                <th class="num">2014</th>
+                <th class="num">2021</th>
+                <th class="num">2023</th>
+                <th class="num">2024</th>
+                <th class="num">2025*</th>
+                <th class="num">Δ 14–25</th>
+              </tr>
+            </thead>
+            <tbody id="tblRates"></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section id="arboviroses">
+      <div class="section-head">
+        <div>
+          <h2>Gripe e dengue — últimos 10 anos</h2>
+          <p>Dengue (SVS) cobre 2016–2025. Influenza (SIM J09–J11) confirmada em 2022–2024; anos sem microdado ficam em aberto.</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <article class="card">
+          <h3>Série histórica de óbitos</h3>
+          <p class="hint">Dengue em carmesim · Gripe em azul-aço (somente anos com SIM).</p>
+          <div class="chart-box tall"><canvas id="chartDisease"></canvas></div>
+        </article>
+        <article class="card">
+          <h3>Comparativo dengue × gripe — 2019 a 2025</h3>
+          <p class="hint">Dengue SVS completa; gripe SIM só onde há microdado (2022–2024).</p>
+          <div class="chart-box tall"><canvas id="chartCompare"></canvas></div>
+        </article>
+      </div>
+
+      <article class="card" style="margin-top:1rem;">
+        <h3>Tabela 2016–2025</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Ano</th>
+                <th class="num">Dengue (SVS)</th>
+                <th>Fonte dengue</th>
+                <th class="num">Gripe (SIM)</th>
+                <th>Fonte gripe</th>
+              </tr>
+            </thead>
+            <tbody id="tblDisease"></tbody>
+          </table>
+        </div>
+        <div class="note">
+          <strong>Como ler:</strong> o pico de dengue em 2024 (6.264 óbitos) é o marco da década.
+          Em 2025 há ~1.008 óbitos confirmados no painel MS, com investigações ainda abertas.
+          Gripe SIM em 2022 (3.249) reflete retorno da circulação influenza pós-pandemia.
+          SRAG 2019 registrou 1.176 óbitos hospitalares classificados como influenza — métrica distinta do SIM.
+        </div>
+      </article>
+    </section>
+
+    <section id="cancer-mio">
+      <div class="section-head">
+        <div>
+          <h2>Câncer e miocardite — 2014 a 2025</h2>
+          <p>Dois eixos de mortalidade por causa: neoplasias malignas (C00–C97) e miocardite aguda (I40), lado a lado.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <h3>Óbitos por câncer (C00–C97)</h3>
+          <p class="hint">SIM confirmado 2022–2024 · 2014–2021 via Cap. II ×0,98 · 2025 estimado</p>
+          <div class="chart-box tall"><canvas id="chartCancer"></canvas></div>
+        </article>
+        <article class="card">
+          <h3>Óbitos por miocardite aguda (I40)</h3>
+          <p class="hint">DATASUS 2014–2023 · SIM I40 2022–2024 · 2025 estimado</p>
+          <div class="chart-box tall"><canvas id="chartMio"></canvas></div>
+        </article>
+      </div>
+      <article class="card" style="margin-top:1rem;">
+        <h3>Tabela 2014–2025</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Ano</th>
+                <th class="num">Câncer</th>
+                <th>Fonte câncer</th>
+                <th class="num">Miocardite</th>
+                <th>Fonte miocardite</th>
+              </tr>
+            </thead>
+            <tbody id="tblCancerMio"></tbody>
+          </table>
+        </div>
+        <div class="note">
+          <strong>Como ler:</strong> câncer sobe de forma quase contínua (exceto 2020 e a queda de 2024 vs 2023).
+          Miocardite aguda é rara em números absolutos, mas sobe de 100 óbitos em 2019 para 201 em 2024 (SIM I40).
+          Escalas dos gráficos são independentes — não compare altura visual entre os dois painéis.
+        </div>
+      </article>
+    </section>
+
+    <section id="metodo">
+      <div class="section-head">
+        <div>
+          <h2>Método e proveniência</h2>
+          <p>Transparência de fontes para cada número exibido.</p>
+        </div>
+      </div>
+      <div class="insights">
+        <article class="insight">
+          <h3>SIM / OpenDataSUS</h3>
+          <p>Microdados DO22–DO24 para totais etários e causas J09–J11 / A90–A91–A97. Evidência <strong>ev-confirmed</strong>.</p>
+        </article>
+        <article class="insight">
+          <h3>Registro Civil 2025</h3>
+          <p>Totais ARPEN × fator SIM/RC 2023 (1,011655) → 1.529.301 óbitos estimados. Evidência <strong>ev-inference</strong>.</p>
+        </article>
+        <article class="insight">
+          <h3>Vigilância dengue</h3>
+          <p>Óbitos confirmados SVS/SINAN (não confundir com causa básica SIM). 2025 ainda sujeito a revisão.</p>
+        </article>
+        <article class="insight">
+          <h3>Câncer C00–C97</h3>
+          <p>SIM 2022–2024; anos anteriores a partir de neoplasias Cap. II (TabNet) × 0,98. Pico recente em 2023 (~250 mil).</p>
+        </article>
+        <article class="insight">
+          <h3>Miocardite I40</h3>
+          <p>Série DATASUS 2014–2023 alinhada ao SIM I40 em 2022–2024 (163 → 161 → 201). Não inclui I51.4.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div>
+        Observatório Demográfico · Brasil 2014–2025<br>
+        Pipeline: <code>brazil_deaths_by_age_2014_2025.py</code> · dados em <code>data/</code>
+        <div class="sources">Fontes: DATASUS/SIM · ARPEN · Ministério da Saúde/SVS · IBGE</div>
+      </div>
+      <div class="links">
+        <div class="credit">
+          Desenvolvido por
+          <a href="https://www.artesdosul.com/" target="_blank" rel="noopener noreferrer">@artesdosul</a>
+        </div>
+        <a href="https://observatorio-civil-br.vercel.app/" target="_blank" rel="noopener noreferrer">Observatório Civil</a>
+      </div>
+    </div>
+  </footer>
+
+  <button type="button" class="gotop" id="gotop" aria-label="Voltar ao topo" title="Voltar ao topo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+  </button>
+
+  <script>
+    (function initShareAndGotop() {
+      const SITE_URL = "https://serie-demografica.vercel.app/";
+      const SHARE_TEXT = "Observatório Demográfico — Mortalidade Brasil 2014–2025: idade, dengue, gripe, câncer e miocardite.";
+      const enc = encodeURIComponent;
+
+      const x = document.getElementById("share-x");
+      const wa = document.getElementById("share-wa");
+      const li = document.getElementById("share-li");
+      const fb = document.getElementById("share-fb");
+      const copyBtn = document.getElementById("share-copy");
+      const gotop = document.getElementById("gotop");
+
+      if (x) x.href = `https://twitter.com/intent/tweet?url=${enc(SITE_URL)}&text=${enc(SHARE_TEXT)}`;
+      if (wa) wa.href = `https://wa.me/?text=${enc(SHARE_TEXT + " " + SITE_URL)}`;
+      if (li) li.href = `https://www.linkedin.com/sharing/share-offsite/?url=${enc(SITE_URL)}`;
+      if (fb) fb.href = `https://www.facebook.com/sharer/sharer.php?u=${enc(SITE_URL)}`;
+
+      if (copyBtn) {
+        copyBtn.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(SITE_URL);
+            copyBtn.classList.add("copied");
+            const prev = copyBtn.lastChild;
+            const label = copyBtn.querySelector("span") || copyBtn;
+            const original = copyBtn.dataset.label || "Copiar link";
+            copyBtn.dataset.label = original;
+            copyBtn.childNodes.forEach((n) => {
+              if (n.nodeType === Node.TEXT_NODE) n.textContent = " Copiado!";
+            });
+            setTimeout(() => {
+              copyBtn.classList.remove("copied");
+              copyBtn.childNodes.forEach((n) => {
+                if (n.nodeType === Node.TEXT_NODE) n.textContent = " " + original;
+              });
+            }, 1800);
+          } catch (_) {
+            window.prompt("Copie o link:", SITE_URL);
+          }
+        });
+      }
+
+      if (gotop) {
+        const onScroll = () => {
+          gotop.classList.toggle("is-visible", window.scrollY > 420);
+        };
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+        gotop.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
+    })();
+
+    const DATA = {
+      rates: {
+        faixas: ["0-4","5-14","15-19","20-29","30-39","40-59","60-79","80+"],
+        // janela dos gráficos; 2014 permanece só na tabela de variação
+        years: [2019,2020,2021,2022,2023,2024,2025],
+        values: {
+          "0-4":   [485.8,490.3,495.2,463.9,445.5,405.3,465.5],
+          "5-14":  [15.2,16.8,17.2,15.0,14.8,13.9,15.5],
+          "15-19": [115.2,118.5,120.8,118.4,110.3,102.2,115.2],
+          "20-29": [158.3,162.5,168.5,154.6,148.5,136.2,155.2],
+          "30-39": [92.1,98.5,105.2,91.4,88.4,84.6,92.4],
+          "40-59": [388.7,425.8,485.3,403.7,390.2,373.7,407.7],
+          "60-79": [2445.3,2850.2,3250.5,2573.6,2470.8,2429.0,2581.5],
+          "80+":   [11920.5,13250.8,14850.3,13081.4,12050.3,11899.6,12590.0]
+        },
+        // para a tabela (mantém 2014)
+        tableYears: [2014,2021,2023,2024,2025],
+        tableValues: {
+          "0-4":   [520.5,495.2,445.5,405.3,465.5],
+          "5-14":  [18.5,17.2,14.8,13.9,15.5],
+          "15-19": [120.5,120.8,110.3,102.2,115.2],
+          "20-29": [165.8,168.5,148.5,136.2,155.2],
+          "30-39": [95.3,105.2,88.4,84.6,92.4],
+          "40-59": [385.4,485.3,390.2,373.7,407.7],
+          "60-79": [2420.5,3250.5,2470.8,2429.0,2581.5],
+          "80+":   [11850.2,14850.3,12050.3,11899.6,12590.0]
+        },
+        delta: {"0-4":-10.6,"5-14":-16.2,"15-19":-4.4,"20-29":-6.4,"30-39":-3.0,"40-59":5.8,"60-79":6.7,"80+":6.2}
+      },
+      abs: {
+        years: [2019,2020,2021,2022,2023,2024,2025],
+        faixas: ["0-4","5-14","15-19","20-29","30-39","40-59","60-79","80+"],
+        // 2019–2021: estimados por razão de taxas vs SIM 2023; 2022–2024 SIM; 2025 RC
+        series: {
+          "0-4":   [49580,50039,50539,47341,45467,41366,47504],
+          "5-14":  [10394,11488,11761,10251,10120,9519,10573],
+          "15-19": [14334,14744,15030,14737,13724,12718,14339],
+          "20-29": [53441,54859,56885,52207,50133,45968,52379],
+          "30-39": [64732,69230,73939,64206,62131,59479,64914],
+          "40-59": [259187,283925,323600,269177,260187,249159,271841],
+          "60-79": [572327,667094,760785,602365,578295,568505,604198],
+          "80+":   [438901,487881,546773,481645,443680,438132,463553]
+        },
+        totals: [1462896,1639260,1839312,1544266,1465610,1426346,1529301]
+      },
+      disease: {
+        years: [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
+        dengue: [701,185,201,840,574,246,1016,1179,6264,1008],
+        dengueFonte: [
+          "MS/SVS","MS/SVS","MS/SVS","MS/SVS","MS/SVS",
+          "MS/SVS","MS/SVS","MS/SVS","MS/SVS fechamento","Painel MS (parcial)"
+        ],
+        dengueTag: [
+          "ok","ok","ok","ok","ok","ok","ok","ok","ok","inf"
+        ],
+        gripe: [null,null,null,null,null,null,3249,1334,2269,null],
+        gripeFonte: [
+          "—","—","—","SRAG ref. 1.176 (outra métrica)","—","—",
+          "SIM J09–J11","SIM J09–J11","SIM J09–J11","SIM 2025 pendente"
+        ],
+        gripeTag: [
+          "gap","gap","gap","gap","gap","gap","ok","ok","ok","gap"
+        ]
+      },
+      cancerMio: {
+        years: [2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
+        cancer: [197929,205584,210913,217385,223362,230595,224714,231089,238623,249942,238511,255693],
+        cancerFonte: [
+          "Cap.II×0,98","Cap.II×0,98","Cap.II×0,98","Cap.II×0,98","Cap.II×0,98","Cap.II×0,98",
+          "Cap.II×0,98","Cap.II×0,98","SIM C00–C97","SIM C00–C97","SIM C00–C97","estimativa 2025"
+        ],
+        cancerTag: [
+          "gap","gap","gap","gap","gap","gap","gap","gap","ok","ok","ok","inf"
+        ],
+        miocardite: [119,130,127,127,118,100,120,158,163,161,201,215],
+        mioFonte: [
+          "DATASUS I40","DATASUS I40","DATASUS I40","DATASUS I40","DATASUS I40","DATASUS I40",
+          "DATASUS I40","DATASUS I40","SIM I40","SIM I40","SIM I40","estimativa 2025"
+        ],
+        mioTag: [
+          "gap","gap","gap","gap","gap","gap","gap","gap","ok","ok","ok","inf"
+        ]
+      }
+    };
+
+    const palette = {
+      ink: "#101820",
+      teal: "#0f766e",
+      steel: "#1e4d7b",
+      crimson: "#b42318",
+      ages: ["#ef4444","#14b8a6","#0ea5e9","#f97316","#84cc16","#eab308","#8b5cf6","#64748b"]
+    };
+
+    const fmt = (n) => n == null ? "—" : n.toLocaleString("pt-BR");
+    const fmt1 = (n) => n.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+    // Rates table
+    const tblRates = document.getElementById("tblRates");
+    DATA.rates.faixas.forEach((f) => {
+      const v = DATA.rates.tableValues[f];
+      const d = DATA.rates.delta[f];
+      const cls = d < 0 ? "down" : "up";
+      const sign = d > 0 ? "+" : "";
+      tblRates.insertAdjacentHTML("beforeend", `
+        <tr>
+          <td>${f}</td>
+          <td class="num">${fmt1(v[0])}</td>
+          <td class="num">${fmt1(v[1])}</td>
+          <td class="num">${fmt1(v[2])}</td>
+          <td class="num">${fmt1(v[3])}</td>
+          <td class="num">${fmt1(v[4])}</td>
+          <td class="num ${cls}">${sign}${fmt1(d)}%</td>
+        </tr>`);
+    });
+
+    // Disease table
+    const tblDisease = document.getElementById("tblDisease");
+    DATA.disease.years.forEach((y, i) => {
+      const dTag = DATA.disease.dengueTag[i];
+      const gTag = DATA.disease.gripeTag[i];
+      tblDisease.insertAdjacentHTML("beforeend", `
+        <tr>
+          <td><strong>${y}</strong></td>
+          <td class="num">${fmt(DATA.disease.dengue[i])}</td>
+          <td><span class="tag ${dTag === "inf" ? "inf" : ""}">${DATA.disease.dengueFonte[i]}</span></td>
+          <td class="num">${fmt(DATA.disease.gripe[i])}</td>
+          <td><span class="tag ${gTag}">${DATA.disease.gripeFonte[i]}</span></td>
+        </tr>`);
+    });
+
+    const tblCancerMio = document.getElementById("tblCancerMio");
+    DATA.cancerMio.years.forEach((y, i) => {
+      const cTag = DATA.cancerMio.cancerTag[i];
+      const mTag = DATA.cancerMio.mioTag[i];
+      tblCancerMio.insertAdjacentHTML("beforeend", `
+        <tr>
+          <td><strong>${y}${y === 2025 ? "*" : ""}</strong></td>
+          <td class="num">${fmt(DATA.cancerMio.cancer[i])}</td>
+          <td><span class="tag ${cTag === "inf" ? "inf" : cTag === "ok" ? "" : "gap"}">${DATA.cancerMio.cancerFonte[i]}</span></td>
+          <td class="num">${fmt(DATA.cancerMio.miocardite[i])}</td>
+          <td><span class="tag ${mTag === "inf" ? "inf" : mTag === "ok" ? "" : "gap"}">${DATA.cancerMio.mioFonte[i]}</span></td>
+        </tr>`);
+    });
+
+    Chart.defaults.font.family = "Figtree, system-ui, sans-serif";
+    Chart.defaults.color = "#5c6b7a";
+
+    // Chart: rates (focus adult/elderly + young)
+    new Chart(document.getElementById("chartRates"), {
+      type: "line",
+      data: {
+        labels: DATA.rates.years,
+        datasets: ["5-14","20-29","40-59","60-79","80+"].map((f, idx) => ({
+          label: f,
+          data: DATA.rates.values[f],
+          borderColor: palette.ages[[1,3,5,6,7][idx]],
+          backgroundColor: "transparent",
+          tension: 0.3,
+          borderWidth: 2.5,
+          pointRadius: 3,
+          pointHoverRadius: 5
+        }))
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 12, usePointStyle: true } },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ` ${ctx.dataset.label}: ${fmt1(ctx.parsed.y)} / 100 mil`
+            }
+          }
+        },
+        scales: {
+          y: {
+            type: "logarithmic",
+            title: { display: true, text: "Taxa (escala log)" },
+            grid: { color: "rgba(16,24,32,0.06)" }
+          },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    // Chart: absolute stacked
+    new Chart(document.getElementById("chartAbs"), {
+      type: "bar",
+      data: {
+        labels: DATA.abs.years.map((y) => {
+          if (y <= 2021) return `${y}†`;
+          if (y === 2025) return "2025*";
+          return String(y);
+        }),
+        datasets: DATA.abs.faixas.map((f, i) => ({
+          label: f,
+          data: DATA.abs.series[f],
+          backgroundColor: palette.ages[i],
+          stack: "s",
+          borderWidth: 0
+        }))
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 10, usePointStyle: true, font: { size: 10 } } },
+          tooltip: {
+            callbacks: {
+              footer: (items) => {
+                const i = items[0].dataIndex;
+                const y = DATA.abs.years[i];
+                const note = y <= 2021 ? " · estimado (taxas)" : y === 2025 ? " · RC corrigido" : " · SIM";
+                return `Total: ${fmt(DATA.abs.totals[i])}${note}`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: { stacked: true, grid: { display: false } },
+          y: {
+            stacked: true,
+            ticks: { callback: (v) => (v / 1000) + "k" },
+            grid: { color: "rgba(16,24,32,0.06)" }
+          }
+        }
+      }
+    });
+
+    // Chart: disease lines
+    new Chart(document.getElementById("chartDisease"), {
+      type: "line",
+      data: {
+        labels: DATA.disease.years,
+        datasets: [
+          {
+            label: "Dengue (SVS)",
+            data: DATA.disease.dengue,
+            borderColor: palette.crimson,
+            backgroundColor: "rgba(180,35,24,0.12)",
+            fill: true,
+            tension: 0.28,
+            borderWidth: 2.8,
+            pointRadius: 4,
+            pointBackgroundColor: palette.crimson
+          },
+          {
+            label: "Gripe / influenza (SIM)",
+            data: DATA.disease.gripe,
+            borderColor: palette.steel,
+            backgroundColor: "transparent",
+            tension: 0.28,
+            borderWidth: 2.8,
+            borderDash: [6, 4],
+            pointRadius: 5,
+            pointBackgroundColor: palette.steel,
+            spanGaps: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { usePointStyle: true } },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ctx.parsed.y == null
+                ? ` ${ctx.dataset.label}: sem dado SIM`
+                : ` ${ctx.dataset.label}: ${fmt(ctx.parsed.y)}`
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: "Óbitos" },
+            grid: { color: "rgba(16,24,32,0.06)" }
+          },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    // Chart: cancer 2014-2025
+    new Chart(document.getElementById("chartCancer"), {
+      type: "line",
+      data: {
+        labels: DATA.cancerMio.years.map((y) => y === 2025 ? "2025*" : String(y)),
+        datasets: [{
+          label: "Câncer (C00–C97)",
+          data: DATA.cancerMio.cancer,
+          borderColor: "#9f1239",
+          backgroundColor: "rgba(159, 18, 57, 0.12)",
+          fill: true,
+          tension: 0.28,
+          borderWidth: 2.8,
+          pointRadius: 3.5,
+          pointBackgroundColor: "#9f1239",
+          segment: {
+            borderDash: (ctx) => DATA.cancerMio.years[ctx.p1DataIndex] >= 2025 ? [6, 4] : undefined
+          }
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ` ${fmt(ctx.parsed.y)} óbitos`
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            ticks: { callback: (v) => (v / 1000) + "k" },
+            grid: { color: "rgba(16,24,32,0.06)" }
+          },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    // Chart: myocarditis 2014-2025
+    new Chart(document.getElementById("chartMio"), {
+      type: "line",
+      data: {
+        labels: DATA.cancerMio.years.map((y) => y === 2025 ? "2025*" : String(y)),
+        datasets: [{
+          label: "Miocardite aguda (I40)",
+          data: DATA.cancerMio.miocardite,
+          borderColor: "#0e7490",
+          backgroundColor: "rgba(14, 116, 144, 0.12)",
+          fill: true,
+          tension: 0.28,
+          borderWidth: 2.8,
+          pointRadius: 3.5,
+          pointBackgroundColor: "#0e7490",
+          segment: {
+            borderDash: (ctx) => DATA.cancerMio.years[ctx.p1DataIndex] >= 2025 ? [6, 4] : undefined
+          }
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ` ${fmt(ctx.parsed.y)} óbitos`
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: { color: "rgba(16,24,32,0.06)" }
+          },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    // Chart: compare 2019-2025
+    new Chart(document.getElementById("chartCompare"), {
+      type: "bar",
+      data: {
+        labels: ["2019","2020","2021","2022","2023","2024","2025"],
+        datasets: [
+          {
+            label: "Dengue SVS",
+            data: [840, 574, 246, 1016, 1179, 6264, 1008],
+            backgroundColor: palette.crimson,
+            borderRadius: 6
+          },
+          {
+            label: "Gripe SIM",
+            data: [null, null, null, 3249, 1334, 2269, null],
+            backgroundColor: palette.steel,
+            borderRadius: 6
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: "bottom", labels: { usePointStyle: true } },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ctx.parsed.y == null
+                ? ` ${ctx.dataset.label}: sem dado`
+                : ` ${ctx.dataset.label}: ${fmt(ctx.parsed.y)}`
+            }
+          }
+        },
+        scales: {
+          x: { grid: { display: false } },
+          y: {
+            beginAtZero: true,
+            grid: { color: "rgba(16,24,32,0.06)" }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
