@@ -33,7 +33,7 @@ explícito no tooltip/rodapé do gráfico para não passar precisão falsa.
 > o valor central usa um fator de realocação de literatura (ev-inference),
 > não um dado direto do SIM.
 
-**Status no painel (2026-08-13):** implementado · release **v1.2.0**.
+**Status no painel (2026-08-13):** implementado · release **v1.2.1**.
 
 | Ano | Taxa Y10–Y34 / (X60+Y10) | Central (f=0,35) |
 |-----|--------------------------|------------------|

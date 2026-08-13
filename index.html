@@ -559,7 +559,7 @@
         <span class="chip ok">SIM oficial até 2024</span>
         <span class="chip">RC/ARPEN 2025 · ev-inference</span>
         <span class="chip warn">Dengue 2024: epidemia histórica</span>
-        <span class="chip">v1.2.0 · 13/08/2026</span>
+        <span class="chip">v1.2.1 · 13/08/2026</span>
       </div>
       <div class="share-bar" aria-label="Compartilhar">
         <span>Compartilhar</span>
@@ -840,7 +840,7 @@
   <footer>
     <div class="wrap">
       <div>
-        Observatório Demográfico · Brasil 2005–2025 · <strong>v1.2.0</strong><br>
+        Observatório Demográfico · Brasil 2005–2025 · <strong>v1.2.1</strong><br>
         Pipeline: <code>brazil_deaths_by_age_2014_2025.py</code> · <code>extract_suicidio_sim.py</code> · <code>scripts/estimate_suicidio_subnotificacao.py</code> · dados em <code>data/</code>
         <div class="sources">Fontes: DATASUS/SIM · ARPEN · Ministério da Saúde/SVS · IBGE · Ajuda: CVV 188 · <a href="CHANGELOG.md">CHANGELOG</a></div>
       </div>
@@ -978,7 +978,7 @@
           "MS boletim 2021","central f=0,35","central f=0,35","central f=0,35 (provisório)","central×RC 2025"
         ],
         suicidioTag: [
-          "gap","gap","gap","gap","gap","gap","ok","ok","prov","inf"
+          "gap","gap","gap","gap","gap","gap","ok","ok","ok-provisorio","inf"
         ]
       },
       suicidio: {
@@ -1059,7 +1059,7 @@
           <td class="num">${fmt(DATA.disease.gripe[i])}</td>
           <td><span class="tag ${gTag}">${DATA.disease.gripeFonte[i]}</span></td>
           <td class="num">${fmt(DATA.disease.suicidio[i])}</td>
-          <td><span class="tag ${sTag === "inf" ? "inf" : sTag === "prov" ? "prov" : sTag === "ok" ? "" : "gap"}">${DATA.disease.suicidioFonte[i]}</span></td>
+          <td><span class="tag ${sTag === "inf" ? "inf" : sTag === "ok-provisorio" ? "prov" : sTag === "ok" ? "" : "gap"}">${DATA.disease.suicidioFonte[i]}</span></td>
         </tr>`);
     });
 
@@ -1392,7 +1392,12 @@
                 const tag = DATA.suicidio.tags[i];
                 if (tag === "ok-provisorio") lines.push("Tag: ok-provisorio (SIM ainda madurando)");
                 else if (tag === "ok") lines.push("Fonte: SIM OpenDataSUS + modelo subnotificação");
-                else if (tag === "inf") lines.push("Fonte: camadas 2024 × razão RC 2025");
+                else if (tag === "inf") {
+                  lines.push("Fonte: camadas 2024 × razão RC 2025");
+                  if (DATA.suicidio.years[i] === 2025) {
+                    lines.push("Aviso: piso e teto usam métodos de extrapolação diferentes (sem Y10–Y34 observado em 2025) — a largura da faixa não é um intervalo de confiança.");
+                  }
+                }
                 else if (DATA.suicidio.years[i] === 2021) lines.push("Fonte: boletim MS 2021");
                 else lines.push("Fonte: TabNet / literatura (sem Y10–Y34 neste pipeline)");
                 return lines;

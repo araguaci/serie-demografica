@@ -2,7 +2,7 @@
 
 **Status:** teste 1 **confirmado** · ev-inference para camada central  
 **Escopo:** `DATA.suicidio` (2005–2025), seção "Suicídio" do painel  
-**Atualizado:** 2026-08-13 · **Release:** v1.2.0 ([CHANGELOG](../CHANGELOG.md))
+**Atualizado:** 2026-08-13 · **Release:** v1.2.1 ([CHANGELOG](../CHANGELOG.md))
 
 ---
 

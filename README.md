@@ -16,7 +16,7 @@ Observatório demográfico com série histórica de óbitos por faixa etária no
 **Eixo SELVA:** mesma disciplina dos hubs investigativos — [Sabor Brazil](https://sabor-brazil.vercel.app), [Vítimas do Estado](https://vitimas-do-estado.vercel.app), [Geoengenharia](https://geoengenharia.vercel.app), [República Sequestrada](https://republica-sequestrada-hub.vercel.app), [Lawfare Timeline](https://lawfare-timeline.vercel.app) — fonte primária, proveniência e deploy rastreável. Estratégia estável no monorepo: `docs/estrategia/SENTINEL-EIXO-SELVA.md`.
 
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
-[![Version](https://img.shields.io/badge/Version-1.2.0-teal.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-1.2.1-teal.svg)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-Produção-success.svg)]()
 
@@ -389,15 +389,16 @@ Este repositório usa [SemVer](https://semver.org/lang/pt-BR/) (`MAJOR.MINOR.PAT
 
 | Arquivo | Papel |
 |---------|-------|
-| [`VERSION`](VERSION) | Versão canônica atual (`1.2.0`) |
+| [`VERSION`](VERSION) | Versão canônica atual (`1.2.1`) |
 | [`CHANGELOG.md`](CHANGELOG.md) | Notas por release (Keep a Changelog) |
 
-Tags Git sugeridas: `v1.2.0`, `v1.1.0`, …
+Tags Git sugeridas: `v1.2.1`, `v1.2.0`, `v1.1.0`, …
 
 ### Versão atual
 
-- **Versão**: **1.2.0** (2026-08-13)
+- **Versão**: **1.2.1** (2026-08-13)
 - **Período coberto**: mortalidade etária 2014–2025 · suicídio 2005–2025
+- **Destaque 1.2.1**: tags/tooltip alinhados (`ok-provisorio` + aviso 2025)
 - **Destaque 1.2.0**: suicídio + subnotificação Y10–Y34 (central ~21,8 mil em 2022–2024)
 
 ### Planejado
