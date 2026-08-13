@@ -383,7 +383,6 @@
     }
     .tag.gap { background: #eef1f4; color: var(--muted); }
     .tag.inf { background: #fff4e5; color: var(--amber); }
-    .tag.prov { background: #fef3c7; color: #92400e; }
 
     .note {
       margin-top: 1rem;
@@ -559,7 +558,7 @@
         <span class="chip ok">SIM oficial até 2024</span>
         <span class="chip">RC/ARPEN 2025 · ev-inference</span>
         <span class="chip warn">Dengue 2024: epidemia histórica</span>
-        <span class="chip">v1.2.0 · 13/08/2026</span>
+        <span class="chip">Atualizado 05/08/2026</span>
       </div>
       <div class="share-bar" aria-label="Compartilhar">
         <span>Compartilhar</span>
@@ -695,9 +694,7 @@
           Em 2025 há ~1.008 óbitos confirmados no painel MS, com investigações ainda abertas.
           Gripe SIM em 2022 (3.249) reflete retorno da circulação influenza pós-pandemia.
           SRAG 2019 registrou 1.176 óbitos hospitalares classificados como influenza — métrica distinta do SIM.
-          Suicídio: 2016–2021 = piso TabNet/boletim (X60–X84); 2022–2025 = estimativa <strong>central</strong>
-          (X60–X84 + 35% dos Y10–Y34). Em 2024 o piso caiu (14.095), mas a indeterminação subiu para 60,9% —
-          o central (~21,8 mil) permanece estável frente a 2022/2023. Ver seção Suicídio.
+          Suicídio: CID-10 X60–X84; 2022–2024 = microdado OpenDataSUS; 2016–2021 = TabNet/boletim MS; 2025 = estimativa.
         </div>
       </article>
     </section>
@@ -707,16 +704,12 @@
         <div class="section-head">
           <div>
             <h2 id="suicidio-title">Suicídio — série de ~20 anos (2005–2025)</h2>
-            <p>Modelo piso / central / teto: X60–X84 confirmado + realocação de Y10–Y34 (intenção indeterminada). Colunas preenchem a tela.</p>
+            <p>Óbitos por lesões autoprovocadas intencionalmente (CID-10 X60–X84). Colunas preenchem a largura da tela; eixo vertical em óbitos absolutos.</p>
           </div>
         </div>
         <div class="chart-panel">
-          <p class="hint">Barras = estimativa central (fator 0,35) · faixa clara = piso–teto (2022+) · 2024 marcado como provisório (lag de fechamento) · 2025* extrapolado</p>
+          <p class="hint">2005–2021: vigilância TabNet / boletim MS · 2022–2024: SIM confirmado (OpenDataSUS) · 2025*: estimativa proporcional</p>
           <div class="chart-box viewport"><canvas id="chartSuicidio"></canvas></div>
-          <p class="hint" style="margin-top:1rem;max-width:72ch;">
-            Óbitos confirmados (X60–X84) subestimam o total real de suicídios devido a eventos ainda classificados como intenção indeterminada (Y10–Y34) no momento da consulta. A faixa piso–teto no gráfico reflete essa incerteza; o valor central usa um fator de realocação de literatura (ev-inference), não um dado direto do SIM.
-            Taxa de indeterminação: 2022 = 48,6% · 2023 = 45,0% · <strong style="color:#fbbf24">2024 = 60,9%</strong> (hipótese de lag confirmada).
-          </p>
         </div>
       </div>
     </section>
@@ -830,8 +823,8 @@
           <p>Série DATASUS 2014–2023 alinhada ao SIM I40 em 2022–2024 (163 → 161 → 201). Não inclui I51.4.</p>
         </article>
         <article class="insight">
-          <h3>Suicídio · subnotificação</h3>
-          <p>Piso X60–X84; teto + Y10–Y34; central com fator 0,35. Indeterminação 2024 (60,9%) &gt; 2022/2023 → lag de fechamento, não queda real. Ajuda: CVV 188.</p>
+          <h3>Suicídio X60–X84</h3>
+          <p>SIM 2022–2024 (16.462 → 17.002 → 14.095); 2021 = 15.507 (boletim MS); anos anteriores TabNet/literatura. Ajuda: CVV 188.</p>
         </article>
       </div>
     </section>
@@ -840,9 +833,9 @@
   <footer>
     <div class="wrap">
       <div>
-        Observatório Demográfico · Brasil 2005–2025 · <strong>v1.2.0</strong><br>
-        Pipeline: <code>brazil_deaths_by_age_2014_2025.py</code> · <code>extract_suicidio_sim.py</code> · <code>scripts/estimate_suicidio_subnotificacao.py</code> · dados em <code>data/</code>
-        <div class="sources">Fontes: DATASUS/SIM · ARPEN · Ministério da Saúde/SVS · IBGE · Ajuda: CVV 188 · <a href="CHANGELOG.md">CHANGELOG</a></div>
+        Observatório Demográfico · Brasil 2005–2025<br>
+        Pipeline: <code>brazil_deaths_by_age_2014_2025.py</code> · <code>extract_suicidio_sim.py</code> · dados em <code>data/</code>
+        <div class="sources">Fontes: DATASUS/SIM · ARPEN · Ministério da Saúde/SVS · IBGE · Ajuda: CVV 188</div>
       </div>
       <div class="links">
         <div class="credit">
@@ -971,28 +964,20 @@
         gripeTag: [
           "gap","gap","gap","gap","gap","gap","ok","ok","ok","gap"
         ],
-        // Suicídio: central (f=0,35) em 2022+; piso TabNet antes — ver DATA.suicidio
-        suicidio: [11433,12495,12733,13523,13837,15507,21899,21866,21773,23345],
+        // Suicídio X60–X84 — fatia 2016–2025 da série longa (ver DATA.suicidio)
+        suicidio: [11433,12495,12733,13523,13837,15507,16462,17002,14095,15112],
         suicidioFonte: [
           "TabNet X60–X84","TabNet X60–X84","TabNet X60–X84","TabNet X60–X84","TabNet X60–X84",
-          "MS boletim 2021","central f=0,35","central f=0,35","central f=0,35 (provisório)","central×RC 2025"
+          "MS boletim 2021","SIM X60–X84","SIM X60–X84","SIM X60–X84","estimativa 2025"
         ],
         suicidioTag: [
-          "gap","gap","gap","gap","gap","gap","ok","ok","prov","inf"
+          "gap","gap","gap","gap","gap","gap","ok","ok","ok","inf"
         ]
       },
       suicidio: {
         years: [2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
-        // Barras principais = estimativa central; faixa = piso–teto quando Y10–Y34 disponível
-        central: [8558,8639,8868,9328,9374,9454,9851,10321,10533,11121,11738,11433,12495,12733,13523,13837,15507,21899,21866,21773,23345],
-        piso:    [8558,8639,8868,9328,9374,9454,9851,10321,10533,11121,11738,11433,12495,12733,13523,13837,15507,16462,17002,14095,15112],
-        teto:    [8558,8639,8868,9328,9374,9454,9851,10321,10533,11121,11738,11433,12495,12733,13523,13837,15507,31995,30898,36032,38633],
-        y10:     [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,15533,13896,21937,null],
-        taxaIndetPct: [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,48.55,44.97,60.88,null],
-        fator: 0.35,
-        tags: ["gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","ok","ok","ok-provisorio","inf"],
-        // legado: values = central (compat)
-        values: [8558,8639,8868,9328,9374,9454,9851,10321,10533,11121,11738,11433,12495,12733,13523,13837,15507,21899,21866,21773,23345]
+        values: [8558,8639,8868,9328,9374,9454,9851,10321,10533,11121,11738,11433,12495,12733,13523,13837,15507,16462,17002,14095,15112],
+        tags: ["gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","ok","ok","ok","inf"]
       },
       cancerMio: {
         years: [2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
@@ -1059,7 +1044,7 @@
           <td class="num">${fmt(DATA.disease.gripe[i])}</td>
           <td><span class="tag ${gTag}">${DATA.disease.gripeFonte[i]}</span></td>
           <td class="num">${fmt(DATA.disease.suicidio[i])}</td>
-          <td><span class="tag ${sTag === "inf" ? "inf" : sTag === "prov" ? "prov" : sTag === "ok" ? "" : "gap"}">${DATA.disease.suicidioFonte[i]}</span></td>
+          <td><span class="tag ${sTag === "inf" ? "inf" : sTag === "ok" ? "" : "gap"}">${DATA.disease.suicidioFonte[i]}</span></td>
         </tr>`);
     });
 
@@ -1302,100 +1287,48 @@
       }
     });
 
-    // Chart: suicide ~20y — faixa piso–teto + barra central (subnotificação Y10–Y34)
-    const suicidioBand = DATA.suicidio.years.map((_, i) => {
-      const p = DATA.suicidio.piso[i];
-      const t = DATA.suicidio.teto[i];
-      if (p == null || t == null || p === t) return null;
-      return [p, t];
-    });
-    const suicidioBarColor = DATA.suicidio.years.map((y, i) => {
-      const tag = DATA.suicidio.tags[i];
-      if (y === 2025 || tag === "inf") return "rgba(212, 167, 44, 0.75)";
-      if (tag === "ok-provisorio") return "rgba(251, 191, 36, 0.9)";
-      if (tag === "ok") return "rgba(45, 212, 191, 0.9)";
-      return "rgba(148, 163, 184, 0.7)";
-    });
+    // Chart: suicide ~20y full-bleed columns
     new Chart(document.getElementById("chartSuicidio"), {
       type: "bar",
       data: {
-        labels: DATA.suicidio.years.map((y) => {
-          if (y === 2025) return "2025*";
-          if (y === 2024) return "2024†";
-          return String(y);
-        }),
-        datasets: [
-          {
-            label: "Faixa piso–teto (X60–X84 … + Y10–Y34)",
-            data: suicidioBand,
-            backgroundColor: "rgba(45, 212, 191, 0.2)",
-            borderColor: "rgba(45, 212, 191, 0.35)",
-            borderWidth: 1,
-            borderRadius: 3,
-            barPercentage: 0.92,
-            categoryPercentage: 0.95,
-            order: 2
-          },
-          {
-            label: `Central (fator ${String(DATA.suicidio.fator).replace(".", ",")})`,
-            data: DATA.suicidio.central,
-            backgroundColor: suicidioBarColor,
-            borderColor: suicidioBarColor.map((c) => c.replace(/[\d.]+\)$/, "1)")),
-            borderWidth: 1,
-            borderRadius: 4,
-            barPercentage: 0.55,
-            categoryPercentage: 0.95,
-            order: 1
-          }
-        ]
+        labels: DATA.suicidio.years.map((y) => y === 2025 ? "2025*" : String(y)),
+        datasets: [{
+          label: "Óbitos por suicídio (X60–X84)",
+          data: DATA.suicidio.values,
+          backgroundColor: DATA.suicidio.years.map((y, i) => {
+            if (y === 2025) return "rgba(212, 167, 44, 0.55)";
+            if (DATA.suicidio.tags[i] === "ok") return "rgba(45, 212, 191, 0.85)";
+            return "rgba(148, 163, 184, 0.65)";
+          }),
+          borderColor: DATA.suicidio.years.map((y, i) => {
+            if (y === 2025) return "#d4a72c";
+            if (DATA.suicidio.tags[i] === "ok") return "#2dd4bf";
+            return "#94a3b8";
+          }),
+          borderWidth: 1,
+          borderRadius: 4,
+          barPercentage: 0.92,
+          categoryPercentage: 0.95
+        }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: {
-            position: "bottom",
-            labels: {
-              color: "rgba(232,238,244,0.75)",
-              boxWidth: 12,
-              usePointStyle: true
-            }
-          },
+          legend: { display: false },
           tooltip: {
             callbacks: {
               title: (items) => {
                 const y = DATA.suicidio.years[items[0].dataIndex];
-                if (y === 2025) return "2025 (estimativa)";
-                if (y === 2024) return "2024 (provisório — lag de fechamento)";
-                return String(y);
+                return y === 2025 ? "2025 (estimativa)" : String(y);
               },
-              label: (ctx) => {
-                const i = ctx.dataIndex;
-                if (ctx.datasetIndex === 0) {
-                  const band = suicidioBand[i];
-                  if (!band) return " Faixa: (sem Y10–Y34 neste ano)";
-                  return ` Faixa piso–teto: ${fmt(band[0])} – ${fmt(band[1])}`;
-                }
-                return ` Central: ${fmt(ctx.parsed.y)} óbitos`;
-              },
-              afterBody: (items) => {
-                const i = items[0].dataIndex;
-                const lines = [
-                  `Piso X60–X84: ${fmt(DATA.suicidio.piso[i])}`,
-                  `Teto X60+Y10–Y34: ${fmt(DATA.suicidio.teto[i])}`
-                ];
-                const taxa = DATA.suicidio.taxaIndetPct[i];
-                if (taxa != null) {
-                  lines.push(`Y10–Y34: ${fmt(DATA.suicidio.y10[i])} (${String(taxa).replace(".", ",")}% indeterminação)`);
-                  lines.push(`Fator de realocação: ${String(DATA.suicidio.fator).replace(".", ",")} (literatura 0,20–0,45)`);
-                }
-                const tag = DATA.suicidio.tags[i];
-                if (tag === "ok-provisorio") lines.push("Tag: ok-provisorio (SIM ainda madurando)");
-                else if (tag === "ok") lines.push("Fonte: SIM OpenDataSUS + modelo subnotificação");
-                else if (tag === "inf") lines.push("Fonte: camadas 2024 × razão RC 2025");
-                else if (DATA.suicidio.years[i] === 2021) lines.push("Fonte: boletim MS 2021");
-                else lines.push("Fonte: TabNet / literatura (sem Y10–Y34 neste pipeline)");
-                return lines;
+              label: (ctx) => ` ${fmt(ctx.parsed.y)} óbitos`,
+              afterLabel: (ctx) => {
+                const tag = DATA.suicidio.tags[ctx.dataIndex];
+                if (tag === "ok") return "Fonte: SIM OpenDataSUS";
+                if (tag === "inf") return "Fonte: estimativa proporcional";
+                const y = DATA.suicidio.years[ctx.dataIndex];
+                return y === 2021 ? "Fonte: boletim MS 2021" : "Fonte: TabNet / literatura";
               }
             }
           }

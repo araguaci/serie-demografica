@@ -6,11 +6,13 @@ Conta óbitos por lesões autoprovocadas intencionalmente (suicídio)
 nos microdados SIM em cache (data_cache/DO##OPEN.csv).
 
 CID-10 (causa básica CAUSABAS):
-  - X60–X84  lesões autoprovocadas intencionalmente
-  - Y870     sequelas de lesões autoprovocadas (opcional no breakdown)
+  - X60–X84  lesões autoprovocadas intencionalmente (piso confirmado)
+  - Y10–Y34  intenção indeterminada (insumo de subnotificação)
+  - Y870     sequelas de lesões autoprovocadas (breakdown)
 
 Uso:
   python extract_suicidio_sim.py
+  python scripts/estimate_suicidio_subnotificacao.py
 
 Saídas:
   data/sim_suicidio_por_ano.json
@@ -71,12 +73,24 @@ def is_suicide(cid: str) -> bool:
     return 60 <= n <= 84
 
 
+def is_undetermined(cid: str) -> bool:
+    """Y10–Y34 — evento cuja intenção é indeterminada."""
+    if len(cid) < 3 or cid[0] != "Y":
+        return False
+    try:
+        n = int(cid[1:3])
+    except ValueError:
+        return False
+    return 10 <= n <= 34
+
+
 def is_sequela(cid: str) -> bool:
     return cid.startswith("Y870")
 
 
 def process_file(path: Path) -> dict:
     suicidio = 0
+    indeterminado = 0
     sequela = 0
     total = 0
     with open(path, "r", encoding="latin-1", newline="") as f:
@@ -88,13 +102,19 @@ def process_file(path: Path) -> dict:
             cid = normalize_cid(row.get("CAUSABAS"))
             if is_suicide(cid):
                 suicidio += 1
+            elif is_undetermined(cid):
+                indeterminado += 1
             elif is_sequela(cid):
                 sequela += 1
             if total % 300_000 == 0:
                 print(f"  {path.name}: {total:,} linhas", flush=True)
+    denom = suicidio + indeterminado
+    taxa = round(100.0 * indeterminado / denom, 2) if denom else None
     return {
         "suicidio_X60_X84": suicidio,
+        "indeterminado_Y10_Y34": indeterminado,
         "sequela_Y870": sequela,
+        "taxa_indeterminacao_pct": taxa,
         "total_registros": total,
         "fonte": "SIM/DATASUS CAUSABAS",
         "evidencia": "ev-confirmed",

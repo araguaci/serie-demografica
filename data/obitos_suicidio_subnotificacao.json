@@ -1,0 +1,319 @@
+{
+  "periodo": "2005-2025",
+  "atualizado_em": "2026-08-13",
+  "modelo": {
+    "piso": "X60–X84",
+    "central": "X60–X84 + (Y10–Y34 × 0.35)",
+    "teto": "X60–X84 + Y10–Y34",
+    "fator_realocacao": 0.35,
+    "fator_faixa_literatura": [
+      0.2,
+      0.45
+    ],
+    "nota": "Óbitos confirmados (X60–X84) subestimam o total real de suicídios devido a eventos ainda classificados como intenção indeterminada (Y10–Y34). A faixa piso–teto reflete essa incerteza; o valor central usa fator de realocação de literatura (ev-inference), não um dado direto do SIM."
+  },
+  "hipotese_lag_fechamento": {
+    "teste": "taxa_indeterminacao_2024 > anos SIM anteriores",
+    "resultado": "confirmado",
+    "taxas_pct": {
+      "2022": 48.55,
+      "2023": 44.97,
+      "2024": 60.88
+    },
+    "interpretacao": "Lag de fechamento compatível: 2024 tem mais Y10–Y34 relativo (60.88%) que [2022, 2023]. A queda do piso X60–X84 não deve ser lida como redução real de suicídios; use a faixa piso–central–teto."
+  },
+  "anos": [
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "piso": [
+    8558,
+    8639,
+    8868,
+    9328,
+    9374,
+    9454,
+    9851,
+    10321,
+    10533,
+    11121,
+    11738,
+    11433,
+    12495,
+    12733,
+    13523,
+    13837,
+    15507,
+    16462,
+    17002,
+    14095,
+    15112
+  ],
+  "central": [
+    8558,
+    8639,
+    8868,
+    9328,
+    9374,
+    9454,
+    9851,
+    10321,
+    10533,
+    11121,
+    11738,
+    11433,
+    12495,
+    12733,
+    13523,
+    13837,
+    15507,
+    21899,
+    21866,
+    21773,
+    23345
+  ],
+  "teto": [
+    8558,
+    8639,
+    8868,
+    9328,
+    9374,
+    9454,
+    9851,
+    10321,
+    10533,
+    11121,
+    11738,
+    11433,
+    12495,
+    12733,
+    13523,
+    13837,
+    15507,
+    31995,
+    30898,
+    36032,
+    38633
+  ],
+  "tags": [
+    "gap",
+    "gap",
+    "gap",
+    "gap",
+    "gap",
+    "gap",
+    "gap",
+    "gap",
+    "gap",
+    "gap",
+    "gap",
+    "gap",
+    "gap",
+    "gap",
+    "gap",
+    "gap",
+    "gap",
+    "ok",
+    "ok",
+    "ok-provisorio",
+    "inf"
+  ],
+  "meta": [
+    {
+      "ano": 2005,
+      "evidencia": "ev-surveillance",
+      "fonte": "Seed TabNet/boletim — sem Y10–Y34 neste pipeline",
+      "maturacao": "seed"
+    },
+    {
+      "ano": 2006,
+      "evidencia": "ev-surveillance",
+      "fonte": "Seed TabNet/boletim — sem Y10–Y34 neste pipeline",
+      "maturacao": "seed"
+    },
+    {
+      "ano": 2007,
+      "evidencia": "ev-surveillance",
+      "fonte": "Seed TabNet/boletim — sem Y10–Y34 neste pipeline",
+      "maturacao": "seed"
+    },
+    {
+      "ano": 2008,
+      "evidencia": "ev-surveillance",
+      "fonte": "Seed TabNet/boletim — sem Y10–Y34 neste pipeline",
+      "maturacao": "seed"
+    },
+    {
+      "ano": 2009,
+      "evidencia": "ev-surveillance",
+      "fonte": "Seed TabNet/boletim — sem Y10–Y34 neste pipeline",
+      "maturacao": "seed"
+    },
+    {
+      "ano": 2010,
+      "evidencia": "ev-surveillance",
+      "fonte": "Seed TabNet/boletim — sem Y10–Y34 neste pipeline",
+      "maturacao": "seed"
+    },
+    {
+      "ano": 2011,
+      "evidencia": "ev-surveillance",
+      "fonte": "Seed TabNet/boletim — sem Y10–Y34 neste pipeline",
+      "maturacao": "seed"
+    },
+    {
+      "ano": 2012,
+      "evidencia": "ev-surveillance",
+      "fonte": "Seed TabNet/boletim — sem Y10–Y34 neste pipeline",
+      "maturacao": "seed"
+    },
+    {
+      "ano": 2013,
+      "evidencia": "ev-surveillance",
+      "fonte": "Seed TabNet/boletim — sem Y10–Y34 neste pipeline",
+      "maturacao": "seed"
+    },
+    {
+      "ano": 2014,
+      "evidencia": "ev-surveillance",
+      "fonte": "Seed TabNet/boletim — sem Y10–Y34 neste pipeline",
+      "maturacao": "seed"
+    },
+    {
+      "ano": 2015,
+      "evidencia": "ev-surveillance",
+      "fonte": "Seed TabNet/boletim — sem Y10–Y34 neste pipeline",
+      "maturacao": "seed"
+    },
+    {
+      "ano": 2016,
+      "evidencia": "ev-surveillance",
+      "fonte": "Seed TabNet/boletim — sem Y10–Y34 neste pipeline",
+      "maturacao": "seed"
+    },
+    {
+      "ano": 2017,
+      "evidencia": "ev-surveillance",
+      "fonte": "Seed TabNet/boletim — sem Y10–Y34 neste pipeline",
+      "maturacao": "seed"
+    },
+    {
+      "ano": 2018,
+      "evidencia": "ev-surveillance",
+      "fonte": "Seed TabNet/boletim — sem Y10–Y34 neste pipeline",
+      "maturacao": "seed"
+    },
+    {
+      "ano": 2019,
+      "evidencia": "ev-surveillance",
+      "fonte": "Seed TabNet/boletim — sem Y10–Y34 neste pipeline",
+      "maturacao": "seed"
+    },
+    {
+      "ano": 2020,
+      "evidencia": "ev-surveillance",
+      "fonte": "Seed TabNet/boletim — sem Y10–Y34 neste pipeline",
+      "maturacao": "seed"
+    },
+    {
+      "ano": 2021,
+      "evidencia": "ev-surveillance",
+      "fonte": "Seed TabNet/boletim — sem Y10–Y34 neste pipeline",
+      "maturacao": "seed"
+    },
+    {
+      "ano": 2022,
+      "evidencia": "ev-confirmed",
+      "fonte": "SIM X60–X84 + Y10–Y34 (fator 0.35)",
+      "maturacao": "maduro",
+      "taxa_indeterminacao_pct": 48.55
+    },
+    {
+      "ano": 2023,
+      "evidencia": "ev-confirmed",
+      "fonte": "SIM X60–X84 + Y10–Y34 (fator 0.35)",
+      "maturacao": "maduro",
+      "taxa_indeterminacao_pct": 44.97
+    },
+    {
+      "ano": 2024,
+      "evidencia": "ev-inference",
+      "fonte": "SIM X60–X84 + Y10–Y34 (fator 0.35)",
+      "maturacao": "provisorio",
+      "taxa_indeterminacao_pct": 60.88
+    },
+    {
+      "ano": 2025,
+      "evidencia": "ev-inference",
+      "fonte": "Camadas 2024 × razão RC 2025 (fator 0.35)",
+      "maturacao": "estimado"
+    }
+  ],
+  "sim_anos": {
+    "2022": {
+      "piso_X60_X84": 16462,
+      "indeterminado_Y10_Y34": 15533,
+      "central_estimado": 21899,
+      "teto_X60_Y34": 31995,
+      "fator_realocacao": 0.35,
+      "taxa_indeterminacao_pct": 48.55,
+      "maturacao": "maduro",
+      "tag_painel": "ok",
+      "evidencia_piso": "ev-confirmed",
+      "evidencia_central": "ev-inference",
+      "fonte": "SIM/DATASUS CAUSABAS",
+      "arquivo": "DO22OPEN.csv"
+    },
+    "2023": {
+      "piso_X60_X84": 17002,
+      "indeterminado_Y10_Y34": 13896,
+      "central_estimado": 21866,
+      "teto_X60_Y34": 30898,
+      "fator_realocacao": 0.35,
+      "taxa_indeterminacao_pct": 44.97,
+      "maturacao": "maduro",
+      "tag_painel": "ok",
+      "evidencia_piso": "ev-confirmed",
+      "evidencia_central": "ev-inference",
+      "fonte": "SIM/DATASUS CAUSABAS",
+      "arquivo": "DO23OPEN.csv"
+    },
+    "2024": {
+      "piso_X60_X84": 14095,
+      "indeterminado_Y10_Y34": 21937,
+      "central_estimado": 21773,
+      "teto_X60_Y34": 36032,
+      "fator_realocacao": 0.35,
+      "taxa_indeterminacao_pct": 60.88,
+      "maturacao": "provisorio",
+      "tag_painel": "ok-provisorio",
+      "evidencia_piso": "ev-confirmed",
+      "evidencia_central": "ev-inference",
+      "fonte": "SIM/DATASUS CAUSABAS",
+      "arquivo": "DO24OPEN.csv"
+    }
+  },
+  "referencias": [
+    "docs/NOTA-SUBNOTIFICACAO.md",
+    "docs/INVESTIGACAO-SUBNOTIFICACAO.md"
+  ]
+}

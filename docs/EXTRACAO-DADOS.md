@@ -2,6 +2,8 @@
 
 Guia operacional do pipeline **série-demografica**: baixar microdados SIM, consultar Registro Civil e gerar agregados usados no dashboard.
 
+**Versão do projeto:** ver [`../VERSION`](../VERSION) · [`../CHANGELOG.md`](../CHANGELOG.md) · índice em [`README.md`](README.md)
+
 ## Visão geral
 
 ```
@@ -150,18 +152,32 @@ python extract_suicidio_sim.py
 
 | CID-10 (CAUSABAS) | Contagem |
 |-------------------|----------|
-| `X60`–`X84` | lesões autoprovocadas intencionalmente (série principal) |
-| `Y870` | sequelas (breakdown opcional no JSON SIM) |
+| `X60`–`X84` | suicídio confirmado (**piso**) |
+| `Y10`–`Y34` | intenção indeterminada (subnotificação) |
+| `Y870` | sequelas (breakdown) |
 
 **Saídas:**
 
-- `data/sim_suicidio_por_ano.json` — só anos com microdado  
-- `data/obitos_suicidio_2005_2025.json` — série ~20 anos:
-  - 2005–2021: seed TabNet / boletim MS (2021 = 15.507)
-  - anos com DO##: valores SIM
-  - 2025: estimativa se existir `brazil_deaths_by_age_2014_2025_meta.json`
+- `data/sim_suicidio_por_ano.json` — X60–X84 + Y10–Y34 + taxa de indeterminação  
+- `data/obitos_suicidio_2005_2025.json` — série piso ~20 anos  
+- `data/obitos_suicidio_subnotificacao.json` — piso / central / teto (após o script abaixo)
 
-O dashboard (`index.html`) embute a série no gráfico full-bleed e na coluna **Suicídio** da tabela 2016–2025. Inclui links de ajuda (CVV 188) e referências.
+```bash
+python scripts/estimate_suicidio_subnotificacao.py
+# opcional: --fator 0.35   (faixa literatura 0,20–0,45)
+```
+
+Modelo (ver `docs/NOTA-SUBNOTIFICACAO.md` e `docs/INVESTIGACAO-SUBNOTIFICACAO.md`):
+
+| Camada | Fórmula | Uso no painel |
+|--------|---------|---------------|
+| Piso | X60–X84 | base da faixa |
+| Central | X60–X84 + (Y10–Y34 × 0,35) | barra principal / coluna da tabela 2022+ |
+| Teto | X60–X84 + Y10–Y34 | topo da faixa |
+
+**Achado (DO22–DO24):** taxa de indeterminação 2024 = **60,9%** vs 48,6% (2022) e 45,0% (2023) → lag de fechamento confirmado; central ~21,8 mil estável.
+
+O dashboard embute as três camadas no gráfico full-bleed, marca 2024 como provisório e mantém links de ajuda (CVV 188).
 
 ---
 
@@ -189,6 +205,7 @@ python brazil_deaths_by_age_2014_2025.py
 python extract_gripe_dengue_sim.py
 python extract_cancer_miocardite_sim.py
 python extract_suicidio_sim.py
+python scripts/estimate_suicidio_subnotificacao.py
 
 # 3) Opcional
 python gerar_graficos_analise.py
@@ -218,8 +235,17 @@ KPIs do topo do dashboard também são estáticos — revise ao mudar totais.
 |-----|-------------|
 | `ev-confirmed` | Microdado SIM processado neste ambiente |
 | `ev-surveillance` | Série oficial/publicada (SVS, TabNet, literatura) |
-| `ev-inference` | Estimativa documentada (RC × fator, proporções) |
+| `ev-inference` | Estimativa documentada (RC × fator, central Y10–Y34, proporções) |
 | `ev-gap` | Sem dado neste pipeline |
+
+### Tags do painel (suicídio)
+
+| Tag | Significado |
+|-----|-------------|
+| `ok` | SIM com microdado; faixa piso–teto disponível |
+| `ok-provisorio` | Ano mais recente com indeterminação elevada (lag de fechamento) |
+| `inf` | Extrapolação (ex.: 2025 × RC) |
+| `gap` | Seed TabNet/boletim sem Y10–Y34 neste pipeline |
 
 ---
 
