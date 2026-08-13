@@ -4,20 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Observatório Demográfico — Mortalidade Brasil (2014–2025)</title>
-  <meta name="description" content="Dashboard de mortalidade por faixa etária, gripe e dengue no Brasil. SIM/DATASUS, Registro Civil e vigilância SVS.">
+  <meta name="description" content="Dashboard de mortalidade por faixa etária, gripe, dengue, câncer, miocardite e suicídio no Brasil. SIM/DATASUS, Registro Civil e vigilância SVS.">
   <meta name="theme-color" content="#0f1c2e">
   <link rel="canonical" href="https://serie-demografica.vercel.app/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://serie-demografica.vercel.app/">
   <meta property="og:title" content="Observatório Demográfico — Mortalidade Brasil (2014–2025)">
-  <meta property="og:description" content="Série 2014–2025: mortalidade por idade, dengue, gripe, câncer e miocardite. Dados SIM, ARPEN e SVS.">
+  <meta property="og:description" content="Série demográfica: idade, dengue, gripe, câncer, miocardite e suicídio (X60–X84). Dados SIM, ARPEN e SVS.">
   <meta property="og:image" content="https://serie-demografica.vercel.app/serie-demografica-mortalidade-hero.webp">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1536">
   <meta property="og:image:height" content="1024">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Observatório Demográfico — Mortalidade Brasil (2014–2025)">
-  <meta name="twitter:description" content="Série 2014–2025: mortalidade por idade, dengue, gripe, câncer e miocardite.">
+  <meta name="twitter:description" content="Série demográfica: idade, dengue, gripe, câncer, miocardite e suicídio (X60–X84).">
   <meta name="twitter:image" content="https://serie-demografica.vercel.app/serie-demografica-mortalidade-hero.webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -250,6 +250,101 @@
     }
     .chart-box { position: relative; height: 320px; }
     .chart-box.tall { height: 380px; }
+    .chart-box.viewport {
+      height: min(78vh, 720px);
+      min-height: 420px;
+    }
+
+    .fullbleed {
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      background:
+        linear-gradient(180deg, rgba(15, 28, 46, 0.97) 0%, #0f1c2e 40%, #12253a 100%);
+      color: #e8eef4;
+      padding: 2.5rem 0 2rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .fullbleed .fullbleed-inner {
+      width: min(1400px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+    .fullbleed .section-head h2 { color: #f5f7fa; }
+    .fullbleed .section-head p { color: rgba(232, 238, 244, 0.72); }
+    .fullbleed .hint { color: rgba(232, 238, 244, 0.55); }
+    .fullbleed .chart-panel {
+      margin-top: 1rem;
+      padding: 1rem 0.5rem 0.25rem;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .help-box {
+      margin-top: 1.25rem;
+      padding: 1.25rem 1.35rem;
+      border-radius: var(--radius);
+      border: 1px solid #f0d48a;
+      background: linear-gradient(135deg, #fffbeb 0%, #fff7e6 100%);
+      box-shadow: var(--shadow);
+    }
+    .help-box h3 {
+      margin: 0 0 0.4rem;
+      font-family: var(--display);
+      font-size: 1.2rem;
+      color: #7a4e00;
+    }
+    .help-box > p {
+      margin: 0 0 0.9rem;
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+    }
+    .help-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.75rem;
+    }
+    .help-card {
+      display: block;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid #ead9a8;
+      color: var(--ink);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .help-card:hover {
+      border-color: #d4a72c;
+      transform: translateY(-1px);
+    }
+    .help-card strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+    }
+    .help-card span {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+    }
+    .help-card .phone {
+      font-weight: 700;
+      color: var(--teal-deep);
+      font-variant-numeric: tabular-nums;
+    }
+    .refs-list {
+      margin: 0.75rem 0 0;
+      padding-left: 1.1rem;
+      color: var(--ink-soft);
+      font-size: 0.86rem;
+    }
+    .refs-list a {
+      color: var(--teal-deep);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .refs-list li { margin: 0.35rem 0; }
 
     .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--line); }
     table {
@@ -429,6 +524,7 @@
       .kpis, .insights, .grid-2 { grid-template-columns: 1fr; }
       .nav { display: none; }
       .chart-box, .chart-box.tall { height: 280px; }
+      .chart-box.viewport { height: min(70vh, 520px); min-height: 320px; }
       .hero h1 { max-width: none; }
       footer .links { align-items: flex-start; text-align: left; }
       .gotop { right: 1rem; bottom: 1rem; width: 42px; height: 42px; }
@@ -444,6 +540,7 @@
         <a href="#idade">Faixa etária</a>
         <a href="#arboviroses">Gripe &amp; Dengue</a>
         <a href="#cancer-mio">Câncer &amp; Miocardite</a>
+        <a href="#suicidio">Suicídio</a>
         <a href="#metodo">Método</a>
       </nav>
     </div>
@@ -454,8 +551,8 @@
       <div class="eyebrow">Observatório de mortalidade</div>
       <h1>Brasil em números de vida e perda</h1>
       <p class="hero-lead">
-        Leitura premium da série 2014–2025: mortalidade por idade (SIM + estimativa RC 2025)
-        e a década recente de óbitos por dengue e influenza.
+        Leitura premium da série 2014–2025: mortalidade por idade (SIM + estimativa RC 2025),
+        a década recente de óbitos por dengue e influenza, e a série de ~20 anos de suicídio (CID X60–X84).
       </p>
       <div class="hero-meta">
         <span class="chip ok">SIM oficial até 2024</span>
@@ -585,6 +682,8 @@
                 <th>Fonte dengue</th>
                 <th class="num">Gripe (SIM)</th>
                 <th>Fonte gripe</th>
+                <th class="num">Suicídio (SIM)</th>
+                <th>Fonte suicídio</th>
               </tr>
             </thead>
             <tbody id="tblDisease"></tbody>
@@ -595,8 +694,61 @@
           Em 2025 há ~1.008 óbitos confirmados no painel MS, com investigações ainda abertas.
           Gripe SIM em 2022 (3.249) reflete retorno da circulação influenza pós-pandemia.
           SRAG 2019 registrou 1.176 óbitos hospitalares classificados como influenza — métrica distinta do SIM.
+          Suicídio: CID-10 X60–X84; 2022–2024 = microdado OpenDataSUS; 2016–2021 = TabNet/boletim MS; 2025 = estimativa.
         </div>
       </article>
+    </section>
+
+    <section id="suicidio" class="fullbleed" aria-labelledby="suicidio-title">
+      <div class="fullbleed-inner">
+        <div class="section-head">
+          <div>
+            <h2 id="suicidio-title">Suicídio — série de ~20 anos (2005–2025)</h2>
+            <p>Óbitos por lesões autoprovocadas intencionalmente (CID-10 X60–X84). Colunas preenchem a largura da tela; eixo vertical em óbitos absolutos.</p>
+          </div>
+        </div>
+        <div class="chart-panel">
+          <p class="hint">2005–2021: vigilância TabNet / boletim MS · 2022–2024: SIM confirmado (OpenDataSUS) · 2025*: estimativa proporcional</p>
+          <div class="chart-box viewport"><canvas id="chartSuicidio"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding-top:1.5rem;padding-bottom:0.5rem;" aria-label="Ajuda e referências sobre suicídio">
+      <div class="help-box">
+        <h3>Precisa de ajuda — ou quer ajudar alguém próximo?</h3>
+        <p>
+          Estes números são epidemiológicos. Se você ou alguém que você conhece está em sofrimento psíquico,
+          procure apoio. Conversar pode salvar vidas. Não é preciso enfrentar isso sozinho.
+        </p>
+        <div class="help-grid">
+          <a class="help-card" href="https://www.cvv.org.br" target="_blank" rel="noopener noreferrer">
+            <strong>CVV — Centro de Valorização da Vida</strong>
+            <span class="phone">Ligue 188</span>
+            <span>Apoio emocional 24h, gratuito e sigiloso · cvv.org.br</span>
+          </a>
+          <a class="help-card" href="https://www.cvv.org.br/setembro-amarelo/" target="_blank" rel="noopener noreferrer">
+            <strong>Setembro Amarelo</strong>
+            <span>Campanha nacional de prevenção · materiais e como ajudar</span>
+          </a>
+          <a class="help-card" href="https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/s/saude-mental" target="_blank" rel="noopener noreferrer">
+            <strong>CAPS / UBS — Saúde mental (MS)</strong>
+            <span>Rede pública de atenção psicossocial no seu município</span>
+          </a>
+          <a class="help-card" href="tel:192">
+            <strong>SAMU</strong>
+            <span class="phone">Ligue 192</span>
+            <span>Emergências médicas — risco imediato à vida</span>
+          </a>
+        </div>
+        <ul class="refs-list">
+          <li><a href="http://tabnet.datasus.gov.br/cgi/deftohtm.exe?sim/cnv/obt10uf.def" target="_blank" rel="noopener noreferrer">DATASUS TabNet — Mortalidade (CID-10)</a></li>
+          <li><a href="https://opendatasus.saude.gov.br/dataset/sim" target="_blank" rel="noopener noreferrer">OpenDataSUS — microdados SIM</a></li>
+          <li><a href="https://www.gov.br/saude/pt-br/centrais-de-conteudo/publicacoes/boletins/epidemiologicos/edicoes/2024/boletim-epidemiologico-volume-55-no-04.pdf" target="_blank" rel="noopener noreferrer">MS — Boletim Epidemiológico v.55 n.04 (suicídios 2010–2021)</a></li>
+          <li><a href="https://www.who.int/health-topics/suicide" target="_blank" rel="noopener noreferrer">OMS — Suicide (prevenção)</a></li>
+          <li><a href="https://www.iasp.info/suicidalthoughts/" target="_blank" rel="noopener noreferrer">IASP — recursos internacionais de apoio</a></li>
+        </ul>
+      </div>
     </section>
 
     <section id="cancer-mio">
@@ -670,6 +822,10 @@
           <h3>Miocardite I40</h3>
           <p>Série DATASUS 2014–2023 alinhada ao SIM I40 em 2022–2024 (163 → 161 → 201). Não inclui I51.4.</p>
         </article>
+        <article class="insight">
+          <h3>Suicídio X60–X84</h3>
+          <p>SIM 2022–2024 (16.462 → 17.002 → 14.095); 2021 = 15.507 (boletim MS); anos anteriores TabNet/literatura. Ajuda: CVV 188.</p>
+        </article>
       </div>
     </section>
   </main>
@@ -677,9 +833,9 @@
   <footer>
     <div class="wrap">
       <div>
-        Observatório Demográfico · Brasil 2014–2025<br>
-        Pipeline: <code>brazil_deaths_by_age_2014_2025.py</code> · dados em <code>data/</code>
-        <div class="sources">Fontes: DATASUS/SIM · ARPEN · Ministério da Saúde/SVS · IBGE</div>
+        Observatório Demográfico · Brasil 2005–2025<br>
+        Pipeline: <code>brazil_deaths_by_age_2014_2025.py</code> · <code>extract_suicidio_sim.py</code> · dados em <code>data/</code>
+        <div class="sources">Fontes: DATASUS/SIM · ARPEN · Ministério da Saúde/SVS · IBGE · Ajuda: CVV 188</div>
       </div>
       <div class="links">
         <div class="credit">
@@ -700,7 +856,7 @@
   <script>
     (function initShareAndGotop() {
       const SITE_URL = "https://serie-demografica.vercel.app/";
-      const SHARE_TEXT = "Observatório Demográfico — Mortalidade Brasil 2014–2025: idade, dengue, gripe, câncer e miocardite.";
+      const SHARE_TEXT = "Observatório Demográfico — Mortalidade Brasil: idade, dengue, gripe, câncer, miocardite e suicídio (X60–X84).";
       const enc = encodeURIComponent;
 
       const x = document.getElementById("share-x");
@@ -807,7 +963,21 @@
         ],
         gripeTag: [
           "gap","gap","gap","gap","gap","gap","ok","ok","ok","gap"
+        ],
+        // Suicídio X60–X84 — fatia 2016–2025 da série longa (ver DATA.suicidio)
+        suicidio: [11433,12495,12733,13523,13837,15507,16462,17002,14095,15112],
+        suicidioFonte: [
+          "TabNet X60–X84","TabNet X60–X84","TabNet X60–X84","TabNet X60–X84","TabNet X60–X84",
+          "MS boletim 2021","SIM X60–X84","SIM X60–X84","SIM X60–X84","estimativa 2025"
+        ],
+        suicidioTag: [
+          "gap","gap","gap","gap","gap","gap","ok","ok","ok","inf"
         ]
+      },
+      suicidio: {
+        years: [2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
+        values: [8558,8639,8868,9328,9374,9454,9851,10321,10533,11121,11738,11433,12495,12733,13523,13837,15507,16462,17002,14095,15112],
+        tags: ["gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","gap","ok","ok","ok","inf"]
       },
       cancerMio: {
         years: [2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
@@ -865,6 +1035,7 @@
     DATA.disease.years.forEach((y, i) => {
       const dTag = DATA.disease.dengueTag[i];
       const gTag = DATA.disease.gripeTag[i];
+      const sTag = DATA.disease.suicidioTag[i];
       tblDisease.insertAdjacentHTML("beforeend", `
         <tr>
           <td><strong>${y}</strong></td>
@@ -872,6 +1043,8 @@
           <td><span class="tag ${dTag === "inf" ? "inf" : ""}">${DATA.disease.dengueFonte[i]}</span></td>
           <td class="num">${fmt(DATA.disease.gripe[i])}</td>
           <td><span class="tag ${gTag}">${DATA.disease.gripeFonte[i]}</span></td>
+          <td class="num">${fmt(DATA.disease.suicidio[i])}</td>
+          <td><span class="tag ${sTag === "inf" ? "inf" : sTag === "ok" ? "" : "gap"}">${DATA.disease.suicidioFonte[i]}</span></td>
         </tr>`);
     });
 
@@ -1110,6 +1283,79 @@
             grid: { color: "rgba(16,24,32,0.06)" }
           },
           x: { grid: { display: false } }
+        }
+      }
+    });
+
+    // Chart: suicide ~20y full-bleed columns
+    new Chart(document.getElementById("chartSuicidio"), {
+      type: "bar",
+      data: {
+        labels: DATA.suicidio.years.map((y) => y === 2025 ? "2025*" : String(y)),
+        datasets: [{
+          label: "Óbitos por suicídio (X60–X84)",
+          data: DATA.suicidio.values,
+          backgroundColor: DATA.suicidio.years.map((y, i) => {
+            if (y === 2025) return "rgba(212, 167, 44, 0.55)";
+            if (DATA.suicidio.tags[i] === "ok") return "rgba(45, 212, 191, 0.85)";
+            return "rgba(148, 163, 184, 0.65)";
+          }),
+          borderColor: DATA.suicidio.years.map((y, i) => {
+            if (y === 2025) return "#d4a72c";
+            if (DATA.suicidio.tags[i] === "ok") return "#2dd4bf";
+            return "#94a3b8";
+          }),
+          borderWidth: 1,
+          borderRadius: 4,
+          barPercentage: 0.92,
+          categoryPercentage: 0.95
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              title: (items) => {
+                const y = DATA.suicidio.years[items[0].dataIndex];
+                return y === 2025 ? "2025 (estimativa)" : String(y);
+              },
+              label: (ctx) => ` ${fmt(ctx.parsed.y)} óbitos`,
+              afterLabel: (ctx) => {
+                const tag = DATA.suicidio.tags[ctx.dataIndex];
+                if (tag === "ok") return "Fonte: SIM OpenDataSUS";
+                if (tag === "inf") return "Fonte: estimativa proporcional";
+                const y = DATA.suicidio.years[ctx.dataIndex];
+                return y === 2021 ? "Fonte: boletim MS 2021" : "Fonte: TabNet / literatura";
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              color: "rgba(232,238,244,0.7)",
+              callback: (v) => Number(v).toLocaleString("pt-BR")
+            },
+            grid: { color: "rgba(255,255,255,0.08)" },
+            title: {
+              display: true,
+              text: "Óbitos",
+              color: "rgba(232,238,244,0.55)"
+            }
+          },
+          x: {
+            ticks: {
+              color: "rgba(232,238,244,0.7)",
+              maxRotation: 0,
+              autoSkip: true,
+              maxTicksLimit: 21
+            },
+            grid: { display: false }
+          }
         }
       }
     });

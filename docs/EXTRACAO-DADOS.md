@@ -21,7 +21,8 @@ ARPEN (API RC) ───────────────┼──► totais 
 | 1. Série etária + RC | `brazil_deaths_by_age_2014_2025.py` | S3 SIM + API ARPEN | CSV etário, taxas, proveniência, `data_cache/` |
 | 2. Gripe / dengue | `extract_gripe_dengue_sim.py` | `data_cache/` | `data/sim_gripe_dengue_por_ano.json` |
 | 3. Câncer / miocardite | `extract_cancer_miocardite_sim.py` | `data_cache/` | `data/sim_cancer_miocardite_por_ano.json` + série 2014–2025 |
-| 4. Gráficos PNG (opcional) | `gerar_graficos_analise.py` | CSV etário | PNGs |
+| 4. Suicídio | `extract_suicidio_sim.py` | `data_cache/` | `data/sim_suicidio_por_ano.json` + série 2005–2025 |
+| 5. Gráficos PNG (opcional) | `gerar_graficos_analise.py` | CSV etário | PNGs |
 
 **Não versionar** `data_cache/` (~500 MB por ano). Já está no `.gitignore`.
 
@@ -141,7 +142,30 @@ python extract_cancer_miocardite_sim.py
 
 ---
 
-## 4. Gráficos PNG (opcional)
+## 4. Extração suicídio (SIM)
+
+```bash
+python extract_suicidio_sim.py
+```
+
+| CID-10 (CAUSABAS) | Contagem |
+|-------------------|----------|
+| `X60`–`X84` | lesões autoprovocadas intencionalmente (série principal) |
+| `Y870` | sequelas (breakdown opcional no JSON SIM) |
+
+**Saídas:**
+
+- `data/sim_suicidio_por_ano.json` — só anos com microdado  
+- `data/obitos_suicidio_2005_2025.json` — série ~20 anos:
+  - 2005–2021: seed TabNet / boletim MS (2021 = 15.507)
+  - anos com DO##: valores SIM
+  - 2025: estimativa se existir `brazil_deaths_by_age_2014_2025_meta.json`
+
+O dashboard (`index.html`) embute a série no gráfico full-bleed e na coluna **Suicídio** da tabela 2016–2025. Inclui links de ajuda (CVV 188) e referências.
+
+---
+
+## 5. Gráficos PNG (opcional)
 
 O dashboard (`index.html`) usa Chart.js e dados embutidos/JSON. Os PNGs são opcionais (README, OG image):
 
@@ -164,6 +188,7 @@ python brazil_deaths_by_age_2014_2025.py
 # 2) Causas no cache
 python extract_gripe_dengue_sim.py
 python extract_cancer_miocardite_sim.py
+python extract_suicidio_sim.py
 
 # 3) Opcional
 python gerar_graficos_analise.py

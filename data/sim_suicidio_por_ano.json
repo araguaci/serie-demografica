@@ -1,0 +1,26 @@
+{
+  "2022": {
+    "suicidio_X60_X84": 16462,
+    "sequela_Y870": 6,
+    "total_registros": 1544266,
+    "fonte": "SIM/DATASUS CAUSABAS",
+    "evidencia": "ev-confirmed",
+    "arquivo": "DO22OPEN.csv"
+  },
+  "2023": {
+    "suicidio_X60_X84": 17002,
+    "sequela_Y870": 7,
+    "total_registros": 1465610,
+    "fonte": "SIM/DATASUS CAUSABAS",
+    "evidencia": "ev-confirmed",
+    "arquivo": "DO23OPEN.csv"
+  },
+  "2024": {
+    "suicidio_X60_X84": 14095,
+    "sequela_Y870": 4,
+    "total_registros": 1426346,
+    "fonte": "SIM/DATASUS CAUSABAS",
+    "evidencia": "ev-confirmed",
+    "arquivo": "DO24OPEN.csv"
+  }
+}

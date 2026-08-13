@@ -13,7 +13,7 @@ Observatório demográfico com série histórica de óbitos por faixa etária no
 
 **Site:** [serie-demografica.vercel.app](https://serie-demografica.vercel.app) · **Repo:** [github.com/araguaci/serie-demografica](https://github.com/araguaci/serie-demografica)
 
-**Eixo SELVA:** mesma disciplina dos hubs investigativos ([Sabor Brazil](https://sabor-brazil.vercel.app), [República Sequestrada](https://republica-sequestrada-hub.vercel.app), [Lawfare Timeline](https://lawfare-timeline.vercel.app)) — fonte primária, proveniência e deploy rastreável. Estratégia estável no monorepo: `docs/estrategia/SENTINEL-EIXO-SELVA.md`.
+**Eixo SELVA:** mesma disciplina dos hubs investigativos — [Sabor Brazil](https://sabor-brazil.vercel.app), [Vítimas do Estado](https://vitimas-do-estado.vercel.app), [Geoengenharia](https://geoengenharia.vercel.app), [República Sequestrada](https://republica-sequestrada-hub.vercel.app), [Lawfare Timeline](https://lawfare-timeline.vercel.app) — fonte primária, proveniência e deploy rastreável. Estratégia estável no monorepo: `docs/estrategia/SENTINEL-EIXO-SELVA.md`.
 
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -61,6 +61,7 @@ Este projeto realiza uma análise demográfica abrangente da mortalidade no Bras
 
 - ✅ **Análise Multissetorial**: Integra dados de economia, emprego, saúde, educação e previdência
 - ✅ **Série Histórica Completa**: 2014-2025 (pivô 2014; 2025 com proveniência ev-inference)
+- ✅ **Suicídio (X60–X84)**: série ~20 anos (2005–2025) + coluna na tabela 2016–2025 + links de ajuda (CVV 188)
 - ✅ **Visualizações Interativas**: Gráficos e tabelas comparativas
 - ✅ **Fontes Confiáveis**: Dados oficiais de IBGE, DATASUS, World Bank, UNDP
 - ✅ **Scripts Automatizados**: Extração e processamento de dados
@@ -82,6 +83,7 @@ serie-demografica/
 │   ├── brazil_deaths_by_age_2014_2025.py    # Download SIM + RC + série etária
 │   ├── extract_gripe_dengue_sim.py          # Causas J09–J11 / A90–A97 no cache
 │   ├── extract_cancer_miocardite_sim.py     # Causas C00–C97 / I40 no cache
+│   ├── extract_suicidio_sim.py              # Causas X60–X84 (série ~20 anos)
 │   ├── brazil_deaths_by_age_2015_2024.py    # Pipeline legado
 │   └── gerar_graficos_analise.py            # PNGs opcionais
 │

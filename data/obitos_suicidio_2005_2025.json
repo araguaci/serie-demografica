@@ -1,0 +1,202 @@
+{
+  "periodo": "2005-2025",
+  "atualizado_em": "2026-08-13",
+  "cid": "X60–X84",
+  "notas": [
+    "Suicídio: causa básica CID-10 X60–X84 (lesões autoprovocadas intencionalmente).",
+    "Anos com DO##OPEN.csv no cache = SIM confirmado; demais = seed de vigilância TabNet/literatura.",
+    "2025 = estimativa proporcional quando SIM ainda não publicado.",
+    "Este painel é epidemiológico. Em crise emocional: CVV 188 (https://www.cvv.org.br)."
+  ],
+  "anos": [
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "suicidio": [
+    8558,
+    8639,
+    8868,
+    9328,
+    9374,
+    9454,
+    9851,
+    10321,
+    10533,
+    11121,
+    11738,
+    11433,
+    12495,
+    12733,
+    13523,
+    13837,
+    15507,
+    16462,
+    17002,
+    14095,
+    15112
+  ],
+  "suicidio_meta": [
+    {
+      "ano": 2005,
+      "evidencia": "ev-surveillance",
+      "fonte": "SIM/DATASUS TabNet X60–X84 (série publicada / literatura)"
+    },
+    {
+      "ano": 2006,
+      "evidencia": "ev-surveillance",
+      "fonte": "SIM/DATASUS TabNet X60–X84 (série publicada / literatura)"
+    },
+    {
+      "ano": 2007,
+      "evidencia": "ev-surveillance",
+      "fonte": "SIM/DATASUS TabNet X60–X84 (série publicada / literatura)"
+    },
+    {
+      "ano": 2008,
+      "evidencia": "ev-surveillance",
+      "fonte": "SIM/DATASUS TabNet X60–X84 (série publicada / literatura)"
+    },
+    {
+      "ano": 2009,
+      "evidencia": "ev-surveillance",
+      "fonte": "SIM/DATASUS TabNet X60–X84 (série publicada / literatura)"
+    },
+    {
+      "ano": 2010,
+      "evidencia": "ev-surveillance",
+      "fonte": "SIM/DATASUS TabNet X60–X84 (série publicada / literatura)"
+    },
+    {
+      "ano": 2011,
+      "evidencia": "ev-surveillance",
+      "fonte": "SIM/DATASUS TabNet X60–X84 (série publicada / literatura)"
+    },
+    {
+      "ano": 2012,
+      "evidencia": "ev-surveillance",
+      "fonte": "SIM/DATASUS TabNet X60–X84 (série publicada / literatura)"
+    },
+    {
+      "ano": 2013,
+      "evidencia": "ev-surveillance",
+      "fonte": "SIM/DATASUS TabNet X60–X84 (série publicada / literatura)"
+    },
+    {
+      "ano": 2014,
+      "evidencia": "ev-surveillance",
+      "fonte": "SIM/DATASUS TabNet X60–X84 (série publicada / literatura)"
+    },
+    {
+      "ano": 2015,
+      "evidencia": "ev-surveillance",
+      "fonte": "SIM/DATASUS TabNet X60–X84 (série publicada / literatura)"
+    },
+    {
+      "ano": 2016,
+      "evidencia": "ev-surveillance",
+      "fonte": "SIM/DATASUS TabNet X60–X84 (série publicada / literatura)"
+    },
+    {
+      "ano": 2017,
+      "evidencia": "ev-surveillance",
+      "fonte": "SIM/DATASUS TabNet X60–X84 (série publicada / literatura)"
+    },
+    {
+      "ano": 2018,
+      "evidencia": "ev-surveillance",
+      "fonte": "SIM/DATASUS TabNet X60–X84 (série publicada / literatura)"
+    },
+    {
+      "ano": 2019,
+      "evidencia": "ev-surveillance",
+      "fonte": "SIM/DATASUS TabNet X60–X84 (série publicada / literatura)"
+    },
+    {
+      "ano": 2020,
+      "evidencia": "ev-surveillance",
+      "fonte": "SIM/DATASUS TabNet X60–X84 (série publicada / literatura)"
+    },
+    {
+      "ano": 2021,
+      "evidencia": "ev-surveillance",
+      "fonte": "SIM/DATASUS TabNet X60–X84 (série publicada / literatura)"
+    },
+    {
+      "ano": 2022,
+      "evidencia": "ev-confirmed",
+      "fonte": "SIM/DATASUS CAUSABAS X60–X84"
+    },
+    {
+      "ano": 2023,
+      "evidencia": "ev-confirmed",
+      "fonte": "SIM/DATASUS CAUSABAS X60–X84"
+    },
+    {
+      "ano": 2024,
+      "evidencia": "ev-confirmed",
+      "fonte": "SIM/DATASUS CAUSABAS X60–X84"
+    },
+    {
+      "ano": 2025,
+      "evidencia": "ev-inference",
+      "fonte": "Proporção SIM 2024 × estimativa total RC 2025"
+    }
+  ],
+  "ajuda": {
+    "cvv": {
+      "nome": "CVV — Centro de Valorização da Vida",
+      "telefone": "188",
+      "url": "https://www.cvv.org.br",
+      "nota": "Apoio emocional 24h, gratuito e sigiloso"
+    },
+    "samu": {
+      "nome": "SAMU",
+      "telefone": "192"
+    },
+    "caps": {
+      "nome": "CAPS / UBS",
+      "url": "https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/s/saude-mental"
+    }
+  },
+  "referencias": [
+    {
+      "titulo": "DATASUS TabNet — Mortalidade (CID-10)",
+      "url": "http://tabnet.datasus.gov.br/cgi/deftohtm.exe?sim/cnv/obt10uf.def"
+    },
+    {
+      "titulo": "OpenDataSUS — microdados SIM",
+      "url": "https://opendatasus.saude.gov.br/dataset/sim"
+    },
+    {
+      "titulo": "OMS — Suicide (prevenção)",
+      "url": "https://www.who.int/health-topics/suicide"
+    },
+    {
+      "titulo": "MS — Saúde mental",
+      "url": "https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/s/saude-mental"
+    },
+    {
+      "titulo": "Setembro Amarelo — CVV",
+      "url": "https://www.cvv.org.br/setembro-amarelo/"
+    }
+  ]
+}
