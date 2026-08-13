@@ -1,0 +1,34 @@
+--- index.html.v2	2026-08-13 01:16:29.319773649 +0000
++++ index.html.patched	2026-08-13 01:16:49.404084480 +0000
+@@ -978,7 +978,7 @@
+           "MS boletim 2021","central f=0,35","central f=0,35","central f=0,35 (provisório)","central×RC 2025"
+         ],
+         suicidioTag: [
+-          "gap","gap","gap","gap","gap","gap","ok","ok","prov","inf"
++          "gap","gap","gap","gap","gap","gap","ok","ok","ok-provisorio","inf"
+         ]
+       },
+       suicidio: {
+@@ -1059,7 +1059,7 @@
+           <td class="num">${fmt(DATA.disease.gripe[i])}</td>
+           <td><span class="tag ${gTag}">${DATA.disease.gripeFonte[i]}</span></td>
+           <td class="num">${fmt(DATA.disease.suicidio[i])}</td>
+-          <td><span class="tag ${sTag === "inf" ? "inf" : sTag === "prov" ? "prov" : sTag === "ok" ? "" : "gap"}">${DATA.disease.suicidioFonte[i]}</span></td>
++          <td><span class="tag ${sTag === "inf" ? "inf" : sTag === "ok-provisorio" ? "prov" : sTag === "ok" ? "" : "gap"}">${DATA.disease.suicidioFonte[i]}</span></td>
+         </tr>`);
+     });
+ 
+@@ -1392,7 +1392,12 @@
+                 const tag = DATA.suicidio.tags[i];
+                 if (tag === "ok-provisorio") lines.push("Tag: ok-provisorio (SIM ainda madurando)");
+                 else if (tag === "ok") lines.push("Fonte: SIM OpenDataSUS + modelo subnotificação");
+-                else if (tag === "inf") lines.push("Fonte: camadas 2024 × razão RC 2025");
++                else if (tag === "inf") {
++                  lines.push("Fonte: camadas 2024 × razão RC 2025");
++                  if (DATA.suicidio.years[i] === 2025) {
++                    lines.push("Aviso: piso e teto usam métodos de extrapolação diferentes (sem Y10–Y34 observado em 2025) — a largura da faixa não é um intervalo de confiança.");
++                  }
++                }
+                 else if (DATA.suicidio.years[i] === 2021) lines.push("Fonte: boletim MS 2021");
+                 else lines.push("Fonte: TabNet / literatura (sem Y10–Y34 neste pipeline)");
+                 return lines;

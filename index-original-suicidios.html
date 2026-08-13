@@ -444,20 +444,6 @@
     footer .credit a { font-weight: 600; }
     footer .links { display: flex; flex-direction: column; gap: 0.35rem; align-items: flex-end; text-align: right; }
     footer .sources { margin-top: 0.35rem; font-size: 0.78rem; opacity: 0.85; }
-    footer .ads-counter-wrap {
-      flex: 1 0 100%;
-      display: flex;
-      justify-content: center;
-      text-align: center;
-      margin-top: 0.85rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--line);
-    }
-    #ads-counter {
-      font-variant-numeric: tabular-nums;
-      font-size: 0.82rem;
-      color: var(--muted);
-    }
 
     .share-bar {
       display: flex;
@@ -573,7 +559,7 @@
         <span class="chip ok">SIM oficial até 2024</span>
         <span class="chip">RC/ARPEN 2025 · ev-inference</span>
         <span class="chip warn">Dengue 2024: epidemia histórica</span>
-        <span class="chip">v1.2.1 · 13/08/2026</span>
+        <span class="chip">v1.2.0 · 13/08/2026</span>
       </div>
       <div class="share-bar" aria-label="Compartilhar">
         <span>Compartilhar</span>
@@ -854,7 +840,7 @@
   <footer>
     <div class="wrap">
       <div>
-        Observatório Demográfico · Brasil 2005–2025 · <strong>v1.2.1</strong><br>
+        Observatório Demográfico · Brasil 2005–2025 · <strong>v1.2.0</strong><br>
         Pipeline: <code>brazil_deaths_by_age_2014_2025.py</code> · <code>extract_suicidio_sim.py</code> · <code>scripts/estimate_suicidio_subnotificacao.py</code> · dados em <code>data/</code>
         <div class="sources">Fontes: DATASUS/SIM · ARPEN · Ministério da Saúde/SVS · IBGE · Ajuda: CVV 188 · <a href="CHANGELOG.md">CHANGELOG</a></div>
       </div>
@@ -864,16 +850,6 @@
           <a href="https://www.artesdosul.com/" target="_blank" rel="noopener noreferrer">@artesdosul</a>
         </div>
         <a href="https://observatorio-civil-br.vercel.app/" target="_blank" rel="noopener noreferrer">Observatório Civil</a>
-      </div>
-      <div class="ads-counter-wrap">
-        <script defer src="https://stats.artesdosul.com/v.js"
-          data-site="lbvYKKFVIrF9IgKtpc9g"
-          data-key="pk_f83abae870c2eab1286831f5c92f06dc"></script>
-        <div id="ads-counter"></div>
-        <script defer src="https://stats.artesdosul.com/c.js"
-          data-site="lbvYKKFVIrF9IgKtpc9g"
-          data-key="pk_f83abae870c2eab1286831f5c92f06dc"
-          data-target="#ads-counter"></script>
       </div>
     </div>
   </footer>
@@ -1002,7 +978,7 @@
           "MS boletim 2021","central f=0,35","central f=0,35","central f=0,35 (provisório)","central×RC 2025"
         ],
         suicidioTag: [
-          "gap","gap","gap","gap","gap","gap","ok","ok","ok-provisorio","inf"
+          "gap","gap","gap","gap","gap","gap","ok","ok","prov","inf"
         ]
       },
       suicidio: {
@@ -1083,7 +1059,7 @@
           <td class="num">${fmt(DATA.disease.gripe[i])}</td>
           <td><span class="tag ${gTag}">${DATA.disease.gripeFonte[i]}</span></td>
           <td class="num">${fmt(DATA.disease.suicidio[i])}</td>
-          <td><span class="tag ${sTag === "inf" ? "inf" : sTag === "ok-provisorio" ? "prov" : sTag === "ok" ? "" : "gap"}">${DATA.disease.suicidioFonte[i]}</span></td>
+          <td><span class="tag ${sTag === "inf" ? "inf" : sTag === "prov" ? "prov" : sTag === "ok" ? "" : "gap"}">${DATA.disease.suicidioFonte[i]}</span></td>
         </tr>`);
     });
 
@@ -1416,12 +1392,7 @@
                 const tag = DATA.suicidio.tags[i];
                 if (tag === "ok-provisorio") lines.push("Tag: ok-provisorio (SIM ainda madurando)");
                 else if (tag === "ok") lines.push("Fonte: SIM OpenDataSUS + modelo subnotificação");
-                else if (tag === "inf") {
-                  lines.push("Fonte: camadas 2024 × razão RC 2025");
-                  if (DATA.suicidio.years[i] === 2025) {
-                    lines.push("Aviso: piso e teto usam métodos de extrapolação diferentes (sem Y10–Y34 observado em 2025) — a largura da faixa não é um intervalo de confiança.");
-                  }
-                }
+                else if (tag === "inf") lines.push("Fonte: camadas 2024 × razão RC 2025");
                 else if (DATA.suicidio.years[i] === 2021) lines.push("Fonte: boletim MS 2021");
                 else lines.push("Fonte: TabNet / literatura (sem Y10–Y34 neste pipeline)");
                 return lines;
